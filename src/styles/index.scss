@@ -1,0 +1,8 @@
+
+@import "~bootstrap/scss/functions";
+@import './variables'; // 自行定義的變數路徑
+@import './custom';
+@import './global';
+@import './font';
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/bootstrap";
