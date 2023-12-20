@@ -3,6 +3,7 @@ import { createPinia } from 'pinia'
 import '@/styles/index.scss'
 import '@/plugins/index.ts'
 import 'bootstrap'
+import router from "./router/index";
 // 引入 VeeValidate 元件
 import { veeComponentPlugin } from './plugins/vee-component'
 
@@ -12,4 +13,5 @@ const app = createApp(App);
 
 app.use(pinia)
 app.use(veeComponentPlugin)
+app.use(router)
 app.mount('#app')
