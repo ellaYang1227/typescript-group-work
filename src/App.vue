@@ -12,11 +12,12 @@ import HelloWorld from './components/HelloWorld.vue'
     </a>
   </div>
   <HelloWorld msg="Vite + Vue 測試" />
-  <div class="container py-4 px-3 mx-auto text-info-dark">
+  <!-- <div class="container py-4 px-3 mx-auto text-info-dark">
     AAA
       <h1 class="text-primary">Hello, Bootstrap and Vite!</h1>
       <button class="btn btn-primary">Primary button</button>
     </div>
+   -->
 </template>
 
 <style lang="scss">
@@ -28,13 +29,20 @@ import HelloWorld from './components/HelloWorld.vue'
   &:hover {
     filter: drop-shadow(0 0 2em #646cffaa);
   }
+  // @include media-breakpoint-down(md){
+  //   height: 30px;
+  // }
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
-a {
-  &:hover {
-    color: red;
-  }
-}
+
+
+// @include media-breakpoint-down(md) {
+//   a {
+//     &:hover {
+//       color: red;
+//     }
+//   }
+// }
 </style>
