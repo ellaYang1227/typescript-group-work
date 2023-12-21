@@ -1,10 +1,13 @@
 <script setup lang="ts">
-
-// const myModal = new bootstrap.Modal(document.getElementById('myModal'), Option)
+import Layout from '@/components/Layouts/index.vue';
 </script>
 
 <template>
-  Login
+  <Layout isHiddenFooter type="styleDisabled">
+    <section>
+      會員登入
+    </section>
+  </Layout>
 </template>
 
 <style lang="scss">

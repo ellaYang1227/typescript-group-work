@@ -45,7 +45,10 @@ const routes = [
     component: () => import("@/views/Login.vue"),
     meta: {
       title: '會員登入'
-    } 
+    },
+    props:{ 
+      isDark: true, 
+    }
   },
   {
     path: "/user",

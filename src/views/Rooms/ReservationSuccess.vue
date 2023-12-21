@@ -1,10 +1,13 @@
 <script setup lang="ts">
-
-// const myModal = new bootstrap.Modal(document.getElementById('myModal'), Option)
+import Layout from '@/components/Layouts/index.vue';
 </script>
 
 <template>
-  Success 預約成功(?)
+  <Layout>
+    <section>
+      預約成功
+    </section>
+  </Layout>
 </template>
 
 <style lang="scss">

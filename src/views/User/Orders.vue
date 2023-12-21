@@ -1,10 +1,13 @@
 <script setup lang="ts">
-
-// const myModal = new bootstrap.Modal(document.getElementById('myModal'), Option)
+import Layout from '@/components/Layouts/index.vue';
 </script>
 
 <template>
-  UserOrder 會員訂單
+  <Layout>
+    <section>
+      會員訂單
+    </section>
+  </Layout>
 </template>
 
 <style lang="scss">

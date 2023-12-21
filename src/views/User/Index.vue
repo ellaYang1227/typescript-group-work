@@ -1,10 +1,13 @@
 <script setup lang="ts">
-
-// const myModal = new bootstrap.Modal(document.getElementById('myModal'), Option)
+import Layout from '@/components/Layouts/index.vue';
 </script>
 
 <template>
-  UserIndex 會員資料
+  <Layout>
+    <section>
+      會員資訊
+    </section>
+  </Layout>
 </template>
 
 <style lang="scss">

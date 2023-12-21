@@ -1,10 +1,13 @@
 <script setup lang="ts">
-
-// const myModal = new bootstrap.Modal(document.getElementById('myModal'), Option)
+import Layout from '@/components/Layouts/index.vue';
 </script>
 
 <template>
-  Home
+  <Layout type="styleBgTransparent">
+    <section style="height: calc(100vh - 300px)">
+      Home
+    </section>
+  </Layout>
 </template>
 
 <style lang="scss">
