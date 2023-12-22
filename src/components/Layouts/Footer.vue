@@ -11,10 +11,10 @@ import BaseButton from '@/components/BaseButton.vue';
           <img src="@/assets/logoWhite.svg" alt="">
           <div class="mt-5">
             <BaseButton href="https://line.me/tw/" class="isStyleTextIcon footer_icon">
-              <i class="fa-brands fa-line"></i>
+              <font-awesome-icon icon="fa-brands fa-line" />
             </BaseButton>
             <BaseButton href="https://www.instagram.com/" class="isStyleTextIcon footer_icon">
-              <i class="fa-brands fa-instagram"></i>
+              <font-awesome-icon icon="fa-brands fa-instagram" />
             </BaseButton>
           </div>
         </div>
@@ -56,15 +56,15 @@ import BaseButton from '@/components/BaseButton.vue';
   &_icon {
     width: auto;
     padding: 8px;
-    border: 1px solid $white;
+    border-color: $white !important;
     border-radius: 100%;
     letter-spacing: 0;
     margin-right: 1rem;
-    i {
+    svg {
       font-size: 24px;
     }
     &:hover {
-      border: 1px solid $primary;
+      border-color: $primary !important;
     }
   }
   &_rightSide {

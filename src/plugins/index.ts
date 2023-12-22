@@ -1,2 +1,2 @@
 import './vee-validate'
-// import './vee-component'
+import './fontawesome'

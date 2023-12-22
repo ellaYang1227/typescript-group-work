@@ -27,11 +27,11 @@ const isMenuShow = ref(false)
       </div>
       <div class="header_rightSide">
         <BaseButton v-if="!isMenuShow" class="isStyleTextIcon d-md-none" @click="isMenuShow = !isMenuShow">
-          <i  class="fa-solid fa-bars"></i>
+          <font-awesome-icon icon="fa-solid fa-bars" />
         </BaseButton>
         <nav class="header_menu" :class="{ 'isShow': isMenuShow }">
           <BaseButton class="isStyleTextIcon d-md-none d-flex ms-auto h4" @click="isMenuShow = !isMenuShow">
-            <i class="fa-solid fa-xmark"></i>
+            <font-awesome-icon icon="fa-solid fa-xmark" />
           </BaseButton>
           <ul class="header_menuList list-unstyled d-flex flex-column flex-md-row mb-0 justify-content-md-start justify-content-center">
             <li class="align-self-md-start align-self-center w-md-auto w-100 mb-md-0 mb-4">
@@ -40,7 +40,7 @@ const isMenuShow = ref(false)
             <li class="align-self-md-start align-self-center w-md-auto w-100 mb-md-0 mb-4">
               <BaseButton v-if="!isLogined" class="isStyleGhost w-md-auto w-100" to="/login">會員登入</BaseButton>
               <BaseButton v-else class="isStyleGhost w-md-auto w-100" to="/user">
-                <i class="fa-regular fa-circle-user"></i> <span>{{ 'Jession' }}</span>
+                <font-awesome-icon icon="fa-regular fa-circle-user" /><span>{{ 'Jession' }}</span>
               </BaseButton>
             </li>
             <li class="align-self-md-start align-self-center w-md-auto w-100">
