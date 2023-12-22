@@ -1,16 +1,16 @@
-import request from '@/plugins/axios'
+import request from "@/plugins/axios";
 
-export function Login (data: object) {
+export function Login(data: object) {
   return request({
-    url: '/login',
-    method: 'post',
-    data
-  })
+    url: "/login",
+    method: "post",
+    data,
+  });
 }
 
 export function User() {
   return request({
-    url: '/user',
-    method: 'get',
-  })
+    url: "/user",
+    method: "get",
+  });
 }

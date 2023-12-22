@@ -7,7 +7,7 @@ import { App } from "vue";
 library.add(fas, fab, far);
 
 export const fontComponentPlugin = {
-  install: (app:App) => {
-    app.component('font-awesome-icon', FontAwesomeIcon)
-  }
+  install: (app: App) => {
+    app.component("font-awesome-icon", FontAwesomeIcon);
+  },
 };

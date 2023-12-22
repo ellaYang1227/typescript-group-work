@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseButton from '@/components/BaseButton.vue';
+import BaseButton from "@/components/BaseButton.vue";
 // const myModal = new bootstrap.Modal(document.getElementById('myModal'), Option)
 </script>
 
@@ -8,12 +8,18 @@ import BaseButton from '@/components/BaseButton.vue';
     <div class="container-xxl footer_inner">
       <div class="fotter_top d-md-flex justify-content-between">
         <div class="footer_leftSide">
-          <img src="@/assets/logoWhite.svg" alt="">
+          <img src="@/assets/logoWhite.svg" alt="" />
           <div class="mt-5">
-            <BaseButton href="https://line.me/tw/" class="isStyleTextIcon footer_icon">
+            <BaseButton
+              href="https://line.me/tw/"
+              class="isStyleTextIcon footer_icon"
+            >
               <font-awesome-icon icon="fa-brands fa-line" />
             </BaseButton>
-            <BaseButton href="https://www.instagram.com/" class="isStyleTextIcon footer_icon">
+            <BaseButton
+              href="https://www.instagram.com/"
+              class="isStyleTextIcon footer_icon"
+            >
               <font-awesome-icon icon="fa-brands fa-instagram" />
             </BaseButton>
           </div>

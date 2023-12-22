@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Layout from '@/components/Layouts/index.vue';
-import SlideShow from '@/components/Home/SlideShow.vue'
+import Layout from "@/components/Layouts/index.vue";
+import SlideShow from "@/components/Home/SlideShow.vue";
 // import { onMounted, ref, onBeforeUnmount, nextTick } from 'vue';
 // import type { ComponentPublicInstance } from "vue";
 // const slideShow = ref<ComponentPublicInstance | null>(null);
@@ -45,11 +45,9 @@ import SlideShow from '@/components/Home/SlideShow.vue'
 
 <template>
   <Layout :type="'styleBgTransparent'">
-    <SlideShow ref="slideShow"/>
-    <section style="height: 100vh;"></section>
+    <SlideShow ref="slideShow" />
+    <section style="height: 100vh"></section>
   </Layout>
 </template>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

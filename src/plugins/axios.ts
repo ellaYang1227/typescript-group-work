@@ -1,26 +1,26 @@
-import axios from 'axios'
+import axios from "axios";
 import router from "@/router/index";
 
 const service = axios.create({
-  baseURL: '/'
-})
+  baseURL: "/",
+});
 
 service.interceptors.request.use(
   (config) => {
     // 在這裡加入您的邏輯
-    return config
+    return config;
   },
   (error) => {
     // 在這裡加入您的邏輯
-    console.log('2')
-    return Promise.reject(error)
-  }
-)
+    console.log("2");
+    return Promise.reject(error);
+  },
+);
 
 service.interceptors.response.use(
   (response) => {
     // 在這裡加入您的邏輯
-    return response
+    return response;
   },
   (error) => {
     if (error.response) {
@@ -28,12 +28,12 @@ service.interceptors.response.use(
         //可以在這裡針對不同 status code 做處理
         case 401:
           alert("token 無效");
-          router.push('/login')
+          router.push("/login");
           console.log(error.message);
           break;
         case 404:
           alert("頁面不存在");
-          router.push('/')
+          router.push("/");
           console.log(error.message);
           break;
         case 500:
@@ -49,8 +49,8 @@ service.interceptors.response.use(
       alert("請重新連線後重整網頁");
       return;
     }
-    return Promise.reject(error)
-  }
-)
+    return Promise.reject(error);
+  },
+);
 
-export default service
+export default service;

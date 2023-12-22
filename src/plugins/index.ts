@@ -1,2 +1,2 @@
-import './vee-validate'
-import './fontawesome'
+import "./vee-validate";
+import "./fontawesome";

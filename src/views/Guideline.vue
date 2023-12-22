@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseButton from '@/components/BaseButton.vue';
+import BaseButton from "@/components/BaseButton.vue";
 </script>
 
 <template>
@@ -137,7 +137,9 @@ import BaseButton from '@/components/BaseButton.vue';
         <p>isStyleText</p>
       </div>
       <div class="block">
-        <BaseButton class="isStyleTextIcon"><i class="fa-regular fa-circle-user"></i></BaseButton>
+        <BaseButton class="isStyleTextIcon"
+          ><i class="fa-regular fa-circle-user"></i
+        ></BaseButton>
         <p>isStyleTextIcon</p>
       </div>
     </div>
@@ -184,7 +186,7 @@ import BaseButton from '@/components/BaseButton.vue';
   .list {
     .block {
       width: 180px;
-      height:120px;
+      height: 120px;
       border-radius: 8px;
       &:not(:last-child) {
         margin-right: 20px;
@@ -194,7 +196,5 @@ import BaseButton from '@/components/BaseButton.vue';
       margin-bottom: 20px;
     }
   }
-  
 }
-
 </style>
