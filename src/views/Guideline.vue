@@ -141,6 +141,41 @@ import BaseButton from '@/components/BaseButton.vue';
         <p>isStyleTextIcon</p>
       </div>
     </div>
+    <h2>頁面連結</h2>
+    <div class="d-flex list">
+      <div class="block">
+        <RouterLink to="/">首頁</RouterLink>
+        <p>/</p>
+      </div>
+      <div class="block">
+        <RouterLink to="/rooms">訂房住宿</RouterLink>
+        <p>/rooms</p>
+      </div>
+      <div class="block">
+        <RouterLink to="/rooms/:id">住宿單一內容</RouterLink>
+        <p>/rooms/:id</p>
+      </div>
+      <div class="block">
+        <RouterLink to="/rooms/:id/reservation">預約訂房</RouterLink>
+        <p>/rooms/:id/reservation</p>
+      </div>
+      <div class="block">
+        <RouterLink to="/rooms/:id/success">預約成功</RouterLink>
+        <p>/rooms/:id/success</p>
+      </div>
+      <div class="block">
+        <RouterLink to="/login">登入</RouterLink>
+        <p>/login</p>
+      </div>
+      <div class="block">
+        <RouterLink to="/user">會員資訊</RouterLink>
+        <p>/user</p>
+      </div>
+      <div class="block">
+        <RouterLink to="/user/orders">會員訂單</RouterLink>
+        <p>/user/orders</p>
+      </div>
+    </div>
   </div>
 </template>
 
