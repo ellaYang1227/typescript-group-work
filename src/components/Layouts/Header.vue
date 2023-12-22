@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import BaseButton from '@/components/BaseButton.vue';
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia';
+const store = useAuthStore()
+const {  isLogined, currentUser } = storeToRefs(store)
 const props = defineProps({
   type: {
     type:  String,
@@ -34,7 +38,10 @@ const isMenuShow = ref(false)
               <BaseButton class="isStyleGhost w-md-auto w-100" to="/rooms">客房旅宿</BaseButton>
             </li>
             <li class="align-self-md-start align-self-center w-md-auto w-100 mb-md-0 mb-4">
-              <BaseButton class="isStyleGhost w-md-auto w-100" to="/login">會員登入</BaseButton>
+              <BaseButton v-if="!isLogined" class="isStyleGhost w-md-auto w-100" to="/login">會員登入</BaseButton>
+              <BaseButton v-else class="isStyleGhost w-md-auto w-100" to="/user">
+                <i class="fa-regular fa-circle-user"></i> <span>{{ 'Jession' }}</span>
+              </BaseButton>
             </li>
             <li class="align-self-md-start align-self-center w-md-auto w-100">
               <BaseButton class="isStylePrimary w-md-auto w-100" to="/rooms">立即訂房</BaseButton>
@@ -51,6 +58,7 @@ const isMenuShow = ref(false)
     height: 120px;
     background: $neutral;
     transition: .3s;
+    position: relative;
     &.styleBgTransparent {
       background: transparent;
       height: auto;

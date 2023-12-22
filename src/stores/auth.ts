@@ -5,6 +5,7 @@ import { IUserInfo } from '@/interface/auth';
 import { ref } from 'vue';
 export const useAuthStore = defineStore('useAuthStore', ()=> {
   const currentUser = ref<IUserInfo | null>(null);
+  const isLogined = ref(false)
   const fetchUser = async() => {
     try {
       const response = await User();
@@ -18,6 +19,7 @@ export const useAuthStore = defineStore('useAuthStore', ()=> {
   }
   return {
     fetchUser,
+    isLogined
   }
 })
 
