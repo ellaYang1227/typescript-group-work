@@ -3,6 +3,10 @@
 .errorMessage {
   color: $danger;
 }
+body {
+  letter-spacing: 0.02em;
+}
+
 svg,
 img {
   max-width: 100%;

@@ -74,7 +74,7 @@ $colors: (
   'text': (
     'color': transparent,
     'color-hover': transparent,
-    'text': $primary-dark,
+    'text': $primary,
     'border-color': transparent,
     'text-hover': $primary-dark,
   ),
@@ -97,7 +97,7 @@ $colors: (
   line-height: 1.15;
   color: #fff;
   text-align: center;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
@@ -134,7 +134,7 @@ $colors: (
     &.isStyle#{capitalize($color)} {
       color: map-get($value, 'text');
       background: map-get($value, 'color');
-      border-color: map-get($value, 'border');
+      border-color: map-get($value, 'border-color');
 
       &:hover:not(:disabled) {
         background: map-get($value, 'color-hover');
