@@ -50,13 +50,13 @@ npm install
 ### 運行專案(待補)
 
 ```
-待補
+npm run dev
 ```
 
 ### 瀏覽器開啟專案(待補)
 
 ```
-待補
+npm run dev
 ```
 
 ## 環境變數說明(待補)
@@ -69,7 +69,22 @@ production=
 ## 資料夾說明(待補)
 
 - 資料夾名稱(如 page) - 放置**XXX 檔案(如網站單元頁面)**
+- assets - 圖片
+- components - Vue 組件
+- Interface - TypeScript interface
+- models - api
+- plugins - 套件
+- router - vue router
+- stores - 狀態管理
+- styles - scss 共用樣式
+- utilities - 共用函式
+- views - Vue 網站頁面
 
 ## 專案技術(待補)
 
-- 使用技術(如 Node.js) 版本(v20.10.0)
+- Node.js v20.10.0
+- Vite v5.0.8
+- Vue ^3.3.11
+- bootstrap ^5.3.2
+- pinia ^2.1.7
+- vee-validate ^4.12.3
