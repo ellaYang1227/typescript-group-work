@@ -4,7 +4,7 @@ import BaseButton from '@/components/BaseButton.vue';
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia';
 const store = useAuthStore()
-const {  isLogined, currentUser } = storeToRefs(store)
+const {  isLogined } = storeToRefs(store)
 const props = defineProps({
   type: {
     type:  String,
