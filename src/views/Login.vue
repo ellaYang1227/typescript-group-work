@@ -4,7 +4,7 @@ import Layout from '@/components/Layouts/index.vue';
 
 <template>
   <Layout isHiddenFooter type="styleDisabled">
-    <section>
+    <section style="height: calc(100vh - 300px)">
       會員登入
     </section>
   </Layout>

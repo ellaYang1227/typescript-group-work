@@ -4,7 +4,7 @@ import Layout from '@/components/Layouts/index.vue';
 
 <template>
   <Layout type="styleBgTransparent">
-    <section>
+    <section style="height: calc(100vh - 300px)">
       訂房宿住全部列表
     </section>
   </Layout>

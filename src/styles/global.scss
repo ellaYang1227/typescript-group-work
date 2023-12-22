@@ -3,3 +3,10 @@
 .errorMessage {
   color: $danger;
 }
+svg,
+img {
+  max-width: 100%;
+}
+img {
+  image-rendering: -webkit-optimize-contrast;
+}

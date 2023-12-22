@@ -4,7 +4,7 @@ import Layout from '@/components/Layouts/index.vue';
 
 <template>
   <Layout>
-    <section>
+    <section style="height: calc(100vh - 300px)">
       預約訂房
     </section>
   </Layout>

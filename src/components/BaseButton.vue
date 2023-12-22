@@ -147,10 +147,14 @@ $colors: (
     }
   }
   &.isStyleText {
+    padding: 0.75rem;
     text-decoration: underline;
     &:hover:not(:disabled) {
       text-decoration: underline;
     }
+  }
+  &.isStyleTextIcon {
+    padding: 0.75rem;
   }
   // &.isWhite {
   //   color: $white;

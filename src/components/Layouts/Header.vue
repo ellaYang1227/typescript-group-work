@@ -1,8 +1,6 @@
 <script setup lang="ts">
-// import { computed, ref } from 'vue';
-// import { useRoute } from 'vue-router';
+import { ref } from 'vue';
 import BaseButton from '@/components/BaseButton.vue';
-// const route = useRoute();
 const props = defineProps({
   type: {
     type:  String,
@@ -12,7 +10,7 @@ const props = defineProps({
     },
   },
 })  
-// const myModal = new bootstrap.Modal(document.getElementById('myModal'), Option)
+const isMenuShow = ref(false)
 </script>
 
 <template>
@@ -23,19 +21,27 @@ const props = defineProps({
           <img src="@/assets/logoWhite.svg" alt="">
         </router-link>
       </div>
-      <nav class="header_rightSide">
-        <ul class="list-unstyled d-flex mb-0">
-          <li>
-            <BaseButton class="isStyleGhost" to="/rooms">客房旅宿</BaseButton>
-          </li>
-          <li>
-            <BaseButton class="isStyleGhost" to="/login">會員登入</BaseButton>
-          </li>
-          <li>
-            <BaseButton class="isStylePrimary" to="/rooms">立即訂房</BaseButton>
-          </li>
-        </ul>
-      </nav>
+      <div class="header_rightSide">
+        <BaseButton v-if="!isMenuShow" class="isStyleTextIcon d-md-none" @click="isMenuShow = !isMenuShow">
+          <i  class="fa-solid fa-bars"></i>
+        </BaseButton>
+        <nav class="header_menu" :class="{ 'isShow': isMenuShow }">
+          <BaseButton class="isStyleTextIcon d-md-none d-flex ms-auto h4" @click="isMenuShow = !isMenuShow">
+            <i class="fa-solid fa-xmark"></i>
+          </BaseButton>
+          <ul class="header_menuList list-unstyled d-flex flex-column flex-md-row mb-0 justify-content-md-start justify-content-center">
+            <li class="align-self-md-start align-self-center w-md-auto w-100 mb-md-0 mb-4">
+              <BaseButton class="isStyleGhost w-md-auto w-100" to="/rooms">客房旅宿</BaseButton>
+            </li>
+            <li class="align-self-md-start align-self-center w-md-auto w-100 mb-md-0 mb-4">
+              <BaseButton class="isStyleGhost w-md-auto w-100" to="/login">會員登入</BaseButton>
+            </li>
+            <li class="align-self-md-start align-self-center w-md-auto w-100">
+              <BaseButton class="isStylePrimary w-md-auto w-100" to="/rooms">立即訂房</BaseButton>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 </template>
@@ -44,12 +50,19 @@ const props = defineProps({
   .header {
     height: 120px;
     background: $neutral;
+    transition: .3s;
     &.styleBgTransparent {
       background: transparent;
       height: auto;
+      .header_inner {
+        background: transparent;
+      }
     }
     &.styleBgNormal {
       background: $neutral;
+      .header_inner {
+        background: $neutral;
+      }
     }
     &.styleDisabled {
       .header_rightSide {
@@ -62,6 +75,42 @@ const props = defineProps({
       left: 0;
       right: 0;
       padding: 1.5rem 5rem;
+      transition: .3s;
+      @include media-breakpoint-down(lg) {
+        padding: 1.5rem 2rem;
+      }
+      @include media-breakpoint-down(md) {
+        padding: 1rem 0.68rem 1rem 0.75rem;
+      }
+    }
+    &_leftSide {
+      img {
+        @include media-breakpoint-down(md) {
+          width: 109px;
+        }
+      }
+    }
+    &_menu {
+      @include media-breakpoint-down(md) {
+        display: none;
+        padding: 1.25rem;
+      }
+      &.isShow {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 100vh;
+        width: 100%;
+        background: #140F0A;
+      }
+    }
+    &_menuList {
+      @include media-breakpoint-down(md) {
+        height: calc(100% - 50vw);
+      }
     }
   }
 </style>
