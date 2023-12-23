@@ -1,0 +1,16 @@
+// global  use
+
+.errorMessage {
+  color: $danger;
+}
+body {
+  letter-spacing: 0.02em;
+}
+
+svg,
+img {
+  max-width: 100%;
+}
+img {
+  image-rendering: -webkit-optimize-contrast;
+}

@@ -1,0 +1,73 @@
+// 現有 color-variables
+// scss-docs-start color-variables
+
+$red: #da3e51 !default;
+$green: #52dd7e !default;
+$cyan: #3badef !default;
+
+// scss-docs-start theme-color-variables
+$primary: #bf9d7d !default;
+$success: $green !default;
+$info: $cyan !default;
+$danger: $red !default;
+
+$theme-colors: (
+  "primary": $primary,
+  "success": $success,
+  "info": $info,
+  "danger": $danger,
+) !default;
+
+// custom color
+$primary-dark: #7b6651 !default;
+$primary-80: #ae9984 !default;
+$primary-60: #e1d1c2 !default;
+$primary-40: #f1eae4 !default;
+$primary-tint: #f7f2ee !default;
+
+$success-dark: #299f65 !default;
+$success-20: #bcfbbd !default;
+$success-10: #e8fee7 !default;
+
+$info-dark: #1d66ac !default;
+$info-20: #b1effd !default;
+$info-10: #e6fbfe !default;
+
+$danger-dark: #c22538 !default;
+$danger-20: #f5ccd1 !default;
+$danger-10: #fdecef !default;
+
+$neutral: #000000 !default;
+$neutral-dark: #140f0a !default;
+$neutral-80: #140f0a !default;
+$neutral-60: #909090 !default;
+$neutral-40: #ececec !default;
+$neutral-10: #f9f9f9 !default;
+$white: #ffffff !default;
+
+$custom-colors: (
+  "primary-dark": $primary-dark,
+  "primary-80": $primary-80,
+  "primary-60": $primary-60,
+  "primary-40": $primary-40,
+  "primary-tint": $primary-tint,
+  "success-dark": $success-dark,
+  "success-20": $success-20,
+  "success-10": $success-10,
+  "danger-dark": $danger-dark,
+  "danger-20": $danger-20,
+  "danger-10": $danger-10,
+  "info-dark": $info-dark,
+  "info-20": $info-20,
+  "info-10": $info-10,
+  "neutral": $neutral,
+  "neutral-dark": $neutral-dark,
+  "neutral-80": $neutral-80,
+  "neutral-60": $neutral-60,
+  "neutral-40": $neutral-40,
+  "neutral-10": $neutral-10,
+  "white": $white,
+) !default;
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
