@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Layout from "@/components/Layouts/index.vue";
+import Layout from "@/components/Layouts/Index.vue";
 import SlideShow from "@/components/Home/SlideShow.vue";
 // import { onMounted, ref, onBeforeUnmount, nextTick } from 'vue';
 // import type { ComponentPublicInstance } from "vue";
