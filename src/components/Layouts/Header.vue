@@ -11,7 +11,7 @@ const props = defineProps({
     default: "styleBgNormal",
     validator(value: string) {
       return ["styleBgTransparent", "styleDisabled", "styleBgNormal"].includes(
-        value,
+        value
       );
     },
   },
@@ -86,7 +86,7 @@ const isMenuShow = ref(false);
 <style lang="scss">
 .header {
   height: 120px;
-  background: $neutral;
+  background: $neutral-dark;
   transition: 0.3s;
   position: relative;
   &.styleBgTransparent {
@@ -97,9 +97,9 @@ const isMenuShow = ref(false);
     }
   }
   &.styleBgNormal {
-    background: $neutral;
+    background: $neutral-dark;
     .header_inner {
-      background: $neutral;
+      background: $neutral-dark;
     }
   }
   &.styleDisabled {
