@@ -4,7 +4,6 @@ import { useRoute } from "vue-router";
 interface BasicInformation {
   areaInfo: string;
   bedInfo: string;
-  minPeople?: number;
   maxPeople: number;
 }
 
@@ -17,38 +16,42 @@ interface RoomInfo {
 const route = useRoute();
 const routeName = (route.name as string) || "";
 
-const { areaInfo, bedInfo, minPeople, maxPeople } =
-  defineProps<BasicInformation>();
+const { areaInfo, bedInfo, maxPeople } = defineProps<BasicInformation>();
 const roomBasicInformationList: RoomInfo[] = [
   {
     name: "area",
     icon: "fa-expand",
-    value: areaInfo ?? "-",
+    value: areaInfo,
   },
   {
     name: "bed",
     icon: "fa-bed",
-    value: bedInfo ?? "-",
+    value: bedInfo,
   },
   {
     name: "people",
     icon: "fa-user",
-    value: `${minPeople ?? 1}-${maxPeople} 人`,
+    value: `1${maxPeople ? `-${maxPeople}` : ""} 人`,
   },
 ];
 </script>
 
 <template>
   <section class="basic-information">
-    <div
-      v-for="list in roomBasicInformationList"
-      :key="list.icon"
-      class="detail-square"
-      :class="[{ 'have-border': routeName === 'rooms' }]"
-    >
-      <font-awesome-icon :icon="`fa-solid ${list.icon}`" size="lg" class="fa" />
-      <div class="text">{{ list.value }}</div>
-    </div>
+    <template v-for="list in roomBasicInformationList" :key="list.icon">
+      <div
+        v-if="list.value"
+        class="detail-square"
+        :class="[{ 'have-border': routeName === 'rooms' }]"
+      >
+        <font-awesome-icon
+          :icon="`fa-solid ${list.icon}`"
+          size="lg"
+          class="fa"
+        />
+        <div class="text">{{ list.value }}</div>
+      </div>
+    </template>
   </section>
 </template>
 
