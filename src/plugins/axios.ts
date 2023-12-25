@@ -1,18 +1,26 @@
 import axios from "axios";
 import router from "@/router/index";
+import { useLoadingStore } from "@/stores/loading";
+const store = useLoadingStore();
 
 const service = axios.create({
   baseURL: "https://typescript-hotel-api-vwlm.onrender.com/",
 });
-
 service.interceptors.request.use(
   (config) => {
     // 在這裡加入您的邏輯
+    const token = window.localStorage.token;
+    if (token) {
+      config.headers.Authorization = `token ${token}`;
+    }
+    if (!config.headers.noShowLoading) {
+      store.showLoading();
+    }
+    console.log(config);
     return config;
   },
   (error) => {
-    // 在這裡加入您的邏輯
-    console.log("2");
+    store.hideLoading();
     return Promise.reject(error);
   },
 );
@@ -20,9 +28,11 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     // 在這裡加入您的邏輯
+    store.hideLoading();
     return response;
   },
   (error) => {
+    store.hideLoading();
     if (error.response) {
       switch (error.response.status) {
         //可以在這裡針對不同 status code 做處理
@@ -54,3 +64,22 @@ service.interceptors.response.use(
 );
 
 export default service;
+
+function storeToRefs(store: Store<"loading", _UnwrapAll<Pick<{
+isShowLoading: Ref<boolean>; showLoading: () => void; // 在這裡加入您的邏輯
+// 在這裡加入您的邏輯
+// spinning start to show
+hideLoading: () => void; // spinning start to show
+}, "isShowLoading">>, Pick<{
+isShowLoading: Ref<boolean>; showLoading: () => void; // 在這裡加入您的邏輯
+// 在這裡加入您的邏輯
+// spinning start to show
+hideLoading: () => void; // spinning start to show
+}, never>, Pick<{
+isShowLoading: Ref<boolean>; showLoading: () => void; // 在這裡加入您的邏輯
+// 在這裡加入您的邏輯
+// spinning start to show
+hideLoading: () => void; // spinning start to show
+}, "showLoading" | "hideLoading">>): { isShowLoading: any; } {
+throw new Error("Function not implemented.");
+}
