@@ -18,6 +18,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "src"),
       "~bootstrap": path.resolve(__dirname, "node_modules/bootstrap"),
+      "~sweetalert2": path.resolve(__dirname, "node_modules/sweetalert2"),
     },
   },
   css: {

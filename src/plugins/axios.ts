@@ -1,7 +1,8 @@
 import axios from "axios";
 import router from "@/router/index";
-import { useLoadingStore } from "@/stores/loading";
-const store = useLoadingStore();
+import { useLoadingStore } from "@/stores";
+import Swal from "sweetalert2";
+const loadingStore = useLoadingStore();
 
 const service = axios.create({
   baseURL: "https://typescript-hotel-api-vwlm.onrender.com/",
@@ -14,13 +15,13 @@ service.interceptors.request.use(
       config.headers.Authorization = `token ${token}`;
     }
     if (!config.headers.noShowLoading) {
-      store.showLoading();
+      loadingStore.showLoading();
     }
     console.log(config);
     return config;
   },
   (error) => {
-    store.hideLoading();
+    loadingStore.hideLoading();
     return Promise.reject(error);
   },
 );
@@ -28,31 +29,62 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     // 在這裡加入您的邏輯
-    store.hideLoading();
+    loadingStore.hideLoading();
     return response;
   },
   (error) => {
-    store.hideLoading();
+    loadingStore.hideLoading();
     if (error.response) {
+      const { data } = error.response;
       switch (error.response.status) {
         //可以在這裡針對不同 status code 做處理
         case 401:
-          alert("token 無效");
-          router.push("/login");
-          console.log(error.message);
+        case 405:
+        case 403:
+          Swal.fire({
+            title: "opps",
+            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            confirmButtonText: "確定",
+          }).then(() => {
+            router.push({
+              path: "/login",
+              query: {
+                redirectFrom: location.pathname,
+              },
+            });
+          });
+          console.log(data.message);
           break;
         case 404:
-          alert("頁面不存在");
-          router.push("/");
-          console.log(error.message);
+          Swal.fire({
+            title: "opps",
+            text: `${data.message || "頁面不存在"}`,
+            confirmButtonText: "確定",
+          }).then(() => {
+            router.push({
+              path: "/404",
+              query: {
+                redirectFrom: location.pathname,
+              },
+            });
+          });
+          console.log(data.message);
           break;
         case 500:
-          alert("程式發生問題");
-          console.log(error.message);
+          Swal.fire({
+            title: "opps",
+            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            confirmButtonText: "確定",
+          });
+          console.log(data.message);
           break;
         default:
-          alert("程式發生問題");
-          console.log(error.message);
+          Swal.fire({
+            title: "opps",
+            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            confirmButtonText: "確定",
+          });
+          console.log(data.message);
       }
     }
     if (!window.navigator.onLine) {
@@ -64,22 +96,3 @@ service.interceptors.response.use(
 );
 
 export default service;
-
-function storeToRefs(store: Store<"loading", _UnwrapAll<Pick<{
-isShowLoading: Ref<boolean>; showLoading: () => void; // 在這裡加入您的邏輯
-// 在這裡加入您的邏輯
-// spinning start to show
-hideLoading: () => void; // spinning start to show
-}, "isShowLoading">>, Pick<{
-isShowLoading: Ref<boolean>; showLoading: () => void; // 在這裡加入您的邏輯
-// 在這裡加入您的邏輯
-// spinning start to show
-hideLoading: () => void; // spinning start to show
-}, never>, Pick<{
-isShowLoading: Ref<boolean>; showLoading: () => void; // 在這裡加入您的邏輯
-// 在這裡加入您的邏輯
-// spinning start to show
-hideLoading: () => void; // spinning start to show
-}, "showLoading" | "hideLoading">>): { isShowLoading: any; } {
-throw new Error("Function not implemented.");
-}
