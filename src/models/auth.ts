@@ -1,8 +1,15 @@
 import request from "@/plugins/axios";
 
-export function apiGetUser() {
-  return request({
-    url: "/api/v1/user/",
-    method: "get",
-  });
-}
+export const apiGetUser = () => {
+  return request.get(`/api/v1/user`);
+};
+
+export const apiLogin = (data: object) => {
+  return request.post(
+    `/api/v1/user/login`,
+    {
+      ...data,
+    },
+    { headers: { noShowLoading: true } },
+  );
+};
