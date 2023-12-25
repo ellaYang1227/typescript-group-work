@@ -1,8 +1,8 @@
 import request from "@/plugins/axios";
 
-export function apiGetNews() {
+export function apiGetUser() {
   return request({
-    url: "/api/v1/home/news/",
+    url: "/api/v1/user/",
     method: "get",
   });
 }

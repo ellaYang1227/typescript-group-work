@@ -4,6 +4,8 @@ import "@/styles/index.scss";
 import "@/plugins/index.ts";
 import "bootstrap";
 import router from "./router/index";
+import axios from "axios";
+import VueAxios from "vue-axios";
 // 引入 VeeValidate 元件
 import { veeComponentPlugin } from "./plugins/vee-component";
 import { fontComponentPlugin } from "./plugins/fontawesome";
@@ -16,4 +18,5 @@ app.use(pinia);
 app.use(veeComponentPlugin);
 app.use(fontComponentPlugin);
 app.use(router);
+app.use(VueAxios, axios);
 app.mount("#app");

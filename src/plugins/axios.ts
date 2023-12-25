@@ -2,7 +2,7 @@ import axios from "axios";
 import router from "@/router/index";
 
 const service = axios.create({
-  baseURL: "/",
+  baseURL: "https://typescript-hotel-api-vwlm.onrender.com/",
 });
 
 service.interceptors.request.use(

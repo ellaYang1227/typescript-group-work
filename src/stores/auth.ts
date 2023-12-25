@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { User } from "@/models/api";
+import { apiGetUser } from "@/models/api";
 import axios from "axios";
 import { IUserInfo } from "@/Interface/auth";
 import { ref } from "vue";
@@ -8,7 +8,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const isLogined = ref(false);
   const fetchUser = async () => {
     try {
-      const response = await User();
+      const response = await apiGetUser();
       const userData: IUserInfo = response.data;
       currentUser.value = userData;
       setDefaultAuthHeaders(userData);
