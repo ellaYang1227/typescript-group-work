@@ -11,7 +11,7 @@ const props = defineProps({
     default: "styleBgNormal",
     validator(value: string) {
       return ["styleBgTransparent", "styleDisabled", "styleBgNormal"].includes(
-        value
+        value,
       );
     },
   },
