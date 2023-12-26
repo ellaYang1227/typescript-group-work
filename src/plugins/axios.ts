@@ -43,7 +43,8 @@ service.interceptors.response.use(
         case 403:
           Swal.fire({
             icon: "error",
-            title: `${data.message || "權限不足，請重新登入"}`,
+            title: "錯誤訊息",
+            text: `${data.message || "權限不足，請重新登入"}`,
             confirmButtonText: "確定",
           }).then(() => {
             router.push({
@@ -58,7 +59,8 @@ service.interceptors.response.use(
         case 404:
           Swal.fire({
             icon: "error",
-            title: `${data.message || "頁面不存在"}`,
+            title: "錯誤訊息",
+            text: `${data.message || "頁面不存在"}`,
             confirmButtonText: "確定",
           }).then(() => {
             router.push({
@@ -70,7 +72,8 @@ service.interceptors.response.use(
         case 500:
           Swal.fire({
             icon: "error",
-            title: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            title: "錯誤訊息",
+            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
             confirmButtonText: "確定",
           });
           console.log(data.message);
@@ -78,7 +81,8 @@ service.interceptors.response.use(
         default:
           Swal.fire({
             icon: "error",
-            title: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            title: "錯誤訊息",
+            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
             confirmButtonText: "確定",
           });
           console.log(data.message);
@@ -87,7 +91,8 @@ service.interceptors.response.use(
     if (!window.navigator.onLine) {
       Swal.fire({
         icon: "error",
-        title: "網路出了點問題，請重新連線後刷新頁面",
+        title: "錯誤訊息",
+        text: "網路出了點問題，請重新連線後刷新頁面",
         confirmButtonText: "確定",
       });
       return;
