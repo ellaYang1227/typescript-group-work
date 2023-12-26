@@ -12,12 +12,11 @@ service.interceptors.request.use(
     // 在這裡加入您的邏輯
     const token = window.localStorage.token;
     if (token) {
-      config.headers.Authorization = `token ${token}`;
+      config.headers.Authorization = `${token}`;
     }
     if (!config.headers.noShowLoading) {
       loadingStore.showLoading();
     }
-    console.log(config);
     return config;
   },
   (error) => {
@@ -42,8 +41,8 @@ service.interceptors.response.use(
         case 405:
         case 403:
           Swal.fire({
-            title: "opps",
-            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            icon: "error",
+            title: `${data.message || "權限不足，請重新登入"}`,
             confirmButtonText: "確定",
           }).then(() => {
             router.push({
@@ -57,38 +56,39 @@ service.interceptors.response.use(
           break;
         case 404:
           Swal.fire({
-            title: "opps",
-            text: `${data.message || "頁面不存在"}`,
+            icon: "error",
+            title: `${data.message || "頁面不存在"}`,
             confirmButtonText: "確定",
           }).then(() => {
             router.push({
-              path: "/404",
-              query: {
-                redirectFrom: location.pathname,
-              },
+              path: "/",
             });
           });
           console.log(data.message);
           break;
         case 500:
           Swal.fire({
-            title: "opps",
-            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            icon: "error",
+            title: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
             confirmButtonText: "確定",
           });
           console.log(data.message);
           break;
         default:
           Swal.fire({
-            title: "opps",
-            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            icon: "error",
+            title: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
             confirmButtonText: "確定",
           });
           console.log(data.message);
       }
     }
     if (!window.navigator.onLine) {
-      alert("請重新連線後重整網頁");
+      Swal.fire({
+        icon: "error",
+        title: "網路出了點問題，請重新連線後刷新頁面",
+        confirmButtonText: "確定",
+      });
       return;
     }
     return Promise.reject(error);
