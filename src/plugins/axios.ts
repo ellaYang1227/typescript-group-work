@@ -1,6 +1,7 @@
 import axios from "axios";
 import router from "@/router/index";
 import { useLoadingStore } from "@/stores";
+import { getCookie } from "@/utilities/cookie";
 import Swal from "sweetalert2";
 const loadingStore = useLoadingStore();
 
@@ -10,7 +11,7 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // 在這裡加入您的邏輯
-    const token = window.localStorage.token;
+    const token = getCookie("token");
     if (token) {
       config.headers.Authorization = `${token}`;
     }
