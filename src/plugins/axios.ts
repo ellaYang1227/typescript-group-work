@@ -11,9 +11,9 @@ const errorSweetAlert = (text: string, callback?: () => void) => {
       icon: "error",
       title: "錯誤訊息",
       text: text,
-      showCancelButton: true,
-      showConfirmButton: false,
-      cancelButtonText: "確定",
+      customClass: {
+        confirmButton: "baseButton isStyleSecondary",
+      },
     })
     .then(() => {
       if (callback) {
