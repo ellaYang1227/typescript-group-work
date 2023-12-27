@@ -2,9 +2,25 @@ import axios from "axios";
 import router from "@/router/index";
 import { useLoadingStore } from "@/stores";
 import { getCookie } from "@/utilities/cookie";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
+import { swalWithButtons } from "@/utilities/sweetAlert";
 const loadingStore = useLoadingStore();
-
+const errorSweetAlert = (text: string, callback?: () => void) => {
+  swalWithButtons
+    .fire({
+      icon: "error",
+      title: "錯誤訊息",
+      text: text,
+      showCancelButton: true,
+      showConfirmButton: false,
+      cancelButtonText: "確定",
+    })
+    .then(() => {
+      if (callback) {
+        callback();
+      }
+    });
+};
 const service = axios.create({
   baseURL: "https://typescript-hotel-api-vwlm.onrender.com/",
 });
@@ -41,12 +57,7 @@ service.interceptors.response.use(
         case 401:
         case 405:
         case 403:
-          Swal.fire({
-            icon: "error",
-            title: "錯誤訊息",
-            text: `${data.message || "權限不足，請重新登入"}`,
-            confirmButtonText: "確定",
-          }).then(() => {
+          errorSweetAlert(`${data.message || "權限不足，請重新登入"}`, () => {
             router.push({
               path: "/login",
               query: {
@@ -57,12 +68,7 @@ service.interceptors.response.use(
           console.log(data.message);
           break;
         case 404:
-          Swal.fire({
-            icon: "error",
-            title: "錯誤訊息",
-            text: `${data.message || "頁面不存在"}`,
-            confirmButtonText: "確定",
-          }).then(() => {
+          errorSweetAlert(`${data.message || "頁面不存在"}`, () => {
             router.push({
               path: "/",
             });
@@ -70,30 +76,26 @@ service.interceptors.response.use(
           console.log(data.message);
           break;
         case 500:
-          Swal.fire({
-            icon: "error",
-            title: "錯誤訊息",
-            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
-            confirmButtonText: "確定",
-          });
+          errorSweetAlert(
+            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+          );
           console.log(data.message);
           break;
         default:
-          Swal.fire({
-            icon: "error",
-            title: "錯誤訊息",
-            text: `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
-            confirmButtonText: "確定",
-          });
+          errorSweetAlert(
+            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+          );
           console.log(data.message);
       }
     }
     if (!window.navigator.onLine) {
-      Swal.fire({
+      swalWithButtons.fire({
         icon: "error",
         title: "錯誤訊息",
         text: "網路出了點問題，請重新連線後刷新頁面",
-        confirmButtonText: "確定",
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonText: "確定",
       });
       return;
     }
