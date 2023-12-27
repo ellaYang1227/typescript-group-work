@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
+import { IUserInfo } from "@/interface/auth";
 import { User } from "@/models/api";
 import axios from "axios";
-import { IUserInfo } from "@/interface/auth";
+import { defineStore } from "pinia";
 import { ref } from "vue";
 export const useAuthStore = defineStore("useAuthStore", () => {
   const currentUser = ref<IUserInfo | null>(null);

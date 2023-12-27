@@ -1,1 +1,15 @@
 // bootstrap custom use
+
+// border
+$border-color: $neutral-40 !default;
+
+// border radius
+$border-radius: 0.5rem !default;
+$border-radius-sm: 0.75rem !default;
+$border-radius-lg: 1.25rem !default;
+
+// Cards
+$card-spacer-y: $spacer * 1.5 !default;
+$card-spacer-x: $spacer * 1.5 !default;
+$card-title-spacer-y: $spacer * 1.5 !default;
+$card-border-color: $border-color !default;
