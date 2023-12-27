@@ -4,7 +4,7 @@ import BaseButton from "@/components/BaseButton.vue";
 </script>
 
 <template>
-  <footer class="bg-neutral text-white footer">
+  <footer class="bg-neutral-dark text-white footer">
     <div class="container-xxl footer_inner">
       <div class="fotter_top d-md-flex justify-content-between">
         <div class="footer_leftSide">

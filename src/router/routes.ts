@@ -46,9 +46,6 @@ const routes = [
     meta: {
       title: "會員登入",
     },
-    props: {
-      isDark: true,
-    },
   },
   {
     path: "/user",
@@ -76,7 +73,7 @@ const routes = [
   },
   {
     path: "/:pathMath(.*)*",
-    name: "notFound",
+    name: "404",
     component: import("@/views/NotFound.vue"),
     meta: {
       title: "404",

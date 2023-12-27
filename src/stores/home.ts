@@ -1,12 +1,20 @@
 import { defineStore } from "pinia";
-import { Login } from "@/models/api";
+import { apiGetNews } from "@/models/api";
+import { ref } from "vue";
 export const usehomeStore = defineStore("home", () => {
-  const fetchLogin = async (data: object) => {
-    await Login({ data }).then((res) => {
-      console.log(res);
-    });
+  const newsList = ref([]);
+  const fetchNews = async () => {
+    try {
+      const {
+        data: { result },
+      } = await apiGetNews();
+      newsList.value = result;
+    } catch (error) {
+      console.log(error);
+    }
   };
   return {
-    fetchLogin,
+    newsList,
+    fetchNews,
   };
 });
