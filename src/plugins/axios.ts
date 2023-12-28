@@ -27,8 +27,7 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // 在這裡加入您的邏輯
-    let token = getCookie("token");
-    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NThhMjhkYjkxMDk4NWU3YzI1YjcyMzEiLCJpYXQiOjE3MDM2ODc5OTUsImV4cCI6MTcwNDI5Mjc5NX0.p4E_S-YJ-1_vL7OLZiu-XLDI5n-XEo6ktPs2CVfzkAY"
+    const token = getCookie("token");
     if (token) {
       config.headers.Authorization = `${token}`;
     }
