@@ -1,5 +1,5 @@
-import { UserInfo } from "@/interface/auth";
-import { Room } from "@/interface/room";
+import { UserInfo } from "@/interfaces/auth";
+import { Room } from "@/interfaces/room";
 
 export interface OrderDetail {
     userInfo: UserInfo,

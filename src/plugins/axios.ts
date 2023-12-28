@@ -1,18 +1,44 @@
-import axios from "axios";
 import router from "@/router/index";
-
+import { useLoadingStore } from "@/stores";
+import { getCookie } from "@/utilities/cookie";
+// import Swal from "sweetalert2";
+import { swalWithButtons } from "@/utilities/sweetAlert";
+import axios from "axios";
+const loadingStore = useLoadingStore();
+const errorSweetAlert = (text: string, callback?: () => void) => {
+  swalWithButtons
+    .fire({
+      icon: "error",
+      title: "錯誤訊息",
+      text: text,
+      customClass: {
+        confirmButton: "baseButton isStyleSecondary",
+      },
+    })
+    .then(() => {
+      if (callback) {
+        callback();
+      }
+    });
+};
 const service = axios.create({
-  baseURL: "/",
+  baseURL: "https://typescript-hotel-api-vwlm.onrender.com/",
 });
-
 service.interceptors.request.use(
   (config) => {
     // 在這裡加入您的邏輯
+    let token = getCookie("token");
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NThhMjhkYjkxMDk4NWU3YzI1YjcyMzEiLCJpYXQiOjE3MDM2ODc5OTUsImV4cCI6MTcwNDI5Mjc5NX0.p4E_S-YJ-1_vL7OLZiu-XLDI5n-XEo6ktPs2CVfzkAY"
+    if (token) {
+      config.headers.Authorization = `${token}`;
+    }
+    if (!config.headers.noShowLoading) {
+      loadingStore.showLoading();
+    }
     return config;
   },
   (error) => {
-    // 在這裡加入您的邏輯
-    console.log("2");
+    loadingStore.hideLoading();
     return Promise.reject(error);
   },
 );
@@ -20,33 +46,58 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     // 在這裡加入您的邏輯
-    return response;
+    loadingStore.hideLoading();
+    return response.data;
   },
   (error) => {
+    loadingStore.hideLoading();
     if (error.response) {
+      const { data } = error.response;
       switch (error.response.status) {
         //可以在這裡針對不同 status code 做處理
         case 401:
-          alert("token 無效");
-          router.push("/login");
-          console.log(error.message);
+        case 405:
+        case 403:
+          errorSweetAlert(`${data.message || "權限不足，請重新登入"}`, () => {
+            router.push({
+              path: "/login",
+              query: {
+                redirectFrom: location.pathname,
+              },
+            });
+          });
+          console.log(data.message);
           break;
         case 404:
-          alert("頁面不存在");
-          router.push("/");
-          console.log(error.message);
+          errorSweetAlert(`${data.message || "頁面不存在"}`, () => {
+            router.push({
+              path: "/",
+            });
+          });
+          console.log(data.message);
           break;
         case 500:
-          alert("程式發生問題");
-          console.log(error.message);
+          errorSweetAlert(
+            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+          );
+          console.log(data.message);
           break;
         default:
-          alert("程式發生問題");
-          console.log(error.message);
+          errorSweetAlert(
+            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+          );
+          console.log(data.message);
       }
     }
     if (!window.navigator.onLine) {
-      alert("請重新連線後重整網頁");
+      swalWithButtons.fire({
+        icon: "error",
+        title: "錯誤訊息",
+        text: "網路出了點問題，請重新連線後刷新頁面",
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonText: "確定",
+      });
       return;
     }
     return Promise.reject(error);

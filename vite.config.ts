@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "",
+        target: "https://typescript-hotel-api-vwlm.onrender.com/",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
@@ -18,6 +18,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "src"),
       "~bootstrap": path.resolve(__dirname, "node_modules/bootstrap"),
+      "~sweetalert2": path.resolve(__dirname, "node_modules/sweetalert2"),
     },
   },
   css: {

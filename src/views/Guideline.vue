@@ -7,107 +7,111 @@ import BaseButton from "@/components/BaseButton.vue";
     <h2>顏色</h2>
     <div class="d-flex list">
       <div>
-        <div class="block bg-primary-dark"></div>
+        <div class="block bg-primary-dark text-white">#7B6651</div>
         <p>$primary-dark</p>
       </div>
       <div>
-        <div class="block bg-primary"></div>
+        <div class="block bg-primary">#BF9D7D</div>
         <p>$primary</p>
       </div>
       <div>
-        <div class="block bg-primary-80"></div>
+        <div class="block bg-primary-80">#AE9984</div>
         <p>$primary-80</p>
       </div>
       <div>
-        <div class="block bg-primary-40"></div>
+        <div class="block bg-primary-60">#E1D1C2</div>
+        <p>$primary-60</p>
+      </div>
+      <div>
+        <div class="block bg-primary-40">#F1EAE4</div>
         <p>$primary-40</p>
       </div>
       <div>
-        <div class="block bg-primary-tint"></div>
+        <div class="block bg-primary-tint">#FAF7F5</div>
         <p>$primary-tint</p>
       </div>
     </div>
     <div class="d-flex list">
       <div>
-        <div class="block bg-success-dark"></div>
+        <div class="block bg-success-dark text-white">#299F65</div>
         <p>$success-dark</p>
       </div>
       <div>
-        <div class="block bg-success"></div>
+        <div class="block bg-success">#52DD7E</div>
         <p>$success</p>
       </div>
       <div>
-        <div class="block bg-success-20"></div>
+        <div class="block bg-success-20">#BCFBBD</div>
         <p>$success-20</p>
       </div>
       <div>
-        <div class="block bg-success-10"></div>
+        <div class="block bg-success-10">#E8FEE7</div>
         <p>$success-10</p>
       </div>
     </div>
     <div class="d-flex list">
       <div>
-        <div class="block bg-info-dark"></div>
+        <div class="block bg-info-dark text-white">#1D66AC</div>
         <p>$info-dark</p>
       </div>
       <div>
-        <div class="block bg-info"></div>
+        <div class="block bg-info">#3BADEF</div>
         <p>$info</p>
       </div>
       <div>
-        <div class="block bg-info-20"></div>
+        <div class="block bg-info-20">#B1EFFD</div>
         <p>$info-20</p>
       </div>
       <div>
-        <div class="block bg-info-10"></div>
+        <div class="block bg-info-10">#E6FBFE</div>
         <p>$info-10</p>
       </div>
     </div>
     <div class="d-flex list">
       <div>
-        <div class="block bg-danger-dark"></div>
+        <div class="block bg-danger-dark text-white">#C22538</div>
         <p>$danger-dark</p>
       </div>
       <div>
-        <div class="block bg-danger"></div>
+        <div class="block bg-danger">#DA3E51</div>
         <p>$danger</p>
       </div>
       <div>
-        <div class="block bg-danger-20"></div>
+        <div class="block bg-danger-20">#F5CCD1</div>
         <p>$danger-20</p>
       </div>
       <div>
-        <div class="block bg-danger-10"></div>
+        <div class="block bg-danger-10">#FDECEF</div>
         <p>$danger-10</p>
       </div>
     </div>
     <div class="d-flex list">
       <div>
-        <div class="block bg-neutral-dark"></div>
+        <div class="block bg-neutral-dark text-white">#140F0A</div>
         <p>$neutral-dark</p>
       </div>
       <div>
-        <div class="block bg-neutral"></div>
+        <div class="block bg-neutral text-white">#000000</div>
         <p>$neutral</p>
       </div>
       <div>
-        <div class="block bg-neutral-80"></div>
+        <div class="block bg-neutral-80 text-white">#4B4B4B</div>
         <p>$neutral-80</p>
       </div>
       <div>
-        <div class="block bg-neutral-60"></div>
+        <div class="block bg-neutral-60 text-white">#909090</div>
         <p>$neutral-60</p>
       </div>
       <div>
-        <div class="block bg-neutral-40"></div>
+        <div class="block bg-neutral-40">#ECECEC</div>
         <p>$neutral-40</p>
       </div>
       <div>
-        <div class="block bg-neutral-10"></div>
+        <div class="block bg-neutral-10">#F9F9F9</div>
         <p>$neutral-10</p>
       </div>
       <div>
-        <div class="block bg-white"></div>
+        <div class="block bg-white">#FFFFFF</div>
         <p>$white</p>
       </div>
     </div>
@@ -188,6 +192,10 @@ import BaseButton from "@/components/BaseButton.vue";
       width: 180px;
       height: 120px;
       border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
       &:not(:last-child) {
         margin-right: 20px;
       }

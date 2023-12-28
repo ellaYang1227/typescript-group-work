@@ -67,13 +67,23 @@ $colors: (
     "text": #fff,
     "border-color": $primary,
     "text-hover": $white,
+    "border-color-hover": $primary-dark,
   ),
   "secondary": (
     "color": $white,
     "color-hover": $primary-tint,
     "text": $primary,
     "border-color": $primary,
-    "text-hover": $primary,
+    "text-hover": $primary-dark,
+    "border-color-hover": $primary-dark,
+  ),
+  "white": (
+    "color": $white,
+    "color-hover": $primary,
+    "text": $neutral,
+    "border-color": $white,
+    "text-hover": $white,
+    "border-color-hover": $primary,
   ),
   "ghost": (
     "color": transparent,
@@ -81,6 +91,7 @@ $colors: (
     "text": #fff,
     "border-color": transparent,
     "text-hover": $primary,
+    "border-color-hover": transparent,
   ),
   "text": (
     "color": transparent,
@@ -88,6 +99,7 @@ $colors: (
     "text": $primary,
     "border-color": transparent,
     "text-hover": $primary-dark,
+    "border-color-hover": transparent,
   ),
   "textIcon": (
     "color": transparent,
@@ -95,6 +107,7 @@ $colors: (
     "text": $white,
     "border-color": transparent,
     "text-hover": $primary,
+    "border-color-hover": transparent,
   ),
 );
 
@@ -155,10 +168,13 @@ $colors: (
       &:hover:not(:disabled) {
         background: map-get($value, "color-hover");
         color: map-get($value, "text-hover");
+        border-color: map-get($value, "border-color-hover");
       }
 
       &:active:not(:disabled) {
         background: map-get($value, "color-hover");
+        color: map-get($value, "text-hover");
+        border-color: map-get($value, "border-color-hover");
       }
     }
   }

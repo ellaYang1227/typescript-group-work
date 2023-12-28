@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps, computed } from 'vue';
 import ProvideItemsCard from '@/components/Room/ProvideItemsCard.vue';
-import { OrderDetail } from '@/interface/orderDetail';
+import { OrderDetail } from '@/interfaces/orderDetail';
 import { daysDifference, dateTransform } from '@/utilities/handleDate';
 import { currencyTransform } from '@/utilities/formatTransform';
 
@@ -188,3 +188,4 @@ const filterOrderDetails = computed(() =>
     }
 }
 </style>
+@/interfaces/orderDetail

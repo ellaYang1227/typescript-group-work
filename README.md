@@ -53,6 +53,18 @@ npm install
 npm run dev
 ```
 
+### 運行 eslint (待補)
+
+```
+npm run lint
+```
+
+### 運行 prettier (待補)
+
+```
+npm run prettier
+```
+
 ### 瀏覽器開啟專案(待補)
 
 ```
@@ -71,7 +83,8 @@ production=
 -   資料夾名稱(如 page) - 放置**XXX 檔案(如網站單元頁面)**
 -   assets - 圖片
 -   components - Vue 組件
--   interface - TypeScript interface
+-   enums - TypeScript enum
+-   interfaces - TypeScript interface
 -   models - api
 -   plugins - 套件
 -   router - vue router
@@ -88,3 +101,4 @@ production=
 -   bootstrap ^5.3.2
 -   pinia ^2.1.7
 -   vee-validate ^4.12.3
+-   typescript ^5.3.3

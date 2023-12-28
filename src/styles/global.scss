@@ -1,32 +1,32 @@
 // global  use
-
 .errorMessage {
-    color: $danger;
+  color: $danger;
 }
 body {
-    letter-spacing: 0.02em;
+  letter-spacing: 0.02em;
 }
 
 svg,
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 img {
-    image-rendering: -webkit-optimize-contrast;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 // 防止圖片變形
 .object-fit {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 // 自訂 vr
 .customize-vr {
-    display: inline-block;
-    width: 4px;
-    min-height: 1em;
-    margin-right: 0.75rem;
-    align-self: stretch;
+  display: inline-block;
+  width: 4px;
+  min-height: 1.5rem;
+  margin-right: 0.75rem;
+  align-self: stretch;
+  border-radius: 0.625rem;
 }
