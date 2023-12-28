@@ -133,6 +133,10 @@ import BaseButton from "@/components/BaseButton.vue";
         <p>isStyleSecondary</p>
       </div>
       <div class="block">
+        <BaseButton class="isStyleWhite">測試</BaseButton>
+        <p>isStyleWhite</p>
+      </div>
+      <div class="block">
         <BaseButton class="isStyleGhost">測試</BaseButton>
         <p>isStyleGhost</p>
       </div>

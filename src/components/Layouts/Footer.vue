@@ -1,10 +1,30 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
-// const myModal = new bootstrap.Modal(document.getElementById('myModal'), Option)
+const props = defineProps({
+  isHasFooterDecoration: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <template>
-  <footer class="bg-neutral-dark text-white footer">
+  <footer
+    class="bg-neutral-dark text-white footer"
+    :class="{ isHasFooterDecoration: props.isHasFooterDecoration }"
+  >
+    <div v-if="props.isHasFooterDecoration" class="footer_decoration">
+      <img
+        src="@/assets/footerDecoration.svg"
+        alt=""
+        class="img d-md-block d-none"
+      />
+      <img
+        src="@/assets/footerDecorationMobile.svg"
+        alt=""
+        class="img d-md-none"
+      />
+    </div>
     <div class="container-xxl footer_inner">
       <div class="fotter_top d-md-flex justify-content-between">
         <div class="footer_leftSide">
@@ -59,6 +79,18 @@ import BaseButton from "@/components/BaseButton.vue";
 .footer {
   padding-top: 88px;
   padding-bottom: 120px;
+  &.isHasFooterDecoration {
+    padding-top: 0px;
+  }
+  &_decoration {
+    margin-bottom: 88px;
+    .img {
+      object-fit: cover;
+      object-position: center;
+      height: auto;
+      width: 100%;
+    }
+  }
   &_icon {
     width: auto;
     padding: 8px;

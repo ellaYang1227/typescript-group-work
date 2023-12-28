@@ -44,7 +44,7 @@ import SlideShow from "@/components/Home/SlideShow.vue";
 </script>
 
 <template>
-  <Layout :type="'styleBgTransparent'">
+  <Layout :type="'styleBgTransparent'" is-has-footer-decoration>
     <SlideShow ref="slideShow" />
     <section style="height: 100vh"></section>
   </Layout>

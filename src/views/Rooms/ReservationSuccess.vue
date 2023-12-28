@@ -3,7 +3,7 @@ import Layout from "@/components/Layouts/Index.vue";
 </script>
 
 <template>
-  <Layout>
+  <Layout is-has-footer-decoration>
     <section style="height: calc(100vh - 300px)">預約成功</section>
   </Layout>
 </template>
