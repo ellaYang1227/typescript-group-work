@@ -83,8 +83,8 @@ production=
 - 資料夾名稱(如 page) - 放置**XXX 檔案(如網站單元頁面)**
 - assets - 圖片
 - components - Vue 組件
-- Enums - TypeScript Enums
-- Interface - TypeScript interface
+- enums - TypeScript enum
+- interfaces - TypeScript interface
 - models - api
 - plugins - 套件
 - router - vue router

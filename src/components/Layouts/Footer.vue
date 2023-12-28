@@ -29,7 +29,7 @@ const props = defineProps({
       <div class="fotter_top d-md-flex justify-content-between">
         <div class="footer_leftSide">
           <img src="@/assets/logoWhite.svg" alt="" />
-          <div class="mt-5">
+          <div class="mt-6">
             <BaseButton
               href="https://line.me/tw/"
               class="isStyleTextIcon footer_icon"
@@ -56,11 +56,11 @@ const props = defineProps({
             </div>
           </div>
           <div class="d-md-flex">
-            <div class="leftItem mt-md-5 mt-3">
+            <div class="leftItem mt-md-6 mt-3">
               <h4 class="h6">FAX</h4>
               <span class="text-neutral-40">+886-7-1234567</span>
             </div>
-            <div class="mt-md-5 mt-3">
+            <div class="mt-md-6 mt-3">
               <h4 class="h6">WEB</h4>
               <span class="text-neutral-40">www.elhhexschool.com.tw</span>
             </div>

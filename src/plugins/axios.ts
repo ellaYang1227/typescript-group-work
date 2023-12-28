@@ -1,9 +1,9 @@
-import axios from "axios";
 import router from "@/router/index";
 import { useLoadingStore } from "@/stores";
 import { getCookie } from "@/utilities/cookie";
 // import Swal from "sweetalert2";
 import { swalWithButtons } from "@/utilities/sweetAlert";
+import axios from "axios";
 const loadingStore = useLoadingStore();
 const errorSweetAlert = (text: string, callback?: () => void) => {
   swalWithButtons
@@ -46,7 +46,7 @@ service.interceptors.response.use(
   (response) => {
     // 在這裡加入您的邏輯
     loadingStore.hideLoading();
-    return response;
+    return response.data;
   },
   (error) => {
     loadingStore.hideLoading();
