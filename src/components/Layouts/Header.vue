@@ -11,7 +11,7 @@ const props = defineProps({
     default: "styleBgNormal",
     validator(value: string) {
       return ["styleBgTransparent", "styleDisabled", "styleBgNormal"].includes(
-        value,
+        value
       );
     },
   },
@@ -114,6 +114,7 @@ const isMenuShow = ref(false);
     right: 0;
     padding: 1.5rem 5rem;
     transition: 0.3s;
+    z-index: 1003;
     @include media-breakpoint-down(lg) {
       padding: 1.5rem 2rem;
     }
