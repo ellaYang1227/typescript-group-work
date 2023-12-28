@@ -13,22 +13,10 @@ const props = defineProps({
     class="bg-neutral-dark text-white footer"
     :class="{ isHasFooterDecoration: props.isHasFooterDecoration }"
   >
-    <div v-if="props.isHasFooterDecoration" class="footer_decoration">
-      <img
-        src="@/assets/footerDecoration.svg"
-        alt=""
-        class="img d-md-block d-none"
-      />
-      <img
-        src="@/assets/footerDecorationMobile.svg"
-        alt=""
-        class="img d-md-none"
-      />
-    </div>
     <div class="container-xxl footer_inner">
       <div class="fotter_top d-md-flex justify-content-between">
         <div class="footer_leftSide">
-          <img src="@/assets/logoWhite.svg" alt="" />
+          <img src="@/assets/logoWhite.svg" alt="logo" />
           <div class="mt-6">
             <BaseButton
               href="https://line.me/tw/"
@@ -80,10 +68,16 @@ const props = defineProps({
   padding-top: 88px;
   padding-bottom: 120px;
   &.isHasFooterDecoration {
-    padding-top: 0px;
+    padding-top: 276px;
+    background-image: url("@/assets/footerDecoration.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    @include media-breakpoint-down(md) {
+      padding-top: 172px;
+      background-image: url("@/assets/footerDecorationMobile.svg");
+    }
   }
   &_decoration {
-    margin-bottom: 88px;
     .img {
       object-fit: cover;
       object-position: center;
@@ -92,8 +86,11 @@ const props = defineProps({
     }
   }
   &_icon {
-    width: auto;
-    padding: 8px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-self: center;
     border-color: $white !important;
     border-radius: 100%;
     letter-spacing: 0;

@@ -117,7 +117,7 @@ $colors: (
   max-width: 100%;
   padding: 1rem 2rem;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.15;
   color: #fff;
   text-align: center;

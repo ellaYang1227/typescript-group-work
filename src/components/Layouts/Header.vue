@@ -24,7 +24,7 @@ const isMenuShow = ref(false);
     <div class="header_inner d-flex align-items-center justify-content-between">
       <div class="header_leftSide mr-3">
         <router-link to="/">
-          <img src="@/assets/logoWhite.svg" alt="" />
+          <img src="@/assets/logoWhite.svg" alt="logo" />
         </router-link>
       </div>
       <div class="header_rightSide">
@@ -89,6 +89,9 @@ const isMenuShow = ref(false);
   background: $neutral-dark;
   transition: 0.3s;
   position: relative;
+  @include media-breakpoint-down(md) {
+    height: 72px;
+  }
   &.styleBgTransparent {
     background: transparent;
     height: auto;
@@ -119,7 +122,7 @@ const isMenuShow = ref(false);
       padding: 1.5rem 2rem;
     }
     @include media-breakpoint-down(md) {
-      padding: 1rem 0.68rem 1rem 0.75rem;
+      padding: 0.878rem 0.68rem 0.878rem 0.75rem;
     }
   }
   &_leftSide {
