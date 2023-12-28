@@ -1,9 +1,9 @@
-import axios from "axios";
 import router from "@/router/index";
 import { useLoadingStore } from "@/stores";
 import { getCookie } from "@/utilities/cookie";
 // import Swal from "sweetalert2";
 import { swalWithButtons } from "@/utilities/sweetAlert";
+import axios from "axios";
 const loadingStore = useLoadingStore();
 const errorSweetAlert = (text: string, callback?: () => void) => {
   swalWithButtons
@@ -27,7 +27,8 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // 在這裡加入您的邏輯
-    const token = getCookie("token");
+    let token = getCookie("token");
+    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NThhMjhkYjkxMDk4NWU3YzI1YjcyMzEiLCJpYXQiOjE3MDM2ODc5OTUsImV4cCI6MTcwNDI5Mjc5NX0.p4E_S-YJ-1_vL7OLZiu-XLDI5n-XEo6ktPs2CVfzkAY"
     if (token) {
       config.headers.Authorization = `${token}`;
     }
@@ -46,7 +47,7 @@ service.interceptors.response.use(
   (response) => {
     // 在這裡加入您的邏輯
     loadingStore.hideLoading();
-    return response;
+    return response.data;
   },
   (error) => {
     loadingStore.hideLoading();
