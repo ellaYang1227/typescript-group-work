@@ -29,29 +29,19 @@ const route = useRoute();
 const rowColsClass = ref<string>("");
 watchEffect(() => {
   const regex = /\/rooms.*\/success$/;
-  rowColsClass.value = regex.test(route.path)
-    ? "row-cols-lg-2 row-cols-xxl-3"
-    : "row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5";
+  rowColsClass.value = regex.test(route.path) ? "room-success" : "room";
 });
 </script>
 <template>
   <div class="d-flex align-items-center">
-    <div class="customize-vr bg-primary"></div>
+    <div class="customize-vr"></div>
     <strong>{{ title }}</strong>
   </div>
   <div class="card mt-4" :class="{ 'border-0': !isBorder }">
     <div class="card-body">
-      <ul
-        class="list-unstyled mb-0 row gx-4 row-cols-2 row-cols-sm-3 row-cols-md-5"
-        :class="rowColsClass"
-      >
-        <li v-if="!filterInfo.length" class="my-1"><strong>無</strong></li>
-        <li
-          v-else
-          v-for="(item, index) in filterInfo"
-          :key="index"
-          class="col my-1"
-        >
+      <ul class="list-unstyled mb-0 grid gap-2" :class="rowColsClass">
+        <li v-if="!filterInfo.length"><strong>無</strong></li>
+        <li v-else v-for="(item, index) in filterInfo" :key="index">
           <font-awesome-icon
             icon="fa-solid fa-check"
             class="text-primary"
@@ -62,4 +52,42 @@ watchEffect(() => {
     </div>
   </div>
 </template>
-<style lang="scss"></style>
+<style lang="scss">
+.room,
+.room-success {
+  --bs-columns: 2;
+  @include media-breakpoint-up(sm) {
+    --bs-columns: 3;
+  }
+
+  @include media-breakpoint-up(md) {
+    --bs-columns: 5;
+  }
+}
+
+// 其他有房型的頁面
+.room {
+  @include media-breakpoint-up(lg) {
+    --bs-columns: 3;
+  }
+
+  @include media-breakpoint-up(xl) {
+    --bs-columns: 5;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    --bs-columns: 5;
+  }
+
+  // 預約成功頁面
+  &-success {
+    @include media-breakpoint-up(lg) {
+      --bs-columns: 2;
+    }
+
+    @include media-breakpoint-up(xxl) {
+      --bs-columns: 3;
+    }
+  }
+}
+</style>

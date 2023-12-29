@@ -186,6 +186,23 @@ import BaseButton from "@/components/BaseButton.vue";
         <p>/user/orders</p>
       </div>
     </div>
+    <h2>自訂垂直分隔線</h2>
+    <ul class="list-inline">
+      <li class="list-inline-item me-5">
+        <div class="d-flex align-items-center">
+          <div class="customize-vr"></div>
+          customize-vr
+        </div>
+        <span>用於：房型基本資訊、房間格局、入住、房間設備、備品提供...等</span>
+      </li>
+      <li class="list-inline-item">
+        <div class="d-flex align-items-center">
+          <div class="customize-vr bg-neutral-60"></div>
+          customize-vr bg-neutral-60
+        </div>
+        <span>用於：退房</span>
+      </li>
+    </ul>
   </div>
 </template>
 

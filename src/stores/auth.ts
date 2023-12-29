@@ -1,29 +1,33 @@
 import { defineStore } from "pinia";
-import { apiGetUser } from "@/models/api";
-import axios from "axios";
-import { IUserInfo } from "@/Interfaces/auth";
+import { apiLogin } from "@/models/api";
+import { UserLogin, UserInformation } from "@/interfaces/auth";
+import { saveCookie } from "@/utilities/cookie";
 import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
 export const useAuthStore = defineStore("useAuthStore", () => {
-  const currentUser = ref<IUserInfo | null>(null);
-  const isLogined = ref(false);
-  const fetchUser = async () => {
+  const userInformation = ref<UserInformation | null>(null);
+
+  const route = useRoute();
+  const router = useRouter();
+
+  const login = async (value: UserLogin) => {
     try {
-      const response = await apiGetUser();
-      const userData: IUserInfo = response.data;
-      currentUser.value = userData;
-      setDefaultAuthHeaders(userData);
+      const data = await apiLogin(value);
+      if (data.status) {
+        // 設置token
+        saveCookie("token", data.token);
+        // 更新登入者資訊
+        userInformation.value = data.result;
+        // 導向
+        await router.push((route?.query?.redirectFrom as string) || "/");
+      }
     } catch (error) {
-      console.log("error");
+      console.log("error", error);
     }
   };
   return {
-    fetchUser,
-    isLogined,
+    userInformation,
+    login,
   };
 });
-
-const setDefaultAuthHeaders = (user: IUserInfo | null) => {
-  axios.defaults.headers.common.Authorization = user
-    ? `Bearer ${user.token}`
-    : "";
-};
