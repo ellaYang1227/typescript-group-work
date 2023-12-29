@@ -1,20 +1,13 @@
-import { createRouter, createWebHistory } from "vue-router";
-import routes from "./routes";
+import { createRouter, createWebHistory } from 'vue-router';
+import routes from './routes';
+import { beforeEach } from './routerGuard';
 
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
 });
 
-router.beforeEach((_to, _from, next) => {
-  next();
-});
-
-router.beforeEach((to, _from, next) => {
-  if (to.meta.title) {
-    document.title = to.meta.title as string;
-  }
-  next();
-});
+// 設定導航守衛
+router.beforeEach(beforeEach);
 
 export default router;

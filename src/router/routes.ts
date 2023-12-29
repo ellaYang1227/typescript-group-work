@@ -29,6 +29,7 @@ const routes = [
     component: () => import("@/views/Rooms/Reservation.vue"),
     meta: {
       title: "客房預約",
+      requiresAuth: true,
     },
   },
   {
@@ -37,15 +38,22 @@ const routes = [
     component: () => import("@/views/Rooms/ReservationSuccess.vue"),
     meta: {
       title: "客房預約成功",
+      requiresAuth: true,
     },
   },
   {
-    path: "/login",
-    name: "login",
-    component: () => import("@/views/Login.vue"),
-    meta: {
-      title: "會員登入",
-    },
+    path: "/",
+    component: () => import("@/components/Layouts/Login.vue"),
+    children: [
+      {
+        path: "login",
+        name: "login",
+        component: () => import("@/views/Login.vue"),
+        meta: {
+          title: "會員登入",
+        },
+      },
+    ],
   },
   {
     path: "/user",
@@ -53,6 +61,7 @@ const routes = [
     component: () => import("@/views/User/Index.vue"),
     meta: {
       title: "會員資訊",
+      requiresAuth: true,
     },
   },
   {
@@ -61,6 +70,7 @@ const routes = [
     component: () => import("@/views/User/Orders.vue"),
     meta: {
       title: "會員訂單",
+      requiresAuth: true,
     },
   },
   {
