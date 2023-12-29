@@ -1,7 +1,11 @@
 @import "~bootstrap/scss/functions";
+
+// 自訂變數 start
 @import "helpers/color";
 @import "helpers/fonts";
 @import "helpers/spacers";
-@import "custom_bootstrap";
-@import "~bootstrap/scss/mixins";
+@import "custom_bootstrap_variables";
+// 自訂變數 end
+
 @import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
