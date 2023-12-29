@@ -21,11 +21,13 @@ watch(
 <template>
   <Layout>
     <section class="bg-neutral-dark">
-      <div class="container py-6 py-md-10">
-        <div class="row">
+      <div class="container py-6 py-md-11">
+        <div class="row gy-8 gx-xl-9">
           <div class="col-lg-7">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item bg-transparent px-0 pt-0 pb-6 pb-md-9">
+            <ul class="list-group list-group-flush d-grid gap-6 gap-md-10">
+              <li
+                class="list-group-item bg-transparent px-0 pt-0 pb-6 pb-md-10"
+              >
                 <div class="d-sm-flex align-items-center mb-5 mb-md-6">
                   <font-awesome-icon
                     icon="fa-solid fa-circle-check"
@@ -40,7 +42,9 @@ watch(
                   我們已發送訂房資訊及詳細內容至你的電子信箱，入住時需向櫃檯人員出示訂房人證件。
                 </p>
               </li>
-              <li class="list-group-item bg-transparent px-0 py-6 py-md-9">
+              <li
+                class="list-group-item bg-transparent px-0 pt-0 pb-6 pb-md-10"
+              >
                 <h5 class="text-white mb-6">立即查看您的訂單紀錄</h5>
                 <router-link
                   to="/user/orders"
@@ -49,14 +53,14 @@ watch(
                   前往我的訂單
                 </router-link>
               </li>
-              <li class="list-group-item bg-transparent px-0 pt-6 pt-md-9 pb-0">
+              <li class="list-group-item bg-transparent p-0">
                 <h5 class="text-white mb-6">訂房人資訊</h5>
-                <ul class="list-unstyled">
-                  <li class="text-white mb-4">
+                <ul class="list-unstyled d-grid gap-4">
+                  <li class="text-white">
                     <span class="text-neutral-40 d-block mb-2">姓名</span>
                     <strong>{{ orderDetail?.userInfo?.name }}</strong>
                   </li>
-                  <li class="text-white mb-4">
+                  <li class="text-white">
                     <span class="text-neutral-40 d-block mb-2">手機號碼</span>
                     <strong>{{ orderDetail?.userInfo?.phone }}</strong>
                   </li>
@@ -68,10 +72,8 @@ watch(
               </li>
             </ul>
           </div>
-          <div class="col-lg mt-8 mt-lg-0">
-            <div class="ms-lg-7">
-              <OrderDetailCard :orderDetails="[orderDetail]" />
-            </div>
+          <div class="col-lg">
+            <OrderDetailCard :orderDetails="[orderDetail]" />
           </div>
         </div>
       </div>
