@@ -4,7 +4,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
 const store = useAuthStore();
-const { isLogined } = storeToRefs(store);
+const { userInformation } = storeToRefs(store);
 const props = defineProps({
   type: {
     type: String,
@@ -30,10 +30,10 @@ const isMenuShow = ref(false);
       <div class="header_rightSide">
         <BaseButton
           v-if="!isMenuShow"
-          class="isStyleTextIcon d-md-none"
+          class="isStyleTextIcon header_menuBars d-md-none"
           @click="isMenuShow = !isMenuShow"
         >
-          <font-awesome-icon icon="fa-solid fa-bars" />
+          <font-awesome-icon icon="fa-solid fa-bars" class="h5 mb-0" />
         </BaseButton>
         <nav class="header_menu" :class="{ isShow: isMenuShow }">
           <BaseButton
@@ -46,33 +46,38 @@ const isMenuShow = ref(false);
             class="header_menuList list-unstyled d-flex flex-column flex-md-row mb-0 justify-content-md-start justify-content-center"
           >
             <li
-              class="align-self-md-start align-self-center w-md-auto w-100 mb-md-0 mb-4"
+              class="header_menuItem align-self-md-start align-self-center mb-md-0 mb-4"
             >
-              <BaseButton class="isStyleGhost w-md-auto w-100" to="/rooms"
+              <BaseButton class="header_menuLink isStyleGhost" to="/rooms"
                 >客房旅宿</BaseButton
               >
             </li>
             <li
-              class="align-self-md-start align-self-center w-md-auto w-100 mb-md-0 mb-4"
+              class="header_menuItem align-self-md-start align-self-center mb-md-0 mb-4"
             >
               <BaseButton
-                v-if="!isLogined"
-                class="isStyleGhost w-md-auto w-100"
+                v-if="!userInformation?.id"
+                class="header_menuLink isStyleGhost"
                 to="/login"
                 >會員登入</BaseButton
               >
               <BaseButton
                 v-else
-                class="isStyleGhost w-md-auto w-100"
+                class="header_menuLink isStyleGhost"
                 to="/user"
               >
-                <font-awesome-icon icon="fa-regular fa-circle-user" /><span>{{
-                  "Jession"
+                <font-awesome-icon
+                  icon="fa-regular fa-circle-user"
+                  class="h5 mb-0 d-md-inline d-none"
+                />
+                <span class="ps-2 align-text-top d-md-inline d-none">{{
+                  userInformation.name
                 }}</span>
+                <span class="ps-2 align-text-top d-md-none">我的帳戶</span>
               </BaseButton>
             </li>
-            <li class="align-self-md-start align-self-center w-md-auto w-100">
-              <BaseButton class="isStylePrimary w-md-auto w-100" to="/rooms"
+            <li class="header_menuItem align-self-md-start align-self-center">
+              <BaseButton class="header_menuLink isStylePrimary" to="/rooms"
                 >立即訂房</BaseButton
               >
             </li>
@@ -108,6 +113,9 @@ const isMenuShow = ref(false);
   &.styleDisabled {
     .header_rightSide {
       display: none;
+      @include media-breakpoint-down(md) {
+        display: block;
+      }
     }
   }
   &_inner {
@@ -118,11 +126,8 @@ const isMenuShow = ref(false);
     padding: 1.5rem 5rem;
     transition: 0.3s;
     z-index: 1003;
-    @include media-breakpoint-down(lg) {
-      padding: 1.5rem 2rem;
-    }
-    @include media-breakpoint-down(md) {
-      padding: 0.878rem 0.68rem 0.878rem 0.75rem;
+    @include media-breakpoint-down(xxl) {
+      padding: 0.65rem 0.75rem 0.65rem 0.75rem;
     }
   }
   &_leftSide {
@@ -153,6 +158,27 @@ const isMenuShow = ref(false);
     @include media-breakpoint-down(md) {
       height: calc(100% - 50vw);
     }
+  }
+  &_menuItem {
+    @include media-breakpoint-down(md) {
+      width: 100%;
+    }
+    &:not(:last-child) {
+      margin-right: 1rem;
+      @include media-breakpoint-down(md) {
+        margin-right: 0rem;
+      }
+    }
+  }
+  &_menuLink {
+    @include media-breakpoint-down(md) {
+      width: 100%;
+    }
+  }
+  &_menuBars {
+    width: 40px;
+    height: 40px;
+    padding: 0.5rem !important;
   }
 }
 </style>

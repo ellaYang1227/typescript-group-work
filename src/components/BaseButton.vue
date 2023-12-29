@@ -68,6 +68,9 @@ $colors: (
     "border-color": $primary,
     "text-hover": $white,
     "border-color-hover": $primary-dark,
+    "disabled-text": $neutral-60,
+    "disabled-border-color": transparent,
+    "disabled-color": transparent,
   ),
   "secondary": (
     "color": $white,
@@ -76,6 +79,9 @@ $colors: (
     "border-color": $primary,
     "text-hover": $primary-dark,
     "border-color-hover": $primary-dark,
+    "disabled-text": $neutral-60,
+    "disabled-border-color": $neutral-60,
+    "disabled-color": $white,
   ),
   "white": (
     "color": $white,
@@ -84,6 +90,9 @@ $colors: (
     "border-color": $white,
     "text-hover": $white,
     "border-color-hover": $primary,
+    "disabled-text": $neutral-60,
+    "disabled-border-color": $neutral-60,
+    "disabled-color": $white,
   ),
   "ghost": (
     "color": transparent,
@@ -92,6 +101,9 @@ $colors: (
     "border-color": transparent,
     "text-hover": $primary,
     "border-color-hover": transparent,
+    "disabled-text": $neutral-60,
+    "disabled-border-color": transparent,
+    "disabled-color": transparent,
   ),
   "text": (
     "color": transparent,
@@ -100,6 +112,9 @@ $colors: (
     "border-color": transparent,
     "text-hover": $primary-dark,
     "border-color-hover": transparent,
+    "disabled-text": $neutral-60,
+    "disabled-border-color": transparent,
+    "disabled-color": transparent,
   ),
   "textIcon": (
     "color": transparent,
@@ -108,6 +123,9 @@ $colors: (
     "border-color": transparent,
     "text-hover": $primary,
     "border-color-hover": transparent,
+    "disabled-text": $neutral-60,
+    "disabled-border-color": transparent,
+    "disabled-color": transparent,
   ),
 );
 
@@ -176,17 +194,23 @@ $colors: (
         color: map-get($value, "text-hover");
         border-color: map-get($value, "border-color-hover");
       }
+      &:disabled {
+        background: map-get($value, "disabled-color");
+        color: map-get($value, "disabled-text");
+        border-color: map-get($value, "disabled-border-color");
+      }
     }
   }
   &.isStyleText {
-    padding: 0.75rem;
+    padding: 1rem;
     text-decoration: underline;
     &:hover:not(:disabled) {
       text-decoration: underline;
     }
   }
   &.isStyleTextIcon {
-    padding: 0.75rem;
+    padding: 1rem;
+    font-size: 16px;
   }
   // &.isWhite {
   //   color: $white;

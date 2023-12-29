@@ -95,8 +95,9 @@ const props = defineProps({
     border-radius: 100%;
     letter-spacing: 0;
     margin-right: 1rem;
+    padding: 0.6rem !important;
     svg {
-      font-size: 24px;
+      font-size: 21px;
     }
     &:hover {
       border-color: $primary !important;
