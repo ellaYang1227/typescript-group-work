@@ -11,8 +11,8 @@ export interface UserInfo {
 interface Address {
   zipcode: number;
   detail: string;
-  county: string;
-  city: string;
+  county?: string;
+  city?: string;
 }
 
 export interface UserInformation {
