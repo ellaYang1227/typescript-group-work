@@ -10,7 +10,7 @@ import BaseButton from "@/components/BaseButton.vue";
           class="row notFound_inner justify-content-center align-items-center align-content-center h-100"
         >
           <div class="col-md-6 col-12 text-center mb-lg-0 mb-5 mx-auto">
-            <img src="@/assets/notFound.svg" alt="" />
+            <img src="@/assets/notFound.svg" alt="404" />
           </div>
           <div class="col-md-6 col-12 align-self-center text-center">
             <h3 class="notFound__title">無法找到您要的頁面</h3>

@@ -11,6 +11,10 @@ const props = defineProps({
       );
     },
   },
+  isHasFooterDecoration: {
+    type: Boolean,
+    default: false,
+  },
   isHiddenFooter: {
     type: Boolean,
     default: false,
@@ -22,7 +26,7 @@ const props = defineProps({
   <Header :type="props.type" />
   <slot></slot>
   <template v-if="!isHiddenFooter">
-    <Footer />
+    <Footer :is-has-footer-decoration="isHasFooterDecoration" />
   </template>
 </template>
 

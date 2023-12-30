@@ -133,6 +133,10 @@ import BaseButton from "@/components/BaseButton.vue";
         <p>isStyleSecondary</p>
       </div>
       <div class="block">
+        <BaseButton class="isStyleWhite">測試</BaseButton>
+        <p>isStyleWhite</p>
+      </div>
+      <div class="block">
         <BaseButton class="isStyleGhost">測試</BaseButton>
         <p>isStyleGhost</p>
       </div>
@@ -140,11 +144,11 @@ import BaseButton from "@/components/BaseButton.vue";
         <BaseButton class="isStyleText">測試</BaseButton>
         <p>isStyleText</p>
       </div>
-      <div class="block">
-        <BaseButton class="isStyleTextIcon"
-          ><i class="fa-regular fa-circle-user"></i
-        ></BaseButton>
-        <p>isStyleTextIcon</p>
+      <div class="block bg-black">
+        <BaseButton class="isStyleTextIcon">
+          <font-awesome-icon icon="fa-brands fa-instagram" />
+        </BaseButton>
+        <p class="text-white">isStyleTextIcon</p>
       </div>
     </div>
     <h2>頁面連結</h2>

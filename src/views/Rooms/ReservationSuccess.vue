@@ -19,7 +19,7 @@ watch(
 </script>
 
 <template>
-  <Layout>
+  <Layout is-has-footer-decoration>
     <section class="bg-neutral-dark">
       <div class="container py-6 py-md-11">
         <div class="row gy-8 gx-xl-9">

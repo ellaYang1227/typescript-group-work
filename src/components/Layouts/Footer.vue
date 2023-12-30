@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
-// const myModal = new bootstrap.Modal(document.getElementById('myModal'), Option)
+const props = defineProps({
+  isHasFooterDecoration: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <template>
-  <footer class="bg-neutral-dark text-white footer">
+  <footer
+    class="bg-neutral-dark text-white footer"
+    :class="{ isHasFooterDecoration: props.isHasFooterDecoration }"
+  >
     <div class="container-xxl footer_inner">
       <div class="fotter_top d-md-flex justify-content-between">
         <div class="footer_leftSide">
-          <img src="@/assets/logoWhite.svg" alt="" />
+          <img src="@/assets/logoWhite.svg" alt="logo" />
           <div class="mt-6">
             <BaseButton
               href="https://line.me/tw/"
@@ -59,15 +67,37 @@ import BaseButton from "@/components/BaseButton.vue";
 .footer {
   padding-top: 88px;
   padding-bottom: 120px;
+  &.isHasFooterDecoration {
+    padding-top: 276px;
+    background-image: url("@/assets/footerDecoration.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    @include media-breakpoint-down(md) {
+      padding-top: 172px;
+      background-image: url("@/assets/footerDecorationMobile.svg");
+    }
+  }
+  &_decoration {
+    .img {
+      object-fit: cover;
+      object-position: center;
+      height: auto;
+      width: 100%;
+    }
+  }
   &_icon {
-    width: auto;
-    padding: 8px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-self: center;
     border-color: $white !important;
     border-radius: 100%;
     letter-spacing: 0;
     margin-right: 1rem;
+    padding: 0.6rem !important;
     svg {
-      font-size: 24px;
+      font-size: 21px;
     }
     &:hover {
       border-color: $primary !important;
