@@ -53,6 +53,14 @@ const routes = [
           title: "會員登入",
         },
       },
+      {
+        path: "signup",
+        name: "signup",
+        component: () => import("@/views/Signup.vue"),
+        meta: {
+          title: "會員註冊",
+        },
+      },
     ],
   },
   {

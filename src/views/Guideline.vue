@@ -150,6 +150,10 @@ import BaseButton from "@/components/BaseButton.vue";
         </BaseButton>
         <p class="text-white">isStyleTextIcon</p>
       </div>
+      <div class="block">
+        <BaseButton disabled>禁用</BaseButton>
+        <p>disabled</p>
+      </div>
     </div>
     <h2>頁面連結</h2>
     <div class="d-flex list">

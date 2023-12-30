@@ -169,14 +169,6 @@ $colors: (
     text-decoration: none;
   }
 
-  &:disabled {
-    opacity: 0.65;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-  }
-
   @each $color, $value in $colors {
     &.isStyle#{capitalize($color)} {
       color: map-get($value, "text");
@@ -221,5 +213,11 @@ $colors: (
   //     opacity: .7;
   //   }
   // }
+  &:disabled {
+    background: $neutral-40;
+    opacity: 1;
+    color: $neutral-60;
+    cursor: not-allowed;
+  }
 }
 </style>
