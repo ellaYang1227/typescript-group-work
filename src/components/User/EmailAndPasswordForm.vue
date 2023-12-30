@@ -27,7 +27,7 @@ const emailAndPasswordTypedSchema = toTypedSchema(
           "密碼需包含數字與英文字母"
         )
         .default(""),
-      confirm: z.string().min(1, "請再輸入一次密碼").default("Aa123456789"),
+      confirm: z.string().min(1, "請再輸入一次密碼").default(""),
     })
     .refine((data) => data.password === data.confirm, {
       message: "與密碼不符",

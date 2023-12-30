@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Layout from "@/components/Layouts/Index.vue";
 import { RouterView } from "vue-router";
 </script>
