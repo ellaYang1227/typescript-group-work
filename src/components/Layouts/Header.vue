@@ -117,6 +117,9 @@ const isMenuShow = ref(false);
         display: block;
       }
     }
+    .header_inner {
+      background: $neutral-dark;
+    }
   }
   &_inner {
     position: fixed;
