@@ -8,7 +8,7 @@ import { RouterView } from "vue-router";
     <section class="row m-0 login-layout">
       <div class="col-md-6 image-bg d-none d-sm-block"></div>
       <div class="col-md-6 d-flex justify-content-center p-3 form-content">
-        <img class="deco-img" src="@/assets/loginDeco.svg" alt="deco" />
+        <img class="deco-img" alt="deco" />
         <RouterView class="form-area w-100" />
       </div>
     </section>
@@ -38,6 +38,7 @@ import { RouterView } from "vue-router";
       position: absolute;
       top: 72px;
       right: 0;
+      content: url("@/assets/loginDeco.svg");
     }
   }
   :deep(.form-control.is-invalid) {
@@ -52,7 +53,8 @@ import { RouterView } from "vue-router";
       }
       .deco-img {
         top: 32px;
-        transform: scale(1.2);
+        content: url("@/assets/loginDecoMobile.svg");
+        width: 100%;
       }
     }
   }
