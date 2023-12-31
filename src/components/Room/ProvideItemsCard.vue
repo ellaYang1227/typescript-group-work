@@ -11,8 +11,8 @@ const props = defineProps({
   },
   // 提供內容
   info: {
-    type: Object as () => Room["facilityInfo"] | Room["amenityInfo"],
-    default: [],
+    type: Array as () => Room["facilityInfo"] | Room["amenityInfo"],
+    default: () => [],
   },
   // 是否有邊框
   isBorder: {

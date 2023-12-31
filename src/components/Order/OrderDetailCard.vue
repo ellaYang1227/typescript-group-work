@@ -9,7 +9,7 @@ const props = defineProps({
   // 訂單詳情
   orderDetails: {
     type: Array as () => OrderDetail[],
-    default: [],
+    default: () => [],
   },
   // 是否為歷史訂單
   isHistory: {

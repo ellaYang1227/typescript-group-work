@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import Layout from "@/components/Layouts/index.vue";
+import Layout from "@/components/Layouts/Index.vue";
 import OrderDetailCard from "@/components/Order/OrderDetailCard.vue";
 import { getOrderDetail } from "@/models/orders";
-import { OrderDetail } from "@/Interfaces/orderDetail";
+import { OrderDetail } from "@/interfaces/orderDetail";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
 const orderDetail = ref<null | OrderDetail>(null);
-const route = useRoute<RouteLocationNormalizedLoaded<RouteParams>>();
+const route = useRoute();
 
-watch(
+watch<any, any>(
   () => route.params.id,
-  async (newVal: string, oldVal: string): void => {
-    orderDetail.value = await getOrderDetail(newVal);
+  async (newVal: string | undefined): Promise<void> => {
+    if (newVal) {
+      orderDetail.value = await getOrderDetail(newVal);
+    }
   },
   { immediate: true }
 );
@@ -72,7 +74,7 @@ watch(
               </li>
             </ul>
           </div>
-          <div class="col-lg">
+          <div class="col-lg" v-if="orderDetail">
             <OrderDetailCard :orderDetails="[orderDetail]" />
           </div>
         </div>
