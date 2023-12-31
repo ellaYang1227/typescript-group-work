@@ -27,7 +27,7 @@ import BaseButton from "@/components/BaseButton.vue";
         <p>$primary-40</p>
       </div>
       <div>
-        <div class="block bg-primary-tint">#FAF7F5</div>
+        <div class="block bg-primary-tint">#F7F2EE</div>
         <p>$primary-tint</p>
       </div>
     </div>

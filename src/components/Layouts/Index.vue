@@ -7,7 +7,7 @@ const props = defineProps({
     default: "styleBgNormal",
     validator(value: string) {
       return ["styleBgTransparent", "styleDisabled", "styleBgNormal"].includes(
-        value,
+        value
       );
     },
   },
@@ -24,7 +24,9 @@ const props = defineProps({
 
 <template>
   <Header :type="props.type" />
-  <slot></slot>
+  <div class="bg-primary-tint">
+    <slot></slot>
+  </div>
   <template v-if="!isHiddenFooter">
     <Footer :is-has-footer-decoration="isHasFooterDecoration" />
   </template>
