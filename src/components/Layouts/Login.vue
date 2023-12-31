@@ -44,7 +44,7 @@ import { RouterView } from "vue-router";
   :deep(.form-control.is-invalid) {
     background-image: none;
   }
-  @media (max-width: 768px) {
+  @include media-breakpoint-down(md) {
     min-height: calc(100vh - 72px);
     .form-content {
       align-items: normal;
