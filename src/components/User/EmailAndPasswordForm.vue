@@ -43,6 +43,7 @@ async function emailAndPasswordSubmit(value: any) {
 
 <template>
   <Form
+    v-slot="{ meta }"
     :validation-schema="emailAndPasswordTypedSchema"
     @submit="emailAndPasswordSubmit"
     id="EmailAndPasswordForm"
@@ -91,5 +92,6 @@ async function emailAndPasswordSubmit(value: any) {
         <ErrorMessage name="confirm" class="errorMessage" />
       </div>
     </fieldset>
+    <slot name="formMeta" :formMeta="meta"></slot>
   </Form>
 </template>
