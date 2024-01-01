@@ -68,7 +68,7 @@ initSetEmail();
               id="email"
             />
           </Field>
-          <ErrorMessage name="email" class="errorMessage" />
+          <ErrorMessage name="email" class="invalid-feedback" />
         </div>
         <div class="d-flex flex-column gap-2">
           <label for="password" class="fw-bold">密碼</label>
@@ -82,7 +82,7 @@ initSetEmail();
               id="password"
             />
           </Field>
-          <ErrorMessage name="password" class="errorMessage" />
+          <ErrorMessage name="password" class="invalid-feedback" />
         </div>
         <div class="form-check">
           <input

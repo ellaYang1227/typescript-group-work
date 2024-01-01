@@ -41,9 +41,6 @@ import { RouterView } from "vue-router";
       content: url("@/assets/loginDeco.svg");
     }
   }
-  :deep(.form-control.is-invalid) {
-    background-image: none;
-  }
   @include media-breakpoint-down(md) {
     min-height: calc(100vh - 72px);
     .form-content {

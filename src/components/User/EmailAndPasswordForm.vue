@@ -61,7 +61,7 @@ async function emailAndPasswordSubmit(value: any) {
             id="email"
           />
         </Field>
-        <ErrorMessage name="email" class="errorMessage" />
+        <ErrorMessage name="email" class="invalid-feedback" />
       </div>
       <div class="d-flex flex-column gap-2">
         <label for="password" class="fw-bold">密碼</label>
@@ -75,7 +75,7 @@ async function emailAndPasswordSubmit(value: any) {
             id="password"
           />
         </Field>
-        <ErrorMessage name="password" class="errorMessage" />
+        <ErrorMessage name="password" class="invalid-feedback" />
       </div>
       <div class="d-flex flex-column gap-2">
         <label for="confirm" class="fw-bold">確認密碼</label>
@@ -89,7 +89,7 @@ async function emailAndPasswordSubmit(value: any) {
             id="confirm"
           />
         </Field>
-        <ErrorMessage name="confirm" class="errorMessage" />
+        <ErrorMessage name="confirm" class="invalid-feedback" />
       </div>
     </fieldset>
     <slot name="formMeta" :formMeta="meta"></slot>

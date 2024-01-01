@@ -96,7 +96,7 @@ function handleSubmit(value: any) {
             id="name"
           />
         </Field>
-        <ErrorMessage name="name" class="errorMessage" />
+        <ErrorMessage name="name" class="invalid-feedback" />
       </div>
       <div class="d-flex flex-column gap-2">
         <label for="phone" class="fw-bold">手機號碼</label>
@@ -110,7 +110,7 @@ function handleSubmit(value: any) {
             id="phone"
           />
         </Field>
-        <ErrorMessage name="phone" class="errorMessage" />
+        <ErrorMessage name="phone" class="invalid-feedback" />
       </div>
       <div
         v-if="routeName === 'rooms-reservation'"
@@ -127,7 +127,7 @@ function handleSubmit(value: any) {
             id="email"
           />
         </Field>
-        <ErrorMessage name="email" class="errorMessage" />
+        <ErrorMessage name="email" class="invalid-feedback" />
       </div>
       <div v-else class="d-flex flex-column gap-2">
         <label for="birthday" class="fw-bold">生日</label>
@@ -137,7 +137,7 @@ function handleSubmit(value: any) {
             @update:model-value="handleChange"
           />
         </Field>
-        <ErrorMessage name="birthday" class="errorMessage" />
+        <ErrorMessage name="birthday" class="invalid-feedback" />
       </div>
       <div class="d-flex flex-column gap-3">
         <label for="addressDetail" class="fw-bold">地址</label>
@@ -157,7 +157,7 @@ function handleSubmit(value: any) {
             id="addressDetail"
           />
         </Field>
-        <ErrorMessage class="errorMessage" name="addressDetail" />
+        <ErrorMessage class="invalid-feedback" name="addressDetail" />
       </div>
     </fieldset>
     <slot name="formMeta" :formMeta="meta"></slot>
