@@ -29,11 +29,14 @@ const defaultTypedSchema = z.object({
   name: z
     .string()
     .min(1, "請輸入姓名")
+    .regex(new RegExp(/^[a-zA-Z\u4e00-\u9fa5\s]+$/), "請輸入正確的名字")
     .default(userInformation?.name || ""),
   phone: z
     .string()
     .min(1, "請輸入手機號碼")
     .regex(new RegExp(/^\d+$/), "請輸入數字")
+    .startsWith("09", { message: "請輸入正確的手機號碼格式" })
+    .length(10, { message: "請輸入正確的手機號碼格式" })
     .default(userInformation?.phone || ""),
   zipcode: z.number().default(userInformation?.address.zipcode || 800),
   addressDetail: z
@@ -75,6 +78,7 @@ function handleSubmit(value: any) {
 
 <template>
   <Form
+    v-slot="{ meta }"
     :validation-schema="userInfoFormSchema"
     @submit="handleSubmit"
     id="UserInfoForm"
@@ -156,5 +160,6 @@ function handleSubmit(value: any) {
         <ErrorMessage class="errorMessage" name="addressDetail" />
       </div>
     </fieldset>
+    <slot name="formMeta" :formMeta="meta"></slot>
   </Form>
 </template>

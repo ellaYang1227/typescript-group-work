@@ -19,3 +19,7 @@ export const saveCookie = (key: any, state: any) => {
     domain: window.location.hostname,
   });
 };
+
+export const removeCookie = (key: any) => {
+  return Cookies.remove(key);
+};
