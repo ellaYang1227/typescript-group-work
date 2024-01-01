@@ -69,9 +69,10 @@ service.interceptors.response.use(
           break;
         case 404:
           errorSweetAlert(`${data.message || "頁面不存在"}`, () => {
-            router.push({
-              path: "/",
-            });
+            if (data.message !== "此使用者不存在") // 登入失敗需停留在登入頁
+              router.push({
+                path: "/",
+              });
           });
           console.log(data.message);
           break;
