@@ -18,8 +18,22 @@ const currentYear = computed<number>(() => {
   return new Date().getFullYear();
 });
 
+// 計算月份
+const months = computed<number>(() => {
+  if (year.value !== currentYear.value) return 12;
+  else return new Date().getMonth() + 1;
+});
+
+// 月份重設
+watch(months, () => {
+  month.value = 1;
+});
+
 // 計算月份日子
 const monthDays = computed<number>(() => {
+  if (year.value === currentYear.value && month.value === months.value)
+    return new Date().getDate();
+
   const date: Date = new Date(year.value, month.value - 1, 1);
   date.setMonth(date.getMonth() + 1);
   date.setDate(date.getDate() - 1);
@@ -60,7 +74,9 @@ setInitValue();
       </option>
     </select>
     <select class="form-select p-3" v-model="month" @change="formatDate">
-      <option v-for="month in 12" :key="`month-${month}`">{{ month }}</option>
+      <option v-for="month in months" :key="`month-${month}`">
+        {{ month }}
+      </option>
     </select>
     <select class="form-select p-3" v-model="day" @change="formatDate">
       <option v-for="day in monthDays" :key="`day-${day}`">{{ day }}</option>
