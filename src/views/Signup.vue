@@ -58,7 +58,7 @@
                 id="AgreeCheck"
                 :disabled="!formMeta.touched || !formMeta.valid"
               />
-              <label class="form-check-label" for="AgreeCheck">
+              <label class="form-check-label fw-bold" for="AgreeCheck">
                 我已閱讀並同意本網站個資使用規範
               </label>
             </div>
@@ -68,9 +68,20 @@
                 :form="
                   currentStep === 1 ? 'EmailAndPasswordForm' : 'UserInfoForm'
                 "
-                :disabled="(currentStep === 2 && !agreeCheck) || sending"
+                :disabled="
+                  !formMeta.touched ||
+                  !formMeta.valid ||
+                  (currentStep === 2 && !agreeCheck) ||
+                  sending
+                "
               >
-                <span v-if="sending">Loading</span>
+                <span v-if="sending">
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                  ></span>
+                  Loading...
+                </span>
                 <span v-else>
                   {{ currentStep === 1 ? "下一步" : "完成註冊" }}
                 </span>

@@ -91,7 +91,9 @@ initSetEmail();
             type="checkbox"
             id="remember"
           />
-          <label class="form-check-label" for="remember"> 記住帳號 </label>
+          <label class="form-check-label fw-bold" for="remember">
+            記住帳號
+          </label>
         </div>
       </fieldset>
       <button
@@ -99,7 +101,11 @@ initSetEmail();
         form="LoginForm"
         :disabled="!meta.touched || !meta.valid || sending"
       >
-        {{ sending ? "Loading" : "會員登入" }}
+        <span v-if="sending">
+          <span class="spinner-border spinner-border-sm" role="status"></span>
+          Loading...
+        </span>
+        <span v-else> 會員登入 </span>
       </button>
     </Form>
     <div class="d-flex align-items-baseline gap-2">
