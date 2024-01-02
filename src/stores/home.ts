@@ -1,14 +1,13 @@
 import { defineStore } from "pinia";
 import { apiGetNews } from "@/models/api";
+import { NewsItem } from "@/interfaces/home";
 import { ref } from "vue";
 export const usehomeStore = defineStore("home", () => {
-  const newsList = ref([]);
+  const newsList = ref([] as NewsItem[]);
   const fetchNews = async () => {
     try {
-      const {
-        data: { result },
-      } = await apiGetNews();
-      newsList.value = result;
+      const data = await apiGetNews();
+      newsList.value = data;
     } catch (error) {
       console.log(error);
     }
