@@ -209,6 +209,12 @@ $colors: (
   &.isStyleTextIcon {
     padding: 1rem;
     font-size: 16px;
+    border: 0;
+    .baseButton__content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
   // &.isWhite {
   //   color: $white;

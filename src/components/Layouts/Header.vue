@@ -190,9 +190,6 @@ const isMenuShow = ref(false);
     .baseButton__content {
       width: 24px;
       height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
     .svg {
       font-size: 1.287rem;
@@ -205,9 +202,6 @@ const isMenuShow = ref(false);
     .baseButton__content {
       width: 48px;
       height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
     .svg {
       font-size: 2.38rem;
