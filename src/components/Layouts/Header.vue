@@ -37,10 +37,10 @@ const isMenuShow = ref(false);
         </BaseButton>
         <nav class="header_menu" :class="{ isShow: isMenuShow }">
           <BaseButton
-            class="isStyleTextIcon d-md-none d-flex ms-auto h4"
+            class="isStyleTextIcon d-md-none d-flex ms-auto header_menuClose"
             @click="isMenuShow = !isMenuShow"
           >
-            <font-awesome-icon icon="fa-solid fa-xmark" />
+            <font-awesome-icon icon="fa-solid fa-xmark" class="svg mb-0" />
           </BaseButton>
           <ul
             class="header_menuList list-unstyled d-flex flex-column flex-md-row mb-0 justify-content-md-start justify-content-center"
@@ -190,12 +190,21 @@ const isMenuShow = ref(false);
     .baseButton__content {
       width: 24px;
       height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
     .svg {
       font-size: 1.287rem;
+    }
+  }
+  &_menuClose {
+    width: 64px;
+    height: 64px;
+    padding: 0.5rem !important;
+    .baseButton__content {
+      width: 48px;
+      height: 48px;
+    }
+    .svg {
+      font-size: 2.38rem;
     }
   }
 }
