@@ -198,7 +198,7 @@ $colors: (
     border: 0;
   }
   &.isStyleText {
-    padding: 2rem;
+    padding: 0;
     text-decoration: underline;
     border: 0;
     border-radius: 0;
