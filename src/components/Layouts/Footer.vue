@@ -13,7 +13,7 @@ const props = defineProps({
     class="bg-neutral-dark text-white footer"
     :class="{ isHasFooterDecoration: props.isHasFooterDecoration }"
   >
-    <div class="container-xxl footer_inner">
+    <div class="container footer_inner">
       <div class="fotter_top d-md-flex justify-content-between">
         <div class="footer_leftSide">
           <img src="@/assets/logoWhite.svg" alt="logo" />

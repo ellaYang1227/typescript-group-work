@@ -70,7 +70,7 @@ $colors: (
     "border-color-hover": $primary-dark,
     "disabled-text": $neutral-60,
     "disabled-border-color": transparent,
-    "disabled-color": transparent,
+    "disabled-color": $neutral-40,
   ),
   "secondary": (
     "color": $white,
@@ -136,7 +136,6 @@ $colors: (
   padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: 700;
-  line-height: 1.15;
   color: #fff;
   text-align: center;
   letter-spacing: 0.02em;
@@ -193,9 +192,16 @@ $colors: (
       }
     }
   }
-  &.isStyleText {
+  &.isStyleGhost {
     padding: 1rem;
+    border-radius: 100px;
+    border: 0;
+  }
+  &.isStyleText {
+    padding: 2rem;
     text-decoration: underline;
+    border: 0;
+    border-radius: 0;
     &:hover:not(:disabled) {
       text-decoration: underline;
     }
