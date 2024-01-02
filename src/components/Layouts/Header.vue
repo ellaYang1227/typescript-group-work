@@ -102,7 +102,6 @@ const isMenuShow = ref(false);
     height: auto;
     .header_inner {
       background: transparent;
-      background: $neutral-dark;
     }
   }
   &.styleBgNormal {
