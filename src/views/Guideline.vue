@@ -3,7 +3,7 @@ import BaseButton from "@/components/BaseButton.vue";
 </script>
 
 <template>
-  <div class="container-xxl py-5 guideline">
+  <div class="container py-5 guideline">
     <h2>顏色</h2>
     <div class="d-flex list">
       <div>
