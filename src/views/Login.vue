@@ -68,7 +68,7 @@ initSetEmail();
               id="email"
             />
           </Field>
-          <ErrorMessage name="email" class="errorMessage" />
+          <ErrorMessage name="email" class="invalid-feedback" />
         </div>
         <div class="d-flex flex-column gap-2">
           <label for="password" class="fw-bold">密碼</label>
@@ -82,7 +82,7 @@ initSetEmail();
               id="password"
             />
           </Field>
-          <ErrorMessage name="password" class="errorMessage" />
+          <ErrorMessage name="password" class="invalid-feedback" />
         </div>
         <div class="form-check">
           <input
@@ -91,7 +91,9 @@ initSetEmail();
             type="checkbox"
             id="remember"
           />
-          <label class="form-check-label" for="remember"> 記住帳號 </label>
+          <label class="form-check-label fw-bold" for="remember">
+            記住帳號
+          </label>
         </div>
       </fieldset>
       <button
@@ -99,7 +101,11 @@ initSetEmail();
         form="LoginForm"
         :disabled="!meta.touched || !meta.valid || sending"
       >
-        {{ sending ? "Loading" : "會員登入" }}
+        <span v-if="sending">
+          <span class="spinner-border spinner-border-sm" role="status"></span>
+          Loading...
+        </span>
+        <span v-else> 會員登入 </span>
       </button>
     </Form>
     <div class="d-flex align-items-baseline gap-2">

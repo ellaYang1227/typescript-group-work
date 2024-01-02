@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Layout from "@/components/Layouts/Index.vue";
-import { RouterView } from "vue-router";
+import { RouterView, useRoute } from "vue-router";
+
+const route = useRoute();
 </script>
 
 <template>
@@ -9,7 +11,10 @@ import { RouterView } from "vue-router";
       <div class="col-md-6 image-bg d-none d-sm-block"></div>
       <div class="col-md-6 d-flex justify-content-center p-3 form-content">
         <img class="deco-img" alt="deco" />
-        <RouterView class="form-area w-100" />
+        <RouterView
+          class="form-area w-100"
+          :class="[{ 'is-login': route.name === 'login' }]"
+        />
       </div>
     </section>
   </Layout>
@@ -41,15 +46,15 @@ import { RouterView } from "vue-router";
       content: url("@/assets/loginDeco.svg");
     }
   }
-  :deep(.form-control.is-invalid) {
-    background-image: none;
-  }
   @include media-breakpoint-down(md) {
     min-height: calc(100vh - 72px);
     .form-content {
       align-items: normal;
       .form-area {
         max-width: 335px;
+        &.is-login {
+          padding-top: 92px;
+        }
       }
       .deco-img {
         top: 32px;

@@ -2,9 +2,6 @@
 @import "~bootstrap/scss/bootstrap";
 
 // global  use
-.errorMessage {
-  color: $danger;
-}
 body {
   letter-spacing: 0.02em;
 }
@@ -34,4 +31,15 @@ img {
   margin-right: 0.75rem;
   align-self: stretch;
   border-radius: 0.625rem;
+}
+
+// input 驗證
+.form-control.is-invalid {
+  background-image: none;
+}
+.invalid-feedback {
+  color: $danger;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
 }
