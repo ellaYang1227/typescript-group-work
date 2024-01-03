@@ -51,7 +51,7 @@
           @handleSubmit="handleSubmit"
         >
           <template v-slot:formMeta="{ formMeta }">
-            <div v-if="currentStep === 2" class="form-check mt-3">
+            <div v-if="currentStep === 2" class="form-check">
               <input
                 v-model="agreeCheck"
                 class="form-check-input"
