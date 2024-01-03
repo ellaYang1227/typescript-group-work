@@ -29,7 +29,10 @@ const defaultTypedSchema = z.object({
   name: z
     .string()
     .min(1, "請輸入姓名")
-    .regex(new RegExp(/^[a-zA-Z\u4e00-\u9fa5\s]+$/), "請輸入正確的名字")
+    .regex(
+      new RegExp(/^[a-zA-Z\u4e00-\u9fa5\s]+$/),
+      "請輸入您的中英文姓名，可包含空白，但不能包含特殊字元"
+    )
     .default(userInformation?.name || ""),
   phone: z
     .string()

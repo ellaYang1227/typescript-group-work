@@ -8,8 +8,8 @@ const route = useRoute();
 <template>
   <Layout isHiddenFooter type="styleDisabled">
     <section class="row m-0 login-layout">
-      <div class="col-md-6 image-bg d-none d-sm-block"></div>
-      <div class="col-md-6 d-flex justify-content-center p-3 form-content">
+      <div class="col-lg-6 image-bg d-none d-lg-block"></div>
+      <div class="col-lg-6 d-flex justify-content-center p-3 form-content">
         <img class="deco-img" alt="deco" />
         <RouterView
           class="form-area w-100"
@@ -46,7 +46,7 @@ const route = useRoute();
       content: url("@/assets/loginDeco.svg");
     }
   }
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     min-height: calc(100vh - 72px);
     .form-content {
       align-items: normal;
@@ -61,6 +61,11 @@ const route = useRoute();
         content: url("@/assets/loginDecoMobile.svg");
         width: 100%;
       }
+    }
+  }
+  @media (max-width: 375px) {
+    .is-login {
+      padding-top: 30px !important;
     }
   }
 }
