@@ -2,6 +2,7 @@
 import Layout from "@/components/Layouts/Index.vue";
 import SlideShow from "@/components/Home/SlideShow.vue";
 import News from "@/components/Home/News.vue";
+import About from "@/components/Home/About.vue";
 import { usehomeStore } from "@/stores";
 import { onMounted } from "vue";
 const homeStore = usehomeStore();
@@ -57,6 +58,7 @@ onMounted(() => {
   <Layout :type="'styleBgTransparent'" is-has-footer-decoration>
     <SlideShow ref="slideShow" />
     <News />
+    <About />
   </Layout>
 </template>
 

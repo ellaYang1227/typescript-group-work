@@ -31,7 +31,7 @@ const { newsList } = storeToRefs(usehomeStore());
                   <h3 class="mb-lg-4 mb-2 mt-lg-0 mt-4">
                     {{ newsItem.title }}
                   </h3>
-                  <p class="mb-0 text-neutral-80 fw-medium">
+                  <p class="mb-0 fw-medium">
                     {{ newsItem.description }}
                   </p>
                 </div>
@@ -46,6 +46,7 @@ const { newsList } = storeToRefs(usehomeStore());
 
 <style lang="scss">
 .homeNews {
+  overflow: hidden;
   &_inner {
     position: relative;
     &:before {
@@ -71,13 +72,9 @@ const { newsList } = storeToRefs(usehomeStore());
     border-radius: 8px;
   }
   &_item {
-    &:first-child {
-      margin-top: 0;
-      @include media-breakpoint-down(lg) {
-        margin-top: 2.5rem;
-      }
+    &:not(:last-child) {
+      margin-bottom: 2.5rem;
     }
-    margin-top: 2.5rem;
   }
 }
 </style>
