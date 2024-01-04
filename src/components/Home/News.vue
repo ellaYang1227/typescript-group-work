@@ -7,12 +7,12 @@ const { newsList } = storeToRefs(usehomeStore());
 
 <template>
   <section v-if="newsList.length" class="homeNews">
-    <div class="container py-6 py-md-11">
+    <div class="container py-10 py-lg-11 homeNews_inner">
       <div class="row">
-        <div class="col-md-2">
+        <div class="col-lg-2">
           <SectionTitle type="short" title="最新消息" />
         </div>
-        <div class="col-md-10">
+        <div class="col-lg-10">
           <ul class="list-unstyled homeNews_list">
             <li
               v-for="newsItem in newsList"
@@ -20,15 +20,17 @@ const { newsList } = storeToRefs(usehomeStore());
               class="homeNews_item"
             >
               <div class="row">
-                <div class="col-5 ps-0">
+                <div class="col-lg-5 ps-lg-0">
                   <img
                     :src="newsItem.image"
                     :alt="newsItem.title"
                     class="homeNews_img object-fit"
                   />
                 </div>
-                <div class="col-7 align-self-center">
-                  <h3 class="mb-4">{{ newsItem.title }}</h3>
+                <div class="col-lg-7 align-self-center">
+                  <h3 class="mb-lg-4 mb-2 mt-lg-0 mt-4">
+                    {{ newsItem.title }}
+                  </h3>
                   <p class="mb-0 text-neutral-80 fw-medium">
                     {{ newsItem.description }}
                   </p>
@@ -44,13 +46,38 @@ const { newsList } = storeToRefs(usehomeStore());
 
 <style lang="scss">
 .homeNews {
+  &_inner {
+    position: relative;
+    &:before {
+      position: absolute;
+      content: "";
+      background-image: url("@/assets/homeDot.svg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 200px;
+      width: 200px;
+      top: 100px;
+      right: -132px;
+      @include media-breakpoint-down(lg) {
+        top: 2.5rem;
+        right: 1.5rem;
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+
   &_img {
     border-radius: 8px;
   }
   &_item {
-    &:not(:last-child) {
-      margin-bottom: 2.5rem;
+    &:first-child {
+      margin-top: 0;
+      @include media-breakpoint-down(lg) {
+        margin-top: 2.5rem;
+      }
     }
+    margin-top: 2.5rem;
   }
 }
 </style>

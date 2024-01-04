@@ -26,13 +26,20 @@ const capitalizeFirstLetter = (string: string) => {
 <style lang="scss">
 .sectionHomeTitle {
   color: $primary;
-  font-size: 48px;
+  font-size: 3rem;
   margin-bottom: 0;
   position: relative;
   line-height: 1.25em;
+  @include media-breakpoint-down(lg) {
+    font-size: 2rem;
+  }
   &.isStyleShort {
-    width: 140px;
-    padding-bottom: 40px;
+    width: 8.75rem;
+    padding-bottom: 2.5rem;
+    @include media-breakpoint-down(lg) {
+      width: 4.15rem;
+      padding-bottom: 1.5rem;
+    }
   }
   &:after {
     content: "";
