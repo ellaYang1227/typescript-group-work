@@ -32,3 +32,16 @@ export const apiSignup = (data: UserInformationWithPassword) => {
     )
     .then((res: any) => Promise.resolve(res));
 };
+
+export const apiVerifyEmail = (email: string) => {
+  return request
+    .post(
+      `/api/v1/verify/email`,
+
+      {
+        email: email,
+      },
+      { headers: { noShowLoading: true } }
+    )
+    .then((res: any) => Promise.resolve(res));
+};
