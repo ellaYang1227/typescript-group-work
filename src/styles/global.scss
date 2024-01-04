@@ -1,5 +1,21 @@
 @import "variables";
+
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/utilities";
+$utilities: map-merge(
+  $utilities,
+  (
+    "font-size": (
+      rfs: true,
+      responsive: true,
+      property: font-size,
+      class: fs,
+      values: $font-sizes
+    ),
+  )
+);
 @import "~bootstrap/scss/bootstrap";
+
 
 // global  use
 body {
