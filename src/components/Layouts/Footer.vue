@@ -91,7 +91,7 @@ const props = defineProps({
     display: inline-flex;
     align-items: center;
     justify-self: center;
-    border-color: $white !important;
+    border: 1px solid $white !important;
     border-radius: 100%;
     letter-spacing: 0;
     margin-right: 1rem;
@@ -100,7 +100,7 @@ const props = defineProps({
       font-size: 21px;
     }
     &:hover {
-      border-color: $primary !important;
+      border: 1px solid $primary !important;
     }
   }
   &_rightSide {

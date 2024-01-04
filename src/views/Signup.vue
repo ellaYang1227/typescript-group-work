@@ -45,12 +45,13 @@
     <section>
       <keep-alive>
         <component
+          :isEmailExistsEmail="isExistsEmail"
           :is="currentStep === 1 ? EmailAndPasswordForm : InformationForm"
           @emailAndPasswordSubmit="handleSubmit"
           @handleSubmit="handleSubmit"
         >
           <template v-slot:formMeta="{ formMeta }">
-            <div v-if="currentStep === 2" class="form-check mt-3">
+            <div v-if="currentStep === 2" class="form-check">
               <input
                 v-model="agreeCheck"
                 class="form-check-input"
@@ -108,7 +109,7 @@ import { ref } from "vue";
 import EmailAndPasswordForm from "@/components/User/EmailAndPasswordForm.vue";
 import InformationForm from "@/components/User/InformationForm.vue";
 import { UserInformation } from "@/interfaces/auth";
-import { apiSignup } from "@/models/api";
+import { apiSignup, apiVerifyEmail } from "@/models/api";
 import router from "@/router";
 
 interface UserInformationWithPassword extends UserInformation {
@@ -118,13 +119,20 @@ interface UserInformationWithPassword extends UserInformation {
 const currentStep = ref<number>(1);
 const sending = ref<boolean>(false);
 const agreeCheck = ref<boolean>(false);
+const isExistsEmail = ref<string>("");
 const submitForm = ref<UserInformationWithPassword | null>(null);
 
 async function handleSubmit(values: any) {
   submitForm.value = { ...submitForm.value, ...values };
-  if (currentStep.value === 1) currentStep.value = 2;
-  else {
-    sending.value = true;
+  sending.value = true;
+  if (currentStep.value === 1) {
+    // 檢查信箱有無被註冊
+    const res = await apiVerifyEmail(submitForm?.value?.email as string);
+    if (res.status) {
+      if (!res.result.isEmailExists) currentStep.value = 2;
+      else isExistsEmail.value = values.email;
+    }
+  } else {
     try {
       const data = await apiSignup(
         submitForm.value as UserInformationWithPassword
@@ -135,8 +143,8 @@ async function handleSubmit(values: any) {
     } catch (error) {
       console.log("error", error);
     }
-    sending.value = false;
   }
+  sending.value = false;
 }
 </script>
 

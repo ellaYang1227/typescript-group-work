@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form, Field } from "vee-validate";
+import { Form, useForm } from "vee-validate";
 import * as z from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
 import DatePickerSelect from "@/components/DatePickerSelect.vue";
@@ -29,7 +29,10 @@ const defaultTypedSchema = z.object({
   name: z
     .string()
     .min(1, "請輸入姓名")
-    .regex(new RegExp(/^[a-zA-Z\u4e00-\u9fa5\s]+$/), "請輸入正確的名字")
+    .regex(
+      new RegExp(/^[a-zA-Z\u4e00-\u9fa5\s]+$/),
+      "請輸入您的中英文姓名，可包含空白，但不能包含特殊字元"
+    )
     .default(userInformation?.name || ""),
   phone: z
     .string()
@@ -66,98 +69,97 @@ const userInfoFormSchema = toTypedSchema(
   )
 );
 
-function handleSubmit(value: any) {
-  const { zipcode, addressDetail, ...rest } = value;
+const { values, errors, defineField, meta } = useForm({
+  validationSchema: userInfoFormSchema,
+});
+
+function handleSubmit() {
+  const { zipcode, addressDetail, ...rest } = values;
   const transformedValue = {
     ...rest,
     address: { zipcode, detail: addressDetail },
   };
   emit("handleSubmit", transformedValue as UserInformation);
 }
+
+const [name, nameAttrs] = defineField("name");
+const [phone, phoneAttrs] = defineField("phone");
+const [email, emailAttrs] = defineField("email");
+const [birthday, birthdayAttrs] = defineField("birthday");
+const [zipcode, zipcodeAttrs] = defineField("zipcode");
+const [addressDetail, addressDetailAttrs] = defineField("addressDetail");
 </script>
 
 <template>
-  <Form
-    v-slot="{ meta }"
-    :validation-schema="userInfoFormSchema"
-    @submit="handleSubmit"
-    id="UserInfoForm"
-  >
+  <Form @submit="handleSubmit" id="UserInfoForm">
     <fieldset class="d-flex flex-column gap-3">
       <div class="d-flex flex-column gap-2">
         <label for="name" class="fw-bold">姓名</label>
-        <Field name="name" v-slot="{ field, errors }">
-          <input
-            class="form-control p-3"
-            :class="{ 'is-invalid': errors.length }"
-            type="text"
-            placeholder="請輸入姓名"
-            v-bind="field"
-            id="name"
-          />
-        </Field>
-        <ErrorMessage name="name" class="invalid-feedback" />
+        <input
+          v-model.trim="name"
+          class="form-control p-3"
+          :class="{ 'is-invalid': errors.name }"
+          type="text"
+          placeholder="請輸入姓名"
+          v-bind="nameAttrs"
+          id="name"
+        />
+        <div class="invalid-feedback d-block">{{ errors.name }}</div>
       </div>
       <div class="d-flex flex-column gap-2">
         <label for="phone" class="fw-bold">手機號碼</label>
-        <Field name="phone" v-slot="{ field, errors }">
-          <input
-            class="form-control p-3"
-            :class="{ 'is-invalid': errors.length }"
-            type="text"
-            placeholder="請輸入手機號碼"
-            v-bind="field"
-            id="phone"
-          />
-        </Field>
-        <ErrorMessage name="phone" class="invalid-feedback" />
+        <input
+          v-model="phone"
+          class="form-control p-3"
+          :class="{ 'is-invalid': errors.phone }"
+          type="text"
+          placeholder="請輸入手機號碼"
+          v-bind="phoneAttrs"
+          id="phone"
+        />
+        <div class="invalid-feedback d-block">{{ errors.phone }}</div>
       </div>
       <div
         v-if="routeName === 'rooms-reservation'"
         class="d-flex flex-column gap-2"
       >
         <label for="email" class="fw-bold">電子信箱</label>
-        <Field name="email" v-slot="{ field, errors }">
-          <input
-            class="form-control p-3"
-            :class="{ 'is-invalid': errors.length }"
-            type="text"
-            placeholder="請輸入電子信箱"
-            v-bind="field"
-            id="email"
-          />
-        </Field>
-        <ErrorMessage name="email" class="invalid-feedback" />
+        <input
+          v-model="email"
+          class="form-control p-3"
+          :class="{ 'is-invalid': errors.email }"
+          type="text"
+          placeholder="請輸入電子信箱"
+          v-bind="emailAttrs"
+          id="email"
+        />
+        <div class="invalid-feedback d-block">{{ errors.email }}</div>
       </div>
       <div v-else class="d-flex flex-column gap-2">
         <label for="birthday" class="fw-bold">生日</label>
-        <Field name="birthday" v-slot="{ field, handleChange }">
-          <date-picker-select
-            :model-value="field.value"
-            @update:model-value="handleChange"
-          />
-        </Field>
-        <ErrorMessage name="birthday" class="invalid-feedback" />
+        <date-picker-select
+          :model-value="birthday as string"
+          @update:model-value="(newBirthday) => (birthday = newBirthday)"
+          v-bind="birthdayAttrs"
+        />
       </div>
       <div class="d-flex flex-column gap-3">
         <label for="addressDetail" class="fw-bold">地址</label>
-        <Field name="zipcode" v-slot="{ field, handleChange }">
-          <address-select
-            :model-value="field.value"
-            @update:model-value="handleChange"
-          />
-        </Field>
-        <Field name="addressDetail" v-slot="{ field, errors }">
-          <input
-            class="form-control p-3"
-            :class="{ 'is-invalid': errors.length }"
-            type="text"
-            placeholder="請輸入詳細地址"
-            v-bind="field"
-            id="addressDetail"
-          />
-        </Field>
-        <ErrorMessage class="invalid-feedback" name="addressDetail" />
+        <address-select
+          :model-value="zipcode as number"
+          @update:model-value="(newZipcode) => (zipcode = newZipcode)"
+          v-bind="zipcodeAttrs"
+        />
+        <input
+          v-model="addressDetail"
+          class="form-control p-3"
+          :class="{ 'is-invalid': errors.addressDetail }"
+          type="text"
+          placeholder="請輸入詳細地址"
+          v-bind="addressDetailAttrs"
+          id="addressDetail"
+        />
+        <div class="invalid-feedback d-block">{{ errors.addressDetail }}</div>
       </div>
     </fieldset>
     <slot name="formMeta" :formMeta="meta"></slot>
