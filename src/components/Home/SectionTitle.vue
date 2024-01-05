@@ -28,6 +28,7 @@ const capitalizeFirstLetter = (string: string) => {
 <style lang="scss">
 .sectionTitle {
   position: relative;
+  margin-bottom: 5rem;
   &:after {
     content: "";
     position: absolute;
@@ -47,8 +48,31 @@ const capitalizeFirstLetter = (string: string) => {
       font-size: 2rem;
     }
   }
+  &.isStyleNormal {
+    width: 19rem;
+    @include media-breakpoint-down(lg) {
+      width: calc(100% - 51px);
+    }
+    .sectionHomeTitle {
+      width: 8.75rem;
+      color: $primary;
+      @include media-breakpoint-down(lg) {
+        width: 4.25rem;
+      }
+    }
+    &:after {
+      width: 161px;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      @include media-breakpoint-down(lg) {
+        width: calc(100% - 4.125rem - 40px);
+      }
+    }
+  }
   &.isStyleShort {
     width: 8.75rem;
+    margin-bottom: 0;
     padding-bottom: 2.5rem;
     @include media-breakpoint-down(lg) {
       width: 4.25rem;
@@ -63,7 +87,6 @@ const capitalizeFirstLetter = (string: string) => {
   &.isStyleWhite {
     color: $white;
     @include media-breakpoint-up(lg) {
-      margin-bottom: 5rem;
       width: 19rem;
     }
     .sectionHomeTitle {
