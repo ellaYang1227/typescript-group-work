@@ -106,7 +106,10 @@ fetchRoomDetail(routeParamsId);
             <h5 class="m-0 fw-bold text-primary">
               {{ currencyTransform(roomDetail.price) }}
             </h5>
-            <button class="rounded-2 py-3 w-100 baseButton isStylePrimary">
+            <button
+              class="rounded-2 py-3 w-100 baseButton isStylePrimary"
+              @click="$router.push(`/rooms/${routeParamsId}/reservation`)"
+            >
               立即預定
             </button>
           </div>
