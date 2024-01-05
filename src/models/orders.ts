@@ -10,3 +10,9 @@ export function getOrderDetail(id: string): Promise<OrderDetail> {
     .get(`api/v1/orders/${id}`)
     .then((res: any) => Promise.resolve(res.result));
 }
+
+export function getOrders(): Promise<OrderDetail[]> {
+  return request
+    .get(`api/v1/orders`)
+    .then((res: any) => Promise.resolve(res.result));
+}
