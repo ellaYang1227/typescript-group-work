@@ -4,8 +4,12 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  subTitle: {
+    type: String,
+    default: "",
+  },
   type: {
-    type: String as () => "short" | "white" | "normal",
+    type: String as () => "short" | "white" | "normal" | "banner",
     default: "normal",
     validator(value: string) {
       return ["short", "white"].includes(value);
@@ -22,6 +26,9 @@ const capitalizeFirstLetter = (string: string) => {
     <h2 class="sectionHomeTitle mb-0">
       {{ props.title }}
     </h2>
+    <span v-if="subTitle" class="text-primary sectionHomeSubTitle">{{
+      subTitle
+    }}</span>
   </div>
 </template>
 
@@ -104,6 +111,39 @@ const capitalizeFirstLetter = (string: string) => {
       transform: translateY(-50%);
       @include media-breakpoint-down(lg) {
         width: calc(100% - 4.125rem - 40px);
+      }
+    }
+  }
+  &.isStyleBanner {
+    padding-bottom: 2.5rem;
+    @include media-breakpoint-down(lg) {
+      text-align: center;
+      height: 169px;
+    }
+    &:after {
+      bottom: 0;
+      left: 0;
+      @include media-breakpoint-down(lg) {
+        width: 2px;
+        height: 83px;
+        left: 50%;
+        top: auto;
+        bottom: -20px;
+      }
+    }
+    .sectionHomeTitle {
+      letter-spacing: 0.05em;
+      font-size: 2.5vw;
+      @include media-breakpoint-down(lg) {
+        font-size: 1.75rem;
+      }
+    }
+    .sectionHomeSubTitle {
+      font-size: 1.25vw;
+      margin-top: 0.5rem;
+      display: inline-block;
+      @include media-breakpoint-down(lg) {
+        font-size: 1.5rem;
       }
     }
   }

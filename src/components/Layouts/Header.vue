@@ -134,7 +134,6 @@ const isMenuShow = ref(false);
       padding: 0 0.75rem;
     }
     @include media-breakpoint-down(md) {
-      padding: 0 0.75rem;
       height: 72px;
     }
   }

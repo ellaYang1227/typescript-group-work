@@ -216,6 +216,9 @@ $colors: (
       justify-content: center;
     }
   }
+  &.isStyleWhite {
+    border: 0;
+  }
   // &.isWhite {
   //   color: $white;
   //   text-decoration: none;

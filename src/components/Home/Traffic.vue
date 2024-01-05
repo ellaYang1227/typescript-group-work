@@ -23,7 +23,7 @@ const list = ref([
 <template>
   <section class="homeTraffic bg-neutral-dark">
     <div class="container pt-10 pb-6 pt-lg-11 pb-lg-10">
-      <SectionTitle title="交通方式" />
+      <SectionTitle title="交通方式" type="normal" />
       <div class="homeTraffic_inner">
         <p class="text-white mb-3">台灣高雄市新興區六角路123號</p>
         <img

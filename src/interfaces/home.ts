@@ -4,3 +4,10 @@ export interface NewsItem {
   description: string;
   title: string;
 }
+
+export interface SlideShowItem {
+  image: string;
+  image2: string;
+  title: string;
+  text: string;
+}

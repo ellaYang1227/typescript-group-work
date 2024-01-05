@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
 // === end ===
 
 onMounted(() => {
-  Promise.race([homeStore.fetchNews()]);
+  Promise.race([homeStore.fetchNews(), homeStore.fetchSlideShow()]);
 });
 </script>
 
