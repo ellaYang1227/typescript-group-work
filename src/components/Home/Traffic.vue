@@ -81,6 +81,7 @@ const list = ref([
         .icon {
           width: 2.25rem;
           height: 2rem;
+          color: #be9c7c !important;
         }
       }
     }
@@ -98,6 +99,7 @@ const list = ref([
         .icon {
           width: 2rem;
           height: 2.375rem;
+          color: #be9c7c !important;
         }
       }
     }
@@ -115,6 +117,7 @@ const list = ref([
         .icon {
           width: 2.75rem;
           height: 2.125rem;
+          color: #be9c7c !important;
         }
       }
     }
