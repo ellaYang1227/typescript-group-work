@@ -216,6 +216,17 @@ $colors: (
       justify-content: center;
     }
   }
+  &.isStyleWhite {
+    color: $primary;
+    background: $white;
+    text-decoration: none;
+    border: 1px solid $primary;
+    // &:hover:not(:disabled) {
+    //   text-decoration: none;
+    //   color: white;
+    //   opacity: .7;
+    // }
+  }
   // &.isWhite {
   //   color: $white;
   //   text-decoration: none;
