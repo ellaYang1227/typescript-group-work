@@ -64,10 +64,6 @@ fetchRoomDetail(routeParamsId);
             <div>{{ roomDetail.description }}</div>
           </div>
           <div>
-            <div class="d-flex mb-4">
-              <div class="customize-vr"></div>
-              <h5 class="text-neutral fw-bold m-0">房間基本資訊</h5>
-            </div>
             <basic-information
               :area-info="roomDetail.areaInfo"
               :max-people="roomDetail.maxPeople"

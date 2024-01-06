@@ -152,4 +152,3 @@ const filterOrderDetails = computed(() =>
   }
 }
 </style>
-@/interfaces/order

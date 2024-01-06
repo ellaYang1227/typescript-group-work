@@ -42,7 +42,7 @@ const roomBasicInformationList: RoomInfo[] = [
   <div class="d-grid gap-3 gap-md-4">
     <div class="d-flex align-items-center" v-if="!isHideTitle">
       <div class="customize-vr"></div>
-      <strong>房型基本資訊</strong>
+      <h5 class="mb-0 text-neutral" :style="{ fontSize: (routeName === 'rooms-success' || routeName === 'user-orders' ? 1 : 1.5 ) + 'rem' }"><strong>房型基本資訊</strong></h5>
     </div>
     <section class="basic-information">
       <template v-for="list in roomBasicInformationList" :key="list.icon">

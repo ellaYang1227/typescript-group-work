@@ -31,7 +31,7 @@ const routeName = (route.name as string) || "";
 <template>
   <div class="d-flex align-items-center">
     <div class="customize-vr"></div>
-    <strong class="text-neutral">{{ title }}</strong>
+    <h5 class="mb-0 text-neutral" :style="{ fontSize: (routeName === 'rooms-success' || routeName === 'user-orders' ? 1 : 1.5 ) + 'rem' }"><strong>{{ title }}</strong></h5>
   </div>
   <div class="card" :class="{ 
     'border-0': !isBorder, 
