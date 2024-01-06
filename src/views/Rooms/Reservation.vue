@@ -271,7 +271,7 @@ const userInfoFormInvalid = computed((): boolean => {
               </ul>
             </div>
             <div class="col-lg">
-              <div class="card rounded-3 border-0 text-neutral">
+              <div class="card rounded-3 border-0 text-neutral roomPositionSticky">
                 <div class="card-body p-3 p-lg-6 d-grid gap-3 gap-lg-6">
                   <img class="rounded roomImgHeight" 
                   :src="roomDetail.imageUrl" :alt="roomDetail.name">
