@@ -147,7 +147,7 @@ const filterOrderDetails = computed(() =>
         </li>
       </ul>
       <!-- 放置 btn 插槽 -->
-      <slot v-if="orderDetails.length > 3 && !isShowAll"></slot>
+      <slot></slot>
     </div>
   </div>
 </template>
