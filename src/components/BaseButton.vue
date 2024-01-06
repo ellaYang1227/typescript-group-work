@@ -177,18 +177,18 @@ $colors: (
 
       &:hover:not(:disabled) {
         background: map-get($value, "color-hover");
-        color: map-get($value, "text-hover");
+        color: map-get($value, "text-hover") !important;
         border-color: map-get($value, "border-color-hover");
       }
 
       &:active:not(:disabled) {
         background: map-get($value, "color-hover");
-        color: map-get($value, "text-hover");
+        color: map-get($value, "text-hover") !important;
         border-color: map-get($value, "border-color-hover");
       }
       &:disabled {
         background: map-get($value, "disabled-color");
-        color: map-get($value, "disabled-text");
+        color: map-get($value, "disabled-text") !important;
         border-color: map-get($value, "disabled-border-color");
       }
     }

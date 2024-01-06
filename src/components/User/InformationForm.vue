@@ -5,6 +5,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import DatePickerSelect from "@/components/DatePickerSelect.vue";
 import AddressSelect from "@/components/AddressSelect.vue";
 import { useRoute } from "vue-router";
+import { ref, watch } from "vue";
 
 interface UserInformation {
   name: string;
@@ -17,9 +18,10 @@ interface UserInformation {
   };
 }
 
-const { userInformation } = defineProps<{
+const props = defineProps<{
   userInformation?: UserInformation;
 }>();
+const { userInformation } = props;
 const emit = defineEmits(["handleSubmit"]);
 
 const route = useRoute();
@@ -71,15 +73,23 @@ function handleSubmit(value: any) {
   };
   emit("handleSubmit", transformedValue as UserInformation);
 }
+
+// 監聽父元件更新的 userInformation 值
+const userInfoFormRef = ref<any>(null);
+watch<any, any>(() => props.userInformation, (newVal: UserInformation, oldVal: UserInformation) => {
+  // 更新 UserInfoForm
+  if(newVal && oldVal) { userInfoFormRef.value.setValues(newVal) }
+},{ immediate: true, deep: true });
+
 </script>
 
 <template>
   <Form
     :validation-schema="userInfoFormSchema"
     @submit="handleSubmit"
-    id="UserInfoForm"
+    id="UserInfoForm" ref="userInfoFormRef"
   >
-    <fieldset class="d-flex flex-column gap-3">
+    <fieldset class="d-flex flex-column" :class="routeName === 'signup' ? 'gap-3' : 'gap-4'">
       <div class="d-flex flex-column gap-2">
         <label for="name" class="fw-bold">姓名</label>
         <Field name="name" v-slot="{ field, errors }">

@@ -53,6 +53,8 @@ service.interceptors.response.use(
     if (error.response) {
       const { data } = error.response;
       switch (error.response.status) {
+        case 400:
+          break;
         //可以在這裡針對不同 status code 做處理
         case 401:
         case 405:

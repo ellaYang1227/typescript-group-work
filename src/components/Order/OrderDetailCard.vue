@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps, computed } from "vue";
 import ProvideItemsCard from "@/components/Room/ProvideItemsCard.vue";
-import { OrderDetail } from "@/interfaces/orderDetail";
+import { OrderDetail } from "@/interfaces/order";
 import { daysDifference, dateTransform } from "@/utilities/handleDate";
 import { currencyTransform } from "@/utilities/formatTransform";
 
@@ -25,7 +25,7 @@ const filterOrderDetails = computed(() =>
 </script>
 <template>
   <div class="card rounded-3 border-0">
-    <div class="card-body p-3 p-md-6">
+    <div class="card-body p-3 p-lg-6">
       <h5 class="mb-4 mb-lg-6" v-if="isHistory">歷史訂單</h5>
       <ul class="list-group list-group-flush">
         <!-- 單筆訂單內容 -->
@@ -47,18 +47,18 @@ const filterOrderDetails = computed(() =>
               </template>
               <div
                 :class="{
-                  'd-flex flex-column flex-md-row flex-lg-column flex-xl-row':
+                  'd-flex flex-column flex-lg-row flex-lg-column flex-xl-row':
                     isHistory,
                 }"
               >
                 <img
                   :class="
                     isHistory
-                      ? 'isHistoryImgSize me-md-4 mb-4 mb-md-0 mb-lg-4 mb-xl-0 flex-shrink-0'
+                      ? 'isHistoryImgSize me-lg-4 mb-4 mb-lg-0 mb-lg-4 mb-xl-0 flex-shrink-0'
                       : 'my-4 my-lg-6'
                   "
                   :src="orderDetail.roomId.imageUrl"
-                  class="rounded object-fit roomImgHeight"
+                  class="rounded roomImgHeight"
                   :alt="orderDetail.roomId.name"
                 />
                 <ul class="list-unstyled mb-0">
@@ -144,13 +144,7 @@ const filterOrderDetails = computed(() =>
   </div>
 </template>
 <style lang="scss">
-// 房間圖片高度
 .roomImgHeight {
-  height: 220px;
-  @include media-breakpoint-up(md) {
-    height: 240px;
-  }
-
   // 歷史專用 - 圖片尺寸
   &.isHistoryImgSize {
     width: 120px;
@@ -158,3 +152,4 @@ const filterOrderDetails = computed(() =>
   }
 }
 </style>
+@/interfaces/order
