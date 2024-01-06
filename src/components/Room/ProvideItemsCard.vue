@@ -31,7 +31,7 @@ const routeName = (route.name as string) || "";
 <template>
   <div class="d-flex align-items-center">
     <div class="customize-vr"></div>
-    <strong>{{ title }}</strong>
+    <strong class="text-neutral">{{ title }}</strong>
   </div>
   <div class="card" :class="{ 
     'border-0': !isBorder, 

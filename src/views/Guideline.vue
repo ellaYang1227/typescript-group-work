@@ -3,7 +3,7 @@ import BaseButton from "@/components/BaseButton.vue";
 </script>
 
 <template>
-  <div class="container-xxl py-5 guideline">
+  <div class="container py-5 guideline">
     <h2>顏色</h2>
     <div class="d-flex list">
       <div>
@@ -27,7 +27,7 @@ import BaseButton from "@/components/BaseButton.vue";
         <p>$primary-40</p>
       </div>
       <div>
-        <div class="block bg-primary-tint">#FAF7F5</div>
+        <div class="block bg-primary-tint">#F7F2EE</div>
         <p>$primary-tint</p>
       </div>
     </div>
@@ -149,10 +149,6 @@ import BaseButton from "@/components/BaseButton.vue";
           <font-awesome-icon icon="fa-brands fa-instagram" />
         </BaseButton>
         <p class="text-white">isStyleTextIcon</p>
-      </div>
-      <div class="block">
-        <BaseButton disabled>禁用</BaseButton>
-        <p>disabled</p>
       </div>
     </div>
     <h2>頁面連結</h2>

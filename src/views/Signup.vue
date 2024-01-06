@@ -1,9 +1,13 @@
 <template>
   <section class="d-flex flex-column gap-6">
-    <div class="d-flex flex-column gap-2">
-      <div class="fw-bold text-primary">享樂酒店，誠摯歡迎</div>
-      <h1 class="m-0">立即註冊</h1>
-      <section class="d-flex text-neutral-60 fw-bold py-3 gap-2">
+    <div class="d-flex flex-column gap-3">
+      <div class="d-flex flex-column gap-2">
+        <div v-show="currentStep === 1" class="fw-bold text-primary">
+          享樂酒店，誠摯歡迎
+        </div>
+        <h1 class="m-0">立即註冊</h1>
+      </div>
+      <section class="d-flex text-neutral-60 fw-bold gap-3 py-3">
         <template v-for="step in 2" :key="`step_${step}`">
           <div
             class="d-flex flex-column align-items-center gap-1"
@@ -41,40 +45,61 @@
     <section>
       <keep-alive>
         <component
+          :isEmailExistsEmail="isExistsEmail"
           :is="currentStep === 1 ? EmailAndPasswordForm : InformationForm"
           @emailAndPasswordSubmit="handleSubmit"
           @handleSubmit="handleSubmit"
-        />
+        >
+          <template v-slot:formMeta="{ formMeta }">
+            <div v-if="currentStep === 2" class="form-check">
+              <input
+                v-model="agreeCheck"
+                class="form-check-input"
+                type="checkbox"
+                id="AgreeCheck"
+                :disabled="!formMeta.touched || !formMeta.valid"
+              />
+              <label class="form-check-label fw-bold" for="AgreeCheck">
+                我已閱讀並同意本網站個資使用規範
+              </label>
+            </div>
+            <section class="d-flex flex-column gap-3">
+              <button
+                class="rounded-2 py-3 w-100 baseButton isStylePrimary mt-6"
+                :form="
+                  currentStep === 1 ? 'EmailAndPasswordForm' : 'UserInfoForm'
+                "
+                :disabled="
+                  !formMeta.touched ||
+                  !formMeta.valid ||
+                  (currentStep === 2 && !agreeCheck) ||
+                  sending
+                "
+              >
+                <span v-if="sending">
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                  ></span>
+                  Loading...
+                </span>
+                <span v-else>
+                  {{ currentStep === 1 ? "下一步" : "完成註冊" }}
+                </span>
+              </button>
+              <div class="d-flex align-items-baseline gap-1">
+                <div>已經有會員了嗎？</div>
+                <router-link
+                  class="baseButton isStyleText p-0 fw-bold"
+                  to="/login"
+                >
+                  立即登入
+                </router-link>
+              </div>
+            </section>
+          </template>
+        </component>
       </keep-alive>
-      <div v-if="currentStep === 2" class="form-check mt-3">
-        <input
-          v-model="agreeCheck"
-          class="form-check-input"
-          type="checkbox"
-          id="AgreeCheck"
-        />
-        <label class="form-check-label" for="AgreeCheck">
-          我已閱讀並同意本網站個資使用規範
-        </label>
-      </div>
-    </section>
-    <section class="d-flex flex-column gap-3">
-      <button
-        class="rounded-2 py-3 w-100 baseButton isStylePrimary"
-        :form="currentStep === 1 ? 'EmailAndPasswordForm' : 'UserInfoForm'"
-        :disabled="(currentStep === 2 && !agreeCheck) || sending"
-      >
-        <span v-if="sending">Loading</span>
-        <span v-else>
-          {{ currentStep === 1 ? "下一步" : "完成註冊" }}
-        </span>
-      </button>
-      <div class="d-flex align-items-baseline gap-1">
-        <div>已經有會員了嗎？</div>
-        <router-link class="baseButton isStyleText p-0 fw-bold" to="/login">
-          立即登入
-        </router-link>
-      </div>
     </section>
   </section>
 </template>
@@ -84,7 +109,7 @@ import { ref } from "vue";
 import EmailAndPasswordForm from "@/components/User/EmailAndPasswordForm.vue";
 import InformationForm from "@/components/User/InformationForm.vue";
 import { UserInformation } from "@/interfaces/auth";
-import { apiSignup } from "@/models/api";
+import { apiSignup, apiVerifyEmail } from "@/models/api";
 import router from "@/router";
 
 interface UserInformationWithPassword extends UserInformation {
@@ -94,13 +119,20 @@ interface UserInformationWithPassword extends UserInformation {
 const currentStep = ref<number>(1);
 const sending = ref<boolean>(false);
 const agreeCheck = ref<boolean>(false);
+const isExistsEmail = ref<string>("");
 const submitForm = ref<UserInformationWithPassword | null>(null);
 
 async function handleSubmit(values: any) {
   submitForm.value = { ...submitForm.value, ...values };
-  if (currentStep.value === 1) currentStep.value = 2;
-  else {
-    sending.value = true;
+  sending.value = true;
+  if (currentStep.value === 1) {
+    // 檢查信箱有無被註冊
+    const res = await apiVerifyEmail(submitForm?.value?.email as string);
+    if (res.status) {
+      if (!res.result.isEmailExists) currentStep.value = 2;
+      else isExistsEmail.value = values.email;
+    }
+  } else {
     try {
       const data = await apiSignup(
         submitForm.value as UserInformationWithPassword
@@ -111,8 +143,8 @@ async function handleSubmit(values: any) {
     } catch (error) {
       console.log("error", error);
     }
-    sending.value = false;
   }
+  sending.value = false;
 }
 </script>
 

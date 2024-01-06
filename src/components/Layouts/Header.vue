@@ -33,14 +33,14 @@ const isMenuShow = ref(false);
           class="isStyleTextIcon header_menuBars d-md-none"
           @click="isMenuShow = !isMenuShow"
         >
-          <font-awesome-icon icon="fa-solid fa-bars" class="h5 mb-0" />
+          <font-awesome-icon icon="fa-solid fa-bars" class="svg mb-0" />
         </BaseButton>
         <nav class="header_menu" :class="{ isShow: isMenuShow }">
           <BaseButton
-            class="isStyleTextIcon d-md-none d-flex ms-auto h4"
+            class="isStyleTextIcon d-md-none d-flex ms-auto header_menuClose"
             @click="isMenuShow = !isMenuShow"
           >
-            <font-awesome-icon icon="fa-solid fa-xmark" />
+            <font-awesome-icon icon="fa-solid fa-xmark" class="svg mb-0" />
           </BaseButton>
           <ul
             class="header_menuList list-unstyled d-flex flex-column flex-md-row mb-0 justify-content-md-start justify-content-center"
@@ -117,17 +117,25 @@ const isMenuShow = ref(false);
         display: block;
       }
     }
+    .header_inner {
+      background: $neutral-dark;
+    }
   }
   &_inner {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    padding: 1.5rem 5rem;
+    padding: 0 5rem;
     transition: 0.3s;
     z-index: 1003;
+    height: 120px;
     @include media-breakpoint-down(xxl) {
-      padding: 0.65rem 0.75rem 0.65rem 0.75rem;
+      padding: 0 0.75rem;
+    }
+    @include media-breakpoint-down(md) {
+      padding: 0 0.75rem;
+      height: 72px;
     }
   }
   &_leftSide {
@@ -179,6 +187,25 @@ const isMenuShow = ref(false);
     width: 40px;
     height: 40px;
     padding: 0.5rem !important;
+    .baseButton__content {
+      width: 24px;
+      height: 24px;
+    }
+    .svg {
+      font-size: 1.287rem;
+    }
+  }
+  &_menuClose {
+    width: 64px;
+    height: 64px;
+    padding: 0.5rem !important;
+    .baseButton__content {
+      width: 48px;
+      height: 48px;
+    }
+    .svg {
+      font-size: 2.38rem;
+    }
   }
 }
 </style>
