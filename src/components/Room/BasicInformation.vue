@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import { Room } from "@/interfaces/room";
 
 interface BasicInformation {
-  areaInfo: string;
-  bedInfo: string;
-  maxPeople: number;
+  areaInfo: Room['areaInfo'];
+  bedInfo: Room['bedInfo'];
+  maxPeople: Room['maxPeople'];
+  isHideTitle?: boolean
 }
 
 interface RoomInfo {
@@ -16,7 +18,7 @@ interface RoomInfo {
 const route = useRoute();
 const routeName = (route.name as string) || "";
 
-const { areaInfo, bedInfo, maxPeople } = defineProps<BasicInformation>();
+const { areaInfo, bedInfo, maxPeople, isHideTitle } = defineProps<BasicInformation>();
 const roomBasicInformationList: RoomInfo[] = [
   {
     name: "area",
@@ -37,22 +39,28 @@ const roomBasicInformationList: RoomInfo[] = [
 </script>
 
 <template>
-  <section class="basic-information">
-    <template v-for="list in roomBasicInformationList" :key="list.icon">
-      <div
-        v-if="list.value"
-        class="detail-square"
-        :class="[{ 'have-border': routeName === 'rooms' }]"
-      >
-        <font-awesome-icon
-          :icon="`fa-solid ${list.icon}`"
-          size="lg"
-          class="fa"
-        />
-        <div class="text">{{ list.value }}</div>
-      </div>
-    </template>
-  </section>
+  <div class="d-grid gap-3 gap-md-4">
+    <div class="d-flex align-items-center" v-if="!isHideTitle">
+      <div class="customize-vr"></div>
+      <strong>房型基本資訊</strong>
+    </div>
+    <section class="basic-information">
+      <template v-for="list in roomBasicInformationList" :key="list.icon">
+        <div
+          v-if="list.value"
+          class="detail-square"
+          :class="[{ 'have-border': routeName === 'rooms' }]"
+        >
+          <font-awesome-icon
+            :icon="`fa-solid ${list.icon}`"
+            size="lg"
+            class="text-primary"
+          />
+          <div class="text-neutral-80"><strong>{{ list.value }}</strong></div>
+        </div>
+      </template>
+    </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -72,12 +80,6 @@ const roomBasicInformationList: RoomInfo[] = [
     gap: 8px;
     &.have-border {
       border: 1px solid $primary-40;
-    }
-    .fa {
-      color: #997e64;
-    }
-    .text {
-      color: #4b4b4b;
     }
   }
 }
