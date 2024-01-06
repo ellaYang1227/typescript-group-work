@@ -10,16 +10,16 @@ import SectionTitle from "@/components/Home/SectionTitle.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { onMounted, ref, onUnmounted } from "vue";
 const modules = [Pagination, Autoplay];
-const globalWindowWidth = ref(0);
-const setGlobalWindowWidth = () => {
-  globalWindowWidth.value = document.body.clientWidth;
+const windowWidth = ref(0);
+const setWindowWidth = () => {
+  windowWidth.value = document.body.clientWidth;
 };
 onMounted(() => {
-  setGlobalWindowWidth();
-  window.addEventListener("resize", setGlobalWindowWidth);
+  setWindowWidth();
+  window.addEventListener("resize", setWindowWidth);
 });
 onUnmounted(() => {
-  window.removeEventListener("resize", setGlobalWindowWidth);
+  window.removeEventListener("resize", setWindowWidth);
 });
 </script>
 
@@ -43,7 +43,7 @@ onUnmounted(() => {
         class="slideShowSwiper_item"
         :style="{
           backgroundImage: `url('${
-            globalWindowWidth > 992 ? slideShowItem.image : slideShowItem.image2
+            windowWidth > 992 ? slideShowItem.image : slideShowItem.image2
           }')`,
         }"
       >

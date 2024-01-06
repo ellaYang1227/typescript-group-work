@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
-import { apiGetNews, apiGetSlideShow } from "@/models/api";
-import { NewsItem, SlideShowItem } from "@/interfaces/home";
+import { apiGetNews, apiGetSlideShow, apiGetCulinary } from "@/models/api";
+import { NewsItem, SlideShowItem, CulinaryItem } from "@/interfaces/home";
 import { ref } from "vue";
 export const usehomeStore = defineStore("home", () => {
   const newsList = ref([] as NewsItem[]);
   const slideShowList = ref([] as SlideShowItem[]);
+  const culinaryList = ref([] as CulinaryItem[]);
   const fetchNews = async () => {
     try {
       const data = await apiGetNews();
@@ -21,10 +22,20 @@ export const usehomeStore = defineStore("home", () => {
       console.log(error);
     }
   };
+  const fetchCulinary = async () => {
+    try {
+      const data = await apiGetCulinary();
+      culinaryList.value = data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return {
     newsList,
     fetchNews,
     fetchSlideShow,
     slideShowList,
+    culinaryList,
+    fetchCulinary,
   };
 });

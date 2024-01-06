@@ -11,3 +11,11 @@ export interface SlideShowItem {
   title: string;
   text: string;
 }
+
+export interface CulinaryItem {
+  _id: string;
+  image: string;
+  description: string;
+  title: string;
+  diningTime: string;
+}
