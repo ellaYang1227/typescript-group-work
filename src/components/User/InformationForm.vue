@@ -5,6 +5,7 @@ import { toTypedSchema } from "@vee-validate/zod";
 import DatePickerSelect from "@/components/DatePickerSelect.vue";
 import AddressSelect from "@/components/AddressSelect.vue";
 import { useRoute } from "vue-router";
+import { watch } from "vue";
 
 interface UserInformation {
   name: string;
@@ -70,7 +71,7 @@ const userInfoFormSchema = toTypedSchema(
   )
 );
 
-const { values, errors, defineField, meta } = useForm({
+const { values, errors, defineField, meta, setValues } = useForm({
   validationSchema: userInfoFormSchema,
 });
 
@@ -89,6 +90,15 @@ const [email, emailAttrs] = defineField("email");
 const [birthday, birthdayAttrs] = defineField("birthday");
 const [zipcode, zipcodeAttrs] = defineField("zipcode");
 const [addressDetail, addressDetailAttrs] = defineField("addressDetail");
+
+// 監聽父元件更新的 userInformation 值
+watch<any, any>(() => props.userInformation, (newVal: UserInformation) => {
+  // 更新 UserInfoForm
+  if(newVal) { setValues(newVal) }
+},{ immediate: true, deep: true });
+
+defineExpose({ meta });
+
 </script>
 
 <template>

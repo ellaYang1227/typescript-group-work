@@ -16,6 +16,7 @@ import { addOrder } from "@/models/orders";
 
 const roomDetail = ref<null | Room>(null);
 const orderForm = ref<null | Order>(null);
+const sending = ref<boolean>(false);
 const route = useRoute();
 
 watch<any, any>(
@@ -125,24 +126,32 @@ async function getGetUser(): Promise<void>  {
   }
 }
 
-const orderRoomFormRef = ref<any>(null);
-const orderRoomFormErrNum = computed(():number => {
-  const errors: { [key:string]:any } = orderRoomFormRef.value?.getErrors();
-  return errors ? Object.keys(errors).length : 0;
-});
-
 // 送出訂單
 async function handleSubmit(values: Order['userInfo']) {
+  sending.value = true;
   if(orderForm.value) { orderForm.value.userInfo = values}
   await addOrder(orderForm.value as Order);
+  setTimeout(() => sending.value = false, 1000);
 }
 
+// UserInfo 表單是否無效
+const informationFormComponentRef = ref<any>(null);
+const userInfoFormInvalid = computed((): boolean => {
+  const { value } = informationFormComponentRef;
+  let invalid = value?.meta && false;
+  if(value?.meta) {
+    const { meta } = informationFormComponentRef.value as any;
+    invalid = !meta.touched || !meta.valid;
+  }
+
+  return invalid
+});
 </script>
 
 <template>
   <Layout>
     <section class="text-neutral" v-if="orderForm && roomDetail">
-      <Form v-slot="{ errors }" ref="orderRoomFormRef" :validation-schema="orderRoomFormSchema">
+      <Form v-slot="{ errors, meta }" :validation-schema="orderRoomFormSchema">
         <div class="container py-6 py-lg-11">
           <div class="d-flex align-items-center mb-6">
             <div class="d-flex justify-content-center align-items-center me-2" style="width: 40px; height: 40px;">
@@ -167,11 +176,11 @@ async function handleSubmit(values: Order['userInfo']) {
                           <div class="customize-vr"></div>
                           <strong>選擇房型</strong>
                         </div>
-                        {{ roomDetail?.name }}
+                        {{ roomDetail.name }}
                       </div>
                     </div>
                   </div>
-                  <row class="row gx-3 align-items-center">
+                  <div class="row gx-3 align-items-center">
                     <div class="col">
                       <div class="d-grid gap-2">
                         <div class="d-flex align-items-center">
@@ -205,9 +214,9 @@ async function handleSubmit(values: Order['userInfo']) {
                       </div>
                     </div>
                     <div class="col-auto">
-                      <button type="button" class="baseButton isStyleText p-0 border-0 text-neutral" @click="switchOrderEditState('checkDate')" :disabled="orderRoomFormErrNum ? true : false">編輯</button>
+                      <button type="button" class="baseButton isStyleText text-neutral" @click="switchOrderEditState('checkDate')" :disabled="!meta.valid">編輯</button>
                     </div>
-                  </row>
+                  </div>
                   <div class="row gx-3 align-items-center">
                     <div class="col">
                       <div class="d-grid gap-2">
@@ -233,7 +242,7 @@ async function handleSubmit(values: Order['userInfo']) {
                   <h4 class="mb-5 mb-lg-6 d-flex align-items-center justify-content-between">訂房人資訊
                     <button type="button" class="baseButton isStyleText d-none d-lg-block p-0 border-0" @click="getGetUser">套用會員資料</button>
                   </h4>
-                  <InformationForm :userInformation="orderForm?.userInfo" @handleSubmit="handleSubmit" />
+                  <InformationForm ref="informationFormComponentRef" :userInformation="orderForm.userInfo" @handleSubmit="handleSubmit" />
                 </li>
                 <li class="list-group-item bg-transparent text-neutral p-0">
                   <h4 class="mb-5 mb-lg-6">房間資訊</h4>
@@ -247,13 +256,13 @@ async function handleSubmit(values: Order['userInfo']) {
                   </section>
                   <section>
                     <ProvideItemsCard
-                      :info="roomDetail?.facilityInfo"
+                      :info="roomDetail.facilityInfo"
                       title="房內設備"
                     />
                   </section>
                   <section>
                     <ProvideItemsCard
-                      :info="roomDetail?.amenityInfo"
+                      :info="roomDetail.amenityInfo"
                       title="備品提供"
                     />
                   </section>
@@ -265,12 +274,12 @@ async function handleSubmit(values: Order['userInfo']) {
               <div class="card rounded-3 border-0 text-neutral">
                 <div class="card-body p-3 p-lg-6 d-grid gap-3 gap-lg-6">
                   <img class="rounded roomImgHeight" 
-                  :src="roomDetail?.imageUrl" :alt="roomDetail?.name">
+                  :src="roomDetail.imageUrl" :alt="roomDetail.name">
                   <div class="d-grid gap-3 gap-lg-4">
                     <h4 class="mb-0">價格詳情</h4>
                     <div class="d-grid" style="gap: 0.75rem">
                       <div class="row g-0">
-                        <div class="col d-flex align-items-center" v-if="roomDetail?.price">
+                        <div class="col d-flex align-items-center" v-if="roomDetail.price">
                           {{ currencyTransform(roomDetail.price) }} 
                           <div class="ms-2 text-body" v-if="orderForm">
                             <font-awesome-icon icon="fa-solid fa-xmark" class="me-1" />
@@ -290,7 +299,13 @@ async function handleSubmit(values: Order['userInfo']) {
                       <div class="col-auto"><strong>{{ currencyTransform(subtotal) }}</strong></div>
                     </div>
                   </div>
-                  <button form="UserInfoForm" class="baseButton isStylePrimary d-block" :disabled="orderRoomFormErrNum ? true : false">確認訂房</button>
+                  <button form="UserInfoForm" class="baseButton isStylePrimary d-block" :disabled="!meta.valid || userInfoFormInvalid || sending">
+                    <template v-if="sending">
+                      <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                      Loading...
+                    </template>
+                    <template v-else>確認訂房</template>
+                  </button>
                 </div>
               </div>
             </div>

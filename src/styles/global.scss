@@ -53,6 +53,7 @@ img {
 // input 驗證
 .form-control.is-invalid {
   background-image: none;
+  padding-right: $input-padding-y;
 }
 .invalid-feedback {
   color: $danger;

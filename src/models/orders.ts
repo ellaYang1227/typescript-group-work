@@ -8,7 +8,9 @@ import router from "@/router/index";
  */
 export function addOrder(body: Order): Promise<boolean> {
   return request
-    .post(`api/v1/orders/`, { ...body })
+    .post(`api/v1/orders/`,
+      { ...body },
+      { headers: { noShowLoading: true } })
     .then(({ result, status }: any) => {
       router.push({ path: `/rooms/${result._id}/success` })
       return Promise.resolve(status);
