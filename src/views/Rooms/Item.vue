@@ -9,6 +9,7 @@ import { Room } from "@/interfaces/room";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
+import SwiperImages from "@/components/SwiperImages.vue";
 
 const route = useRoute();
 const routeParamsId = (route.params.id as string) || "";
@@ -55,6 +56,10 @@ fetchRoomDetail(routeParamsId);
           </div>
         </div>
       </section>
+      <swiper-images
+        class="d-block d-lg-none"
+        :images-url="[...[roomDetail.imageUrl], ...roomDetail.imageUrlList]"
+      />
       <section
         class="d-flex flex-wrap flex-lg-nowrap m-auto py-6 py-lg-11 px-3 px-lg-6 px-xxl-0 gap-4 gap-lg-9 main-content"
       >
