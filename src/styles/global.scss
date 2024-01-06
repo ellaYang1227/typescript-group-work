@@ -61,3 +61,12 @@ img {
   font-weight: 700;
   margin: 0;
 }
+
+// 房型專用 Position Sticky
+$main-margin-top: 40px;
+.roomPositionSticky {
+  @include media-breakpoint-up(lg) {
+    position: sticky;
+    top: calc(120px + $main-margin-top);
+  }
+}
