@@ -3,6 +3,7 @@ import Layout from "@/components/Layouts/Index.vue";
 import SlideShow from "@/components/Home/SlideShow.vue";
 import News from "@/components/Home/News.vue";
 import About from "@/components/Home/About.vue";
+import Rooms from "@/components/Home/Rooms.vue";
 import Culinary from "@/components/Home/Culinary.vue";
 import Traffic from "@/components/Home/Traffic.vue";
 import { usehomeStore } from "@/stores";
@@ -56,6 +57,7 @@ onMounted(() => {
     homeStore.fetchNews(),
     homeStore.fetchSlideShow(),
     homeStore.fetchCulinary(),
+    homeStore.fetchRoom(),
   ]);
 });
 </script>
@@ -65,6 +67,7 @@ onMounted(() => {
     <SlideShow ref="slideShow" />
     <News />
     <About />
+    <Rooms />
     <Culinary />
     <Traffic />
   </Layout>

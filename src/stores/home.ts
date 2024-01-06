@@ -1,12 +1,19 @@
 import { defineStore } from "pinia";
-import { apiGetNews, apiGetSlideShow, apiGetCulinary } from "@/models/api";
+import {
+  apiGetNews,
+  apiGetSlideShow,
+  apiGetCulinary,
+  getRooms,
+} from "@/models/api";
 import { NewsItem, SlideShowItem, CulinaryItem } from "@/interfaces/home";
+import { Room } from "@/interfaces/room";
 import { ref } from "vue";
 export const usehomeStore = defineStore("home", () => {
   const newsList = ref([] as NewsItem[]);
   const slideShowList = ref([] as SlideShowItem[]);
   const culinaryList = ref([] as CulinaryItem[]);
-  const fetchNews = async () => {
+  const roomList = ref([] as Room[]);
+  const fetchNews = async (): Promise<void> => {
     try {
       const data = await apiGetNews();
       newsList.value = data;
@@ -14,7 +21,7 @@ export const usehomeStore = defineStore("home", () => {
       console.log(error);
     }
   };
-  const fetchSlideShow = async () => {
+  const fetchSlideShow = async (): Promise<void> => {
     try {
       const data = await apiGetSlideShow();
       slideShowList.value = data;
@@ -22,7 +29,7 @@ export const usehomeStore = defineStore("home", () => {
       console.log(error);
     }
   };
-  const fetchCulinary = async () => {
+  const fetchCulinary = async (): Promise<void> => {
     try {
       const data = await apiGetCulinary();
       culinaryList.value = data;
@@ -30,6 +37,14 @@ export const usehomeStore = defineStore("home", () => {
       console.log(error);
     }
   };
+  const fetchRoom = async (): Promise<void> => {
+    try {
+      const data = await getRooms();
+      roomList.value = data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return {
     newsList,
     fetchNews,
@@ -37,5 +52,7 @@ export const usehomeStore = defineStore("home", () => {
     slideShowList,
     culinaryList,
     fetchCulinary,
+    roomList,
+    fetchRoom,
   };
 });

@@ -22,3 +22,9 @@ export function getRoomDetail(id: string): Promise<Room> {
       });
     });
 }
+
+export function getRooms(): Promise<Room[]> {
+  return request
+    .get(`api/v1/rooms`)
+    .then((res: any) => Promise.resolve(res.result));
+}

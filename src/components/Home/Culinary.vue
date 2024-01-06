@@ -5,11 +5,8 @@ const { culinaryList } = storeToRefs(usehomeStore());
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Autoplay } from "swiper/modules";
 import SectionTitle from "@/components/Home/SectionTitle.vue";
 import { onMounted, onUnmounted, ref } from "vue";
-// import { onMounted, ref, onUnmounted } from "vue";
-const modules = [Autoplay];
 const windowWidth = ref(0);
 const setWindowWidth = () => {
   windowWidth.value = document.body.clientWidth;
@@ -24,9 +21,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section v-if="culinaryList.length" class="sectionCulinary">
-    <div class="sectionCulinary_inner">
-      <div class="sectionCulinary_innerBox py-10 py-lg-11">
+  <section v-if="culinaryList.length" class="homeCulinary">
+    <div class="homeCulinary_inner">
+      <div class="homeCulinary_container py-10 py-lg-11">
         <SectionTitle title="佳餚美饌" type="normal" />
         <swiper
           :slidesPerView="1.2"
@@ -38,7 +35,6 @@ onUnmounted(() => {
               spaceBetween: 24,
             },
           }"
-          :modules="modules"
           class="culinarySwiper"
         >
           <swiper-slide
@@ -87,7 +83,7 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss">
-.sectionCulinary {
+.homeCulinary {
   position: relative;
   &::before {
     content: "";
@@ -100,6 +96,12 @@ onUnmounted(() => {
     height: 1068px;
     left: calc((100vw - 1320px) / 2 - 53px - 187px - (calc(1.5rem * 0.5)));
     bottom: -83px;
+    @include media-breakpoint-down(xxl) {
+      left: calc((100vw - 1140px) / 2 - (calc(var(--bs-gutter-x) * 0.5)));
+    }
+    @include media-breakpoint-down(xl) {
+      left: calc((100vw - 960px) / 2 - (calc(var(--bs-gutter-x) * 0.5)));
+    }
     @include media-breakpoint-down(lg) {
       display: none;
     }
@@ -122,7 +124,7 @@ onUnmounted(() => {
   &_inner {
     overflow: hidden;
   }
-  &_innerBox {
+  &_container {
     @include make-container();
     max-width: 1920px;
     position: relative;
@@ -139,19 +141,9 @@ onUnmounted(() => {
       left: auto;
       padding-right: 0;
     }
-    // @include media-breakpoint-down(md) {
-    //   left: calc((100vw - 540px) / 2 - (calc(var(--bs-gutter-x) * 0.5)));
-    // }
-    // @include media-breakpoint-down(sm) {
-    //   left: auto;
-    // }
     .culinarySwiper {
       .swiper-wrapper {
         transition-timing-function: linear;
-      }
-      .swiper-slide {
-        // padding-right: 24px;
-        // width: 80% !important;
       }
       &_inner {
         background-repeat: no-repeat;
@@ -160,7 +152,6 @@ onUnmounted(() => {
         height: 600px;
         display: flex;
         width: 100%;
-        // border-radius: 8px;
       }
       &_item {
         border-radius: 8px;
