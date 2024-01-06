@@ -2,7 +2,7 @@
 import Layout from "@/components/Layouts/Index.vue";
 import OrderDetailCard from "@/components/Order/OrderDetailCard.vue";
 import { getOrderDetail } from "@/models/orders";
-import { OrderDetail } from "@/interfaces/orderDetail";
+import { OrderDetail } from "@/interfaces/order";
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
@@ -23,14 +23,14 @@ watch<any, any>(
 <template>
   <Layout is-has-footer-decoration>
     <section class="bg-neutral-dark">
-      <div class="container py-6 py-md-11">
+      <div class="container py-6 py-lg-11">
         <div class="row gy-8 gx-xl-9">
           <div class="col-lg-7">
-            <ul class="list-group list-group-flush d-grid gap-6 gap-md-10">
+            <ul class="list-group list-group-flush d-grid gap-6 gap-lg-10">
               <li
-                class="list-group-item bg-transparent px-0 pt-0 pb-6 pb-md-10"
+                class="list-group-item bg-transparent px-0 pt-0 pb-6 pb-lg-10"
               >
-                <div class="d-sm-flex align-items-center mb-5 mb-md-6">
+                <div class="d-sm-flex align-items-center mb-5 mb-lg-6">
                   <font-awesome-icon
                     icon="fa-solid fa-circle-check"
                     class="text-success flex-shrink-0"
@@ -45,7 +45,7 @@ watch<any, any>(
                 </p>
               </li>
               <li
-                class="list-group-item bg-transparent px-0 pt-0 pb-6 pb-md-10"
+                class="list-group-item bg-transparent px-0 pt-0 pb-6 pb-lg-10"
               >
                 <h5 class="text-white mb-6">立即查看您的訂單紀錄</h5>
                 <router-link
@@ -84,3 +84,4 @@ watch<any, any>(
 </template>
 
 <style lang="scss"></style>
+@/interfaces/order

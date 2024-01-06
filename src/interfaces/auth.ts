@@ -6,6 +6,8 @@ export interface UserInfo {
   name: string;
   phone: string;
   email: string;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
 }
 
 interface Address {
