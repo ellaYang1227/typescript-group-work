@@ -5,11 +5,11 @@ const { slideShowList } = storeToRefs(usehomeStore());
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 import SectionTitle from "@/components/Home/SectionTitle.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { onMounted, ref, onUnmounted } from "vue";
-const modules = [Pagination];
+const modules = [Pagination, Autoplay];
 const globalWindowWidth = ref(0);
 const setGlobalWindowWidth = () => {
   globalWindowWidth.value = document.body.clientWidth;
@@ -26,8 +26,15 @@ onUnmounted(() => {
 <template>
   <section>
     <swiper
+      v-if="slideShowList.length"
       :pagination="{ clickable: true }"
+      :autoplay="{
+        delay: 3000,
+      }"
       :modules="modules"
+      :loop="true"
+      :slidesPerView="1"
+      :slidesPerGroup="1"
       class="slideShowSwiper"
     >
       <swiper-slide

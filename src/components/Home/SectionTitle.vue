@@ -12,7 +12,7 @@ const props = defineProps({
     type: String as () => "short" | "white" | "normal" | "banner",
     default: "normal",
     validator(value: string) {
-      return ["short", "white"].includes(value);
+      return ["short", "white", "normal", "banner"].includes(value);
     },
   },
 });
