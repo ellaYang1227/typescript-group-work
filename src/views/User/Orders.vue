@@ -75,7 +75,7 @@ handleGetOrders();
           <div class="card col-12 col-lg-6 col-xxl-6 p-0 h-100" v-if="lastOrderDetail">
             <OrderDetailCard :orderDetails="[lastOrderDetail]">
               <div class="d-flex justify-content-between gap-3 pt-6">
-                <button class="baseButton isStyleWhite w-100" @click="cancelOrder">取消預定</button>
+                <button class="baseButton isStyleSecondary w-100" @click="cancelOrder">取消預定</button>
                 <RouterLink :to="`/rooms/${lastOrderDetail.roomId._id}`" 
                   class="baseButton isStylePrimary w-100"
                 >
@@ -91,7 +91,7 @@ handleGetOrders();
               :isShowAll="showAll"
             >
               <button
-                class="baseButton isStyleWhite w-100"
+                class="baseButton isStyleSecondary w-100"
                 @click="showAll = !showAll"
                 v-if="orderDetails.length > 3 && !showAll"
               >
