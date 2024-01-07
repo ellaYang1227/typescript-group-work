@@ -61,7 +61,7 @@ fetchRoomDetail(routeParamsId);
         :images-url="[...[roomDetail.imageUrl], ...roomDetail.imageUrlList]"
       />
       <section
-        class="d-flex flex-wrap flex-lg-nowrap m-auto py-6 py-lg-11 px-3 px-lg-6 px-xxl-0 gap-4 gap-lg-9 main-content"
+        class="d-flex flex-wrap flex-lg-nowrap m-auto py-6 py-lg-11 px-lg-6 px-xxl-0 gap-4 gap-lg-9 main-content"
       >
         <div class="d-flex flex-column gap-4 gap-lg-10 left">
           <div class="d-flex flex-column gap-3">
@@ -168,8 +168,13 @@ fetchRoomDetail(routeParamsId);
     }
   }
   @include media-breakpoint-down(xl) {
+    .swiper-images {
+      height: 240px;
+    }
     .main-content {
       max-width: 100%;
+      padding-left: 12px;
+      padding-right: 12px;
       h1 {
         font-size: 32px;
       }
@@ -184,10 +189,6 @@ fetchRoomDetail(routeParamsId);
         }
         .gap-md-4 {
           gap: 16px !important;
-        }
-        :deep(.room) {
-          //內容細項
-          --bs-columns: 2;
         }
         :deep(.basic-information .text-neutral-80) {
           //房型基本資訊16px
