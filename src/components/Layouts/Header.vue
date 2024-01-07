@@ -56,7 +56,7 @@ const isMenuShow = ref(false);
               class="header_menuItem align-self-md-start align-self-center mb-md-0 mb-4"
             >
               <BaseButton
-                v-if="!userInformation?.id"
+                v-if="!userInformation?._id"
                 class="header_menuLink isStyleGhost"
                 to="/login"
                 >會員登入</BaseButton

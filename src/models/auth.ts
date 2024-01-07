@@ -1,12 +1,13 @@
 import request from "@/plugins/axios";
-import { UserInfo, UserInformation } from "@/interfaces/auth";
+import { UserInformation } from "@/interfaces/auth";
 
 interface UserInformationWithPassword extends UserInformation {
   password: string;
 }
 
-export const apiGetUser = (): Promise<UserInfo> => {
-  return request.get(`/api/v1/user`)
+export const apiGetUser = (): Promise<UserInformation> => {
+  return request
+    .get(`/api/v1/user`, { headers: { noShowLoading: true } })
     .then((res: any) => Promise.resolve(res.result));
 };
 
