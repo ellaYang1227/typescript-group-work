@@ -27,6 +27,13 @@ const props = defineProps({
 const filterOrderDetails = computed(() =>
   props.orderDetails.filter((item) => item)
 );
+
+function getTotal(orderDetail: OrderDetail): string {
+  const { roomId, checkInDate, checkOutDate } = orderDetail;
+  const days = daysDifference(checkInDate, checkOutDate, true) as number;
+  console.log(days);
+  return currencyTransform(roomId.price * days);
+}
 </script>
 <template>
   <div class="card rounded-3 border-0">
@@ -88,7 +95,7 @@ const filterOrderDetails = computed(() =>
                       >
                     </h6>
                   </li>
-                  <li class="mb-3" v-if="isHistory">
+                  <li class="mb-3 d-grid gap-2" v-if="isHistory">
                     <span class="d-block">
                       住宿天數：{{
                         daysDifference(
@@ -108,17 +115,21 @@ const filterOrderDetails = computed(() =>
                   >
                     <div class="d-flex align-items-center">
                       <div class="customize-vr"></div>
-                      入住：{{ dateTransform(orderDetail.checkInDate) }}，15:00
-                      可入住
+                      <section>
+                        入住：{{ dateTransform(orderDetail.checkInDate)
+                        }}<span v-if="!isHistory">，15:00 可入住</span>
+                      </section>
                     </div>
                     <div class="d-flex align-items-center">
                       <div class="customize-vr bg-neutral-60"></div>
-                      退房：{{ dateTransform(orderDetail.checkOutDate) }}，12:00
-                      前退房
+                      <section>
+                        退房：{{ dateTransform(orderDetail.checkOutDate)
+                        }}<span v-if="!isHistory">，12:00 前退房</span>
+                      </section>
                     </div>
                   </li>
                   <li class="fw-bold">
-                    {{ currencyTransform(orderDetail.roomId.price) }}
+                    {{ getTotal(orderDetail) }}
                   </li>
                 </ul>
               </div>
