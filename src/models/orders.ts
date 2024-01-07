@@ -5,9 +5,6 @@ import { useAuthStore } from "@/stores/auth";
 import { storeToRefs } from "pinia";
 import { swalWithButtons } from "@/utilities/sweetAlert";
 
-const authStore = useAuthStore();
-const { userInformation } = storeToRefs(authStore);
-
 /**
  * 新增訂單
  * @param body 新增訂單內容
@@ -26,6 +23,9 @@ export function addOrder(body: Order): Promise<boolean> {
  * @param id 訂單 id
  */
 export function getOrderDetail(id: string): Promise<OrderDetail> {
+  const authStore = useAuthStore();
+  const { userInformation } = storeToRefs(authStore);
+
   return request.get(`api/v1/orders/${id}`).then(({ result }: any) => {
     const { orderUserId, status } = result;
     if (orderUserId !== userInformation.value?._id || status === -1) {
