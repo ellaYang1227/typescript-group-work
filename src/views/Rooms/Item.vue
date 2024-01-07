@@ -9,6 +9,7 @@ import { Room } from "@/interfaces/room";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
+import SwiperImages from "@/components/SwiperImages.vue";
 
 const route = useRoute();
 const routeParamsId = (route.params.id as string) || "";
@@ -19,8 +20,8 @@ async function fetchRoomDetail(id: string) {
   try {
     roomDetail.value = await getRoomDetail(id);
   } catch (err) {
-    //獲取錯誤，回訂房住宿頁
-    await router.push("/rooms");
+    //獲取錯誤，回首頁
+    await router.push("/");
   }
 }
 fetchRoomDetail(routeParamsId);
@@ -55,15 +56,21 @@ fetchRoomDetail(routeParamsId);
           </div>
         </div>
       </section>
+      <swiper-images
+        class="d-block d-lg-none"
+        :images-url="[...[roomDetail.imageUrl], ...roomDetail.imageUrlList]"
+      />
       <section
-        class="d-flex flex-wrap flex-lg-nowrap m-auto py-lg-11 px-6 px-xxl-0 gap-9 main-content"
+        class="d-flex flex-wrap flex-lg-nowrap m-auto py-6 py-lg-11 px-3 px-lg-6 px-xxl-0 gap-4 gap-lg-9 main-content"
       >
-        <div class="d-flex flex-column gap-10 left">
+        <div class="d-flex flex-column gap-4 gap-lg-10 left">
           <div class="d-flex flex-column gap-3">
-            <h1 class="m-0 text text-primary">{{ roomDetail.name }}</h1>
-            <div>{{ roomDetail.description }}</div>
+            <h1 class="m-0 text text-primary">
+              {{ roomDetail.name }}
+            </h1>
+            <div class="description">{{ roomDetail.description }}</div>
           </div>
-          <div>
+          <div class="detail-card">
             <basic-information
               :area-info="roomDetail.areaInfo"
               :max-people="roomDetail.maxPeople"
@@ -84,11 +91,11 @@ fetchRoomDetail(routeParamsId);
               :isBorder="false"
             />
           </div>
-          <booking-instructions-list />
+          <booking-instructions-list class="detail-card d-none d-lg-flex" />
         </div>
         <div class="right">
           <div
-            class="card p-6 d-flex flex-column gap-6 rounded-3 border-0 position-sticky"
+            class="card p-4 p-lg-6 d-flex flex-column gap-4 gap-lg-6 rounded-3 border-0 position-sticky"
           >
             <h5
               class="text-neutral m-0 fw-bold pb-3 border-bottom border-neutral-40"
@@ -110,6 +117,7 @@ fetchRoomDetail(routeParamsId);
             </button>
           </div>
         </div>
+        <booking-instructions-list class="detail-card d-lg-none" />
       </section>
     </section>
   </Layout>
@@ -156,6 +164,43 @@ fetchRoomDetail(routeParamsId);
       position: relative;
       .position-sticky {
         top: 160px;
+      }
+    }
+  }
+  @include media-breakpoint-down(xl) {
+    .main-content {
+      max-width: 100%;
+      h1 {
+        font-size: 32px;
+      }
+      div {
+        //內文字體大小為14
+        font-size: 14px;
+      }
+      .detail-card {
+        :deep(.text-neutral) {
+          //標題
+          font-size: 16px !important;
+        }
+        .gap-md-4 {
+          gap: 16px !important;
+        }
+        :deep(.room) {
+          //內容細項
+          --bs-columns: 2;
+        }
+        :deep(.basic-information .text-neutral-80) {
+          //房型基本資訊16px
+          font-size: 16px;
+        }
+      }
+      .right {
+        h5 {
+          font-size: 16px;
+        }
+        h2 {
+          font-size: 28px;
+        }
       }
     }
   }
