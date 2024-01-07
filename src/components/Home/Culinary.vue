@@ -152,6 +152,9 @@ onUnmounted(() => {
         height: 600px;
         display: flex;
         width: 100%;
+        @include media-breakpoint-down(lg) {
+          height: 480px;
+        }
       }
       &_item {
         border-radius: 8px;

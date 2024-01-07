@@ -31,7 +31,7 @@ const { newsList } = storeToRefs(usehomeStore());
                   <h3 class="mb-lg-4 mb-2 mt-lg-0 mt-4">
                     {{ newsItem.title }}
                   </h3>
-                  <p class="mb-0 fw-medium">
+                  <p class="mb-0 fs-lg-8 fs-9">
                     {{ newsItem.description }}
                   </p>
                 </div>

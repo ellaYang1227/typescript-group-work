@@ -84,6 +84,7 @@ const capitalizeFirstLetter = (string: string) => {
     @include media-breakpoint-down(lg) {
       width: 4.25rem;
       padding-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
     }
     &:after {
       left: 0;

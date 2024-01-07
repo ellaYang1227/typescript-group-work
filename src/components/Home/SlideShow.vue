@@ -226,16 +226,25 @@ onUnmounted(() => {
       transition: 0.3s;
       display: block;
       margin-left: 1rem;
+      @include media-breakpoint-down(lg) {
+        width: 80px;
+      }
     }
     &:hover {
       &:after {
         background-color: $white;
         width: 120px;
+        @include media-breakpoint-down(lg) {
+          width: 60px;
+        }
       }
     }
   }
   .swiper-pagination {
     bottom: 3vh;
+    @include media-breakpoint-down(lg) {
+      bottom: 1.5rem;
+    }
     .swiper-pagination-bullet {
       width: 32px;
       height: 4px;
