@@ -28,7 +28,6 @@ function cancelOrder() {
     confirmButtonText: "確定取消",
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log(lastOrderDetail.value!._id)
       const id = lastOrderDetail.value!._id;
       deleteOneOrder(id);
     }
@@ -45,8 +44,18 @@ handleGetOrders();
 <template>
   <Layout is-has-footer-decoration>
     <section class="bg-neutral-dark user">
-      <div class="container pt-10 pb-11">
-        <nav class="pb-11">
+      <div class="banner">
+        <img class="banner__bg w-100 d-none d-lg-block" src="@/assets/userBanner.png" alt="userBanner">
+        <img class="banner__bg w-100 d-block d-lg-none" src="@/assets/userBannerMobile.jpg" alt="userBanner">
+        <div class="banner__container container">
+          <div class="banner__head d-flex flex-column flex-lg-row align-items-lg-center gap-3 gap-lg-4">
+            <img src="@/assets/headSticker.png" alt="headSticker">
+            <p class="text-white">Hello，Jessica</p>
+          </div>
+        </div>
+      </div>
+      <div class="container container-lg pb-11">
+        <nav class="py-10">
           <router-link
             to="/user"
             class="baseButton isStyleGhost px-4 py-3"
@@ -62,10 +71,10 @@ handleGetOrders();
             我的訂單
           </router-link>
         </nav>
-        <main class="row gap-6 d-flex flex-column flex-lg-row">
-          <div class="card col-12 col-lg-6 col-xxl-7 p-0 h-100" v-if="lastOrderDetail">
+        <main class="row gap-4 gap-lg-6 d-flex flex-column flex-lg-row w-100 m-auto">
+          <div class="card col-12 col-lg-6 col-xxl-6 p-0 h-100" v-if="lastOrderDetail">
             <OrderDetailCard :orderDetails="[lastOrderDetail]">
-              <div class="d-flex justify-content-between gap-3 pt-9">
+              <div class="d-flex justify-content-between gap-3 pt-6">
                 <button class="baseButton isStyleWhite w-100" @click="cancelOrder">取消預定</button>
                 <RouterLink :to="`/rooms/${lastOrderDetail.roomId._id}`" 
                   class="baseButton isStylePrimary w-100"
@@ -98,7 +107,39 @@ handleGetOrders();
 
 <style lang="scss">
 .user {
-  padding: 0 0.75rem;
+  .container {
+    padding: 0 0.75rem;
+  }
+  .banner {
+    position: relative;
+    &__bg {
+      object-fit: cover;
+      height: 12.875rem;
+      @include media-breakpoint-up(lg) {
+        height: 24rem;
+      }
+    }
+    &__container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+    }
+    &__head {
+      img {
+        width: 4.5rem;
+        @include media-breakpoint-up(lg) {
+          width: 9rem;
+        }
+      }
+      p {
+        font-size: 2rem;
+        @include media-breakpoint-up(lg) {
+          font-size: 3rem;
+        }
+      }
+    }
+  }
   .active {
     color: $primary;
     position: relative;
