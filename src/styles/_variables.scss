@@ -1,5 +1,4 @@
 @import "~bootstrap/scss/functions";
-
 // 自訂變數 start
 @import "helpers/color";
 @import "helpers/fonts";
@@ -8,4 +7,6 @@
 // 自訂變數 end
 
 @import "~bootstrap/scss/variables";
+@import '~bootstrap/scss/variables-dark';
 @import "~bootstrap/scss/mixins";
+
