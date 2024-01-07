@@ -16,6 +16,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // 是否顯示全部
+  isShowAll: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // 過濾 isProvide 為 true 的 Info
@@ -32,9 +37,12 @@ const filterOrderDetails = computed(() =>
         <li
           class="list-group-item p-0"
           :class="{
-            'mb-4 mb-lg-6': filterOrderDetails.length - 1 > index,
+            'mb-4 mb-lg-6':
+              (index < 2 || isShowAll) && // 只顯示前兩筆
+              index !== filterOrderDetails.length - 1, // 最後一筆不顯示
           }"
           v-for="(orderDetail, index) in filterOrderDetails"
+          v-show="index < 3 || isShowAll"
           :key="orderDetail._id"
         >
           <ul class="list-group list-group-flush d-grid gap-4 gap-lg-6">
