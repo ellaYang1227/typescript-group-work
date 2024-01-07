@@ -9,14 +9,14 @@ export interface BasicOrder {
 }
 
 export interface Order extends BasicOrder {
-  roomId: Room['_id'];
+  roomId: Room["_id"];
 }
 
 export interface OrderDetail extends BasicOrder {
   _id: string;
   roomId: Room;
   orderUserId: string;
-  status: -1 | 0;
+  status: -1 | 0; // -1 表示訂單取消
   createdAt: Date;
   updatedAt: Date;
 }
