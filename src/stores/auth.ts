@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { apiLogin } from "@/models/api";
+import { apiLogin, apiGetUser } from "@/models/api";
 import { UserLogin, UserInformation } from "@/interfaces/auth";
 import { saveCookie } from "@/utilities/cookie";
 import { ref } from "vue";
@@ -26,8 +26,18 @@ export const useAuthStore = defineStore("useAuthStore", () => {
       console.log("error", error);
     }
   };
+  const fetchUser = async (): Promise<void> => {
+    try {
+      const data = await apiGetUser();
+      userInformation.value = data;
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return {
     userInformation,
     login,
+    fetchUser,
   };
 });
