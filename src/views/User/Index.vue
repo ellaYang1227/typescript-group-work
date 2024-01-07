@@ -4,7 +4,7 @@ import Layout from "@/components/Layouts/Index.vue";
 
 <template>
   <Layout is-has-footer-decoration>
-    <section>會員資訊</section>
+    <section>會員訂單</section>
   </Layout>
 </template>
 
