@@ -29,7 +29,7 @@ onUnmounted(() => {
       v-if="slideShowList.length"
       :pagination="{ clickable: true }"
       :autoplay="{
-        delay: 3000,
+        delay: 133000,
       }"
       :modules="modules"
       :loop="true"
@@ -65,11 +65,11 @@ onUnmounted(() => {
                     class="z-1 position-relative slideShowSwiper_contentInner"
                   >
                     <div
-                      class="slideShowSwiper_contentTitle fw-bolder"
+                      class="slideShowSwiper_contentTitle fw-bold"
                       v-html="slideShowItem.title"
                     ></div>
                     <p
-                      class="slideShowSwiper_contentText mb-0 fw-semibold mt-4"
+                      class="slideShowSwiper_contentText mb-0 fw-bold mt-4 text-neutral-40"
                     >
                       {{ slideShowItem.text }}
                     </p>
@@ -105,8 +105,8 @@ onUnmounted(() => {
     @include media-breakpoint-down(lg) {
       min-height: 100vh;
       height: 100%;
-      padding-top: 113px;
-      padding-bottom: 71px;
+      // padding-top: 113px;
+      // padding-bottom: 71px;
     }
     &:after {
       content: "";
@@ -127,14 +127,15 @@ onUnmounted(() => {
     }
   }
   &_itemInner {
-    padding: 0 5rem;
+    padding: 120px 5rem 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
     @include media-breakpoint-down(xxl) {
-      padding: 0 0.75rem;
+      padding: 72px 0.75rem 0;
+      height: 100vh;
     }
   }
   &_itemInnerBox {
@@ -162,18 +163,22 @@ onUnmounted(() => {
       height: 100%;
       border: 1px solid $white;
       border-width: 1px 1px 0px 0px;
-      border-radius: 80px 80px 0px 80px;
+      border-radius: 80px;
       backdrop-filter: blur(8px);
       @include media-breakpoint-down(lg) {
         width: calc(100% - 64px);
         right: 0;
         left: auto;
-        border-radius: 40px 40px 0px 40px;
+        border-radius: 40px;
       }
     }
     @include media-breakpoint-down(lg) {
       padding-top: 3.75rem;
       padding-bottom: 3.75rem;
+      @media screen and (max-width: 376px) {
+        padding-top: 2.75rem;
+        padding-bottom: 2.75rem;
+      }
     }
   }
   &_contentInner {
@@ -192,7 +197,8 @@ onUnmounted(() => {
   &_contentTitle {
     // font-size: 6.25rem;
     font-size: 5.209vw;
-    line-height: 1.2;
+    line-height: 1.24;
+    gap: 8px;
     @include media-breakpoint-down(lg) {
       font-size: 3rem;
     }
@@ -241,7 +247,7 @@ onUnmounted(() => {
     }
   }
   .swiper-pagination {
-    bottom: 3vh;
+    bottom: 24px;
     @include media-breakpoint-down(lg) {
       bottom: 1.5rem;
     }
