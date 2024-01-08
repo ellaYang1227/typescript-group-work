@@ -19,14 +19,14 @@ const filterOrders = computed(() =>
 function getFeatureOrder() {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // 將今天的時間設為 00:00:00
-  featureOrderDetail.value = null;
+  featureOrderDetail.value = null; // 清空即將來的行程
   // 1) 過濾掉昨天以前的訂單
   const futureOrders = filterOrders.value.filter((order) => {
     const orderDate = new Date(order.checkInDate);
     return orderDate >= today;
   });
   // 2) 如果沒有即將來的行程，則不顯示
-  if (futureOrders.length === 0) return [];
+  if (futureOrders.length === 0) return;
   // 3) 依照入住時間排序
   const sortedOrders = [...futureOrders].sort(
     (a, b) =>
