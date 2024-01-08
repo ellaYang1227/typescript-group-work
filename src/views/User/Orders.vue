@@ -90,7 +90,7 @@ handleGetOrders();
             class="banner__head d-flex flex-column flex-lg-row align-items-lg-center gap-3 gap-lg-4"
           >
             <img src="@/assets/headSticker.png" alt="headSticker" />
-            <p class="text-white">Hello，{{ userInformation!.name }}</p>
+            <p v-if="userInformation" class="text-white">Hello，{{ userInformation.name }}</p>
           </div>
         </div>
       </div>
