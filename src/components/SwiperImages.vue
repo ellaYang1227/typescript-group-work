@@ -42,5 +42,11 @@ defineProps<{
     background-color: $primary;
     width: 60px;
   }
+  :deep(.swiper-pagination) {
+    transform: translate3d(0, 6px, 0);
+  }
+  :deep(.swiper-pagination-horizontal) {
+    bottom: 24px;
+  }
 }
 </style>

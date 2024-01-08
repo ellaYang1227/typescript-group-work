@@ -3,10 +3,10 @@ import { useRoute } from "vue-router";
 import { Room } from "@/interfaces/room";
 
 interface BasicInformation {
-  areaInfo: Room['areaInfo'];
-  bedInfo: Room['bedInfo'];
-  maxPeople: Room['maxPeople'];
-  isHideTitle?: boolean
+  areaInfo: Room["areaInfo"];
+  bedInfo: Room["bedInfo"];
+  maxPeople: Room["maxPeople"];
+  isHideTitle?: boolean;
 }
 
 interface RoomInfo {
@@ -18,7 +18,8 @@ interface RoomInfo {
 const route = useRoute();
 const routeName = (route.name as string) || "";
 
-const { areaInfo, bedInfo, maxPeople, isHideTitle } = defineProps<BasicInformation>();
+const { areaInfo, bedInfo, maxPeople, isHideTitle } =
+  defineProps<BasicInformation>();
 const roomBasicInformationList: RoomInfo[] = [
   {
     name: "area",
@@ -42,7 +43,13 @@ const roomBasicInformationList: RoomInfo[] = [
   <div class="d-grid gap-3 gap-md-4">
     <div class="d-flex align-items-center" v-if="!isHideTitle">
       <div class="customize-vr"></div>
-      <h5 class="mb-0 text-neutral" :style="{ fontSize: (routeName === 'rooms-success' || routeName === 'user-orders' ? 1 : 1.5 ) + 'rem' }"><strong>房型基本資訊</strong></h5>
+      <h5
+        class="mb-0 text-neutral"
+        v-if="routeName === 'rooms' || routeName === 'rooms-reservation'"
+      >
+        <strong>房型基本資訊</strong>
+      </h5>
+      <strong v-else>房型基本資訊</strong>
     </div>
     <section class="basic-information">
       <template v-for="list in roomBasicInformationList" :key="list.icon">
@@ -56,7 +63,9 @@ const roomBasicInformationList: RoomInfo[] = [
             size="lg"
             class="text-primary"
           />
-          <div class="text-neutral-80"><strong>{{ list.value }}</strong></div>
+          <div class="text-neutral-80">
+            <strong>{{ list.value }}</strong>
+          </div>
         </div>
       </template>
     </section>

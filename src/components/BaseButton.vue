@@ -217,15 +217,7 @@ $colors: (
     }
   }
   &.isStyleWhite {
-    color: $primary;
-    background: $white;
-    text-decoration: none;
-    border: 1px solid $primary;
-    // &:hover:not(:disabled) {
-    //   text-decoration: none;
-    //   color: white;
-    //   opacity: .7;
-    // }
+    border: 0;
   }
   // &.isWhite {
   //   color: $white;
