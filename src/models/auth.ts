@@ -5,8 +5,10 @@ interface UserInformationWithPassword extends UserInformation {
   password: string;
 }
 
-export const apiGetUser = () => {
-  return request.get(`/api/v1/user`);
+export const apiGetUser = (): Promise<UserInformation> => {
+  return request
+    .get(`/api/v1/user`, { headers: { noShowLoading: true } })
+    .then((res: any) => Promise.resolve(res.result));
 };
 
 export const apiLogin = (data: object) => {

@@ -2,7 +2,7 @@
 import Layout from "@/components/Layouts/Index.vue";
 import OrderDetailCard from "@/components/Order/OrderDetailCard.vue";
 import { swalWithCheckButtons } from "@/utilities/sweetAlert";
-import { OrderDetail } from "@/interfaces/orderDetail";
+import { OrderDetail } from "@/interfaces/order";
 import { getOrders, deleteOneOrder } from "@/models/orders";
 import { ref, computed } from "vue";
 

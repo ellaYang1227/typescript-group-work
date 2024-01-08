@@ -1,10 +1,8 @@
 import router from "@/router/index";
 import { useLoadingStore } from "@/stores";
 import { getCookie } from "@/utilities/cookie";
-// import Swal from "sweetalert2";
 import { swalWithButtons } from "@/utilities/sweetAlert";
 import axios from "axios";
-const loadingStore = useLoadingStore();
 const errorSweetAlert = (text: string, callback?: () => void) => {
   swalWithButtons
     .fire({
@@ -27,6 +25,7 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // 在這裡加入您的邏輯
+    const loadingStore = useLoadingStore();
     const token = getCookie("token");
     if (token) {
       config.headers.Authorization = `${token}`;
@@ -37,22 +36,41 @@ service.interceptors.request.use(
     return config;
   },
   (error) => {
+    const loadingStore = useLoadingStore();
     loadingStore.hideLoading();
     return Promise.reject(error);
-  },
+  }
 );
 
 service.interceptors.response.use(
   (response) => {
     // 在這裡加入您的邏輯
+    const loadingStore = useLoadingStore();
     loadingStore.hideLoading();
     return response.data;
   },
   (error) => {
+    const loadingStore = useLoadingStore();
     loadingStore.hideLoading();
     if (error.response) {
       const { data } = error.response;
       switch (error.response.status) {
+        case 400:
+          const { name } = router.currentRoute.value;
+          errorSweetAlert(
+            `${name !== "login" && name !== "signup"
+              ? "找不到該筆資料"
+              : data.message
+            }`,
+            () => {
+              if (name !== "login" && name !== "signup")
+                // 除了登入、註冊失敗需停留在原頁 其他返回首頁
+                router.push({
+                  path: "/",
+                });
+            }
+          );
+          break;
         //可以在這裡針對不同 status code 做處理
         case 401:
         case 405:
@@ -69,7 +87,8 @@ service.interceptors.response.use(
           break;
         case 404:
           errorSweetAlert(`${data.message || "頁面不存在"}`, () => {
-            if (data.message !== "此使用者不存在") // 登入失敗需停留在登入頁
+            if (data.message !== "此使用者不存在")
+              // 登入失敗需停留在登入頁
               router.push({
                 path: "/",
               });
@@ -78,13 +97,13 @@ service.interceptors.response.use(
           break;
         case 500:
           errorSweetAlert(
-            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`
           );
           console.log(data.message);
           break;
         default:
           errorSweetAlert(
-            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`
           );
           console.log(data.message);
       }
@@ -101,7 +120,7 @@ service.interceptors.response.use(
       return;
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 export default service;

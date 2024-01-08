@@ -1,14 +1,17 @@
 import type { RouteLocationNormalized, NavigationGuardNext } from "vue-router";
 import { getCookie } from "@/utilities/cookie";
-
+import { useAuthStore } from "@/stores/auth";
 export function beforeEach(
   to: RouteLocationNormalized,
   _from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) {
+  const authStore = useAuthStore();
   const isHaveToken = getCookie("token");
+  if (isHaveToken) {
+    authStore.fetchUser();
+  }
   if (to.meta.title) document.title = to.meta.title as string;
-
   // 判斷是否為需要驗證權限的路由
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // 判斷是否已經登入

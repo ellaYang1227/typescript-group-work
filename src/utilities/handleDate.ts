@@ -2,13 +2,22 @@
  * 計算住宿幾晚
  * @param checkInDate 入住日期
  * @param checkOutDate 退房日期
- * @return e.g.=> 1 晚
+ * @param isOnlyNumber (非必要值)僅回傳數值；預設為 false
+ * @return e.g.=> isOnlyNumber: true 為 1；反之則為 1 晚
  */
-export function daysDifference(checkInDate: string, checkOutDate: string): string {
+export function daysDifference(
+    checkInDate: Date | string,
+    checkOutDate: Date | string,
+    isOnlyNumber?: boolean
+): string | number {
     const checkInDateTime = newDateTransform(checkInDate).getTime();
     const checkOutDateTime = newDateTransform(checkOutDate).getTime();
     const timeDifference = Math.abs(checkOutDateTime - checkInDateTime);
-    return `${Math.ceil(timeDifference / (1000 * 60 * 60 * 24))} 晚`;
+    let value = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+    if (isNaN(value)) {
+        value = 0;
+    }
+    return isOnlyNumber ? value : `${value} 晚`;
 }
 
 /**
@@ -16,8 +25,12 @@ export function daysDifference(checkInDate: string, checkOutDate: string): strin
  * @param date 要轉換的日期
  * @return e.g.=> 12 月 28 日星期四
  */
-export function dateTransform(date: string): string {
-    const formatDate = newDateTransform(date).toLocaleDateString("zh-TW", { weekday: "long", month: "short", day: "numeric" });
+export function dateTransform(date: Date | string): string {
+    const formatDate = newDateTransform(date).toLocaleDateString("zh-TW", {
+        weekday: "long",
+        month: "short",
+        day: "numeric",
+    });
     return formatDate.replace(/(\d{1,2})月(\d{1,2})日 (.+)/, "$1 月 $2 日$3");
 }
 
@@ -26,4 +39,4 @@ export function dateTransform(date: string): string {
  * @param date 日期參數
  * @returns e.g.=> Sun Jun 18 2023 08:00:00 GMT+0800 (台北標準時間)
  */
-const newDateTransform = (date: string): Date => new Date(date);
+const newDateTransform = (date: Date | string): Date => new Date(date);

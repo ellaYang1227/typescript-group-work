@@ -115,13 +115,17 @@ import BaseButton from "@/components/BaseButton.vue";
         <p>$white</p>
       </div>
     </div>
-    <h2>文字: className 對應 h1 ~ h6 也是</h2>
+    <h2>文字: className 對應 h1 ~ h10 也是</h2>
     <h1>H1. Heading 48px B</h1>
     <h2>H2. Heading 40px B</h2>
     <h3>H3. Heading 32px B</h3>
     <h4>H4. Heading 28px B</h4>
     <h5>H5. Heading 24px B</h5>
     <h6>H6. Heading 20px B</h6>
+    <h6>H7. Heading 18px B</h6>
+    <h6>H8. Heading 16px B</h6>
+    <h6>H9. Heading 14px B</h6>
+    <h6>H10. Heading 12px B</h6>
     <h2 class="mt-4">BaseButton 按鈕: className 對應底下文字</h2>
     <div class="d-flex list">
       <div class="block">

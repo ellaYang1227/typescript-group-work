@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineProps, computed } from "vue";
 import ProvideItemsCard from "@/components/Room/ProvideItemsCard.vue";
-import { OrderDetail } from "@/interfaces/orderDetail";
+import { OrderDetail } from "@/interfaces/order";
 import { daysDifference, dateTransform } from "@/utilities/handleDate";
 import { currencyTransform } from "@/utilities/formatTransform";
 
@@ -27,10 +27,17 @@ const props = defineProps({
 const filterOrderDetails = computed(() =>
   props.orderDetails.filter((item) => item)
 );
+
+function getTotal(orderDetail: OrderDetail): string {
+  const { roomId, checkInDate, checkOutDate } = orderDetail;
+  const days = daysDifference(checkInDate, checkOutDate, true) as number;
+  console.log(days);
+  return currencyTransform(roomId.price * days);
+}
 </script>
 <template>
   <div class="card rounded-3 border-0">
-    <div class="card-body p-3 p-md-6">
+    <div class="card-body p-3 p-lg-6">
       <h5 class="mb-4 mb-lg-6" v-if="isHistory">歷史訂單</h5>
       <ul class="list-group list-group-flush">
         <!-- 單筆訂單內容 -->
@@ -55,18 +62,18 @@ const filterOrderDetails = computed(() =>
               </template>
               <div
                 :class="{
-                  'd-flex flex-column flex-md-row flex-lg-column flex-xl-row':
+                  'd-flex flex-column flex-lg-row flex-lg-column flex-xl-row':
                     isHistory,
                 }"
               >
                 <img
                   :class="
                     isHistory
-                      ? 'isHistoryImgSize me-md-4 mb-4 mb-md-0 mb-lg-4 mb-xl-0 flex-shrink-0'
+                      ? 'isHistoryImgSize me-lg-4 mb-4 mb-lg-0 mb-lg-4 mb-xl-0 flex-shrink-0'
                       : 'my-4 my-lg-6'
                   "
                   :src="orderDetail.roomId.imageUrl"
-                  class="rounded object-fit roomImgHeight"
+                  class="rounded roomImgHeight"
                   :alt="orderDetail.roomId.name"
                 />
                 <ul class="list-unstyled mb-0">
@@ -88,7 +95,7 @@ const filterOrderDetails = computed(() =>
                       >
                     </h6>
                   </li>
-                  <li class="mb-3" v-if="isHistory">
+                  <li class="mb-3 d-grid gap-2" v-if="isHistory">
                     <span class="d-block">
                       住宿天數：{{
                         daysDifference(
@@ -108,17 +115,21 @@ const filterOrderDetails = computed(() =>
                   >
                     <div class="d-flex align-items-center">
                       <div class="customize-vr"></div>
-                      入住：{{ dateTransform(orderDetail.checkInDate) }}，15:00
-                      可入住
+                      <section>
+                        入住：{{ dateTransform(orderDetail.checkInDate)
+                        }}<span v-if="!isHistory">，15:00 可入住</span>
+                      </section>
                     </div>
                     <div class="d-flex align-items-center">
                       <div class="customize-vr bg-neutral-60"></div>
-                      退房：{{ dateTransform(orderDetail.checkOutDate) }}，12:00
-                      前退房
+                      <section>
+                        退房：{{ dateTransform(orderDetail.checkOutDate)
+                        }}<span v-if="!isHistory">，12:00 前退房</span>
+                      </section>
                     </div>
                   </li>
                   <li class="fw-bold">
-                    {{ currencyTransform(orderDetail.roomId.price) }}
+                    {{ getTotal(orderDetail) }}
                   </li>
                 </ul>
               </div>
@@ -152,13 +163,7 @@ const filterOrderDetails = computed(() =>
   </div>
 </template>
 <style lang="scss">
-// 房間圖片高度
 .roomImgHeight {
-  height: 220px;
-  @include media-breakpoint-up(md) {
-    height: 240px;
-  }
-
   // 歷史專用 - 圖片尺寸
   &.isHistoryImgSize {
     width: 120px;
