@@ -26,7 +26,7 @@ const capitalizeFirstLetter = (string: string) => {
     <h2 class="sectionHomeTitle mb-0">
       {{ props.title }}
     </h2>
-    <span v-if="subTitle" class="text-primary sectionHomeSubTitle">{{
+    <span v-if="subTitle" class="text-primary sectionHomeSubTitle fw-bold">{{
       subTitle
     }}</span>
   </div>
@@ -49,8 +49,9 @@ const capitalizeFirstLetter = (string: string) => {
   .sectionHomeTitle {
     color: $primary;
     font-size: 3rem;
-    line-height: 1.2;
+    line-height: 1.25;
     letter-spacing: 0.05em;
+    gap: 4px;
     @include media-breakpoint-down(lg) {
       font-size: 2rem;
     }
@@ -119,7 +120,13 @@ const capitalizeFirstLetter = (string: string) => {
     padding-bottom: 2.5rem;
     @include media-breakpoint-down(lg) {
       text-align: center;
-      height: 169px;
+      max-height: 169px;
+      height: 24vh;
+    }
+
+    @media screen and (max-width: 376px) {
+      margin-bottom: 0;
+      height: 146px;
     }
     &:after {
       bottom: 0;
@@ -130,6 +137,9 @@ const capitalizeFirstLetter = (string: string) => {
         left: 50%;
         top: auto;
         bottom: -20px;
+      }
+      @media screen and (max-width: 376px) {
+        height: 73px;
       }
     }
     .sectionHomeTitle {

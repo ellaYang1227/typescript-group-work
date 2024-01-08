@@ -20,15 +20,8 @@ const formatImg = (item: Room) => {
   if (item.imageUrlList.length) {
     result = [...result, ...item.imageUrlList];
   }
-  console.log(result);
   return result;
 };
-// const handlePrev = () => {
-//   console.log(roomsSwiperRef?.value, event);
-//   if (!roomsSwiperRef?.value) return;
-//   roomsSwiperRef?.value?.uSwiper.slidePrev();
-// };
-// const handleNext = () => {};
 </script>
 
 <template>
@@ -73,15 +66,15 @@ const formatImg = (item: Room) => {
               </div>
               <div class="roomsSwiper_right align-self-end ps-lg-10">
                 <div class="roomsSwiper_content text-white">
-                  <div class="mb-lg-3 mb-2 fs-lg-2 fs-4">
+                  <h2 class="mb-lg-3 mb-2 fs-lg-2 fs-4">
                     {{ roomItem.name }}
-                  </div>
+                  </h2>
                   <span class="fs-lg-8 fs-9 fw-lg-medium fw-normal">{{
                     roomItem.description
                   }}</span>
-                  <div class="fs-lg-3 fs-5 fs-semibold mt-lg-6 mt-4">
+                  <h3 class="fs-lg-3 fs-5 mt-lg-6 mt-4">
                     {{ currencyTransform(roomItem.price) }}
-                  </div>
+                  </h3>
                   <BaseButton
                     :to="`/rooms/${roomItem._id}`"
                     class="isStyleWhite roomsSwiper_contentLink"

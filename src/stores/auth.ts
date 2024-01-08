@@ -4,6 +4,8 @@ import { UserLogin, UserInformation } from "@/interfaces/auth";
 import { saveCookie } from "@/utilities/cookie";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import Cookies from "js-cookie";
+import { swalWithButtons } from "@/utilities/sweetAlert";
 
 export const useAuthStore = defineStore("useAuthStore", () => {
   const userInformation = ref<UserInformation | null>(null);
@@ -35,9 +37,28 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     }
   };
 
+  const logOut = async (): Promise<void> => {
+    try {
+      userInformation.value = null;
+      Cookies.remove("token", { path: "" });
+      swalWithButtons
+        .fire({
+          icon: "success",
+          title: "登出",
+          text: "登出成功",
+        })
+        .then(() => {
+          router.push("/");
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   return {
     userInformation,
     login,
     fetchUser,
+    logOut,
   };
 });
