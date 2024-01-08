@@ -40,7 +40,7 @@ export const useAuthStore = defineStore("useAuthStore", () => {
   const logOut = async (): Promise<void> => {
     try {
       userInformation.value = null;
-      Cookies.remove("token", { path: "" });
+      Cookies.remove("token");
       swalWithButtons
         .fire({
           icon: "success",
