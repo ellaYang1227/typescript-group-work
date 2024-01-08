@@ -29,7 +29,7 @@ onUnmounted(() => {
       v-if="slideShowList.length"
       :pagination="{ clickable: true }"
       :autoplay="{
-        delay: 133000,
+        delay: 3000,
       }"
       :modules="modules"
       :loop="true"
