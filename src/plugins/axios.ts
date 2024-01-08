@@ -56,6 +56,20 @@ service.interceptors.response.use(
       const { data } = error.response;
       switch (error.response.status) {
         case 400:
+          const { name } = router.currentRoute.value;
+          errorSweetAlert(
+            `${name !== "login" && name !== "signup"
+              ? "找不到該筆資料"
+              : data.message
+            }`,
+            () => {
+              if (name !== "login" && name !== "signup")
+                // 除了登入、註冊失敗需停留在原頁 其他返回首頁
+                router.push({
+                  path: "/",
+                });
+            }
+          );
           break;
         //可以在這裡針對不同 status code 做處理
         case 401:
@@ -73,7 +87,8 @@ service.interceptors.response.use(
           break;
         case 404:
           errorSweetAlert(`${data.message || "頁面不存在"}`, () => {
-            if (data.message !== "此使用者不存在") // 登入失敗需停留在登入頁
+            if (data.message !== "此使用者不存在")
+              // 登入失敗需停留在登入頁
               router.push({
                 path: "/",
               });
@@ -82,13 +97,13 @@ service.interceptors.response.use(
           break;
         case 500:
           errorSweetAlert(
-            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`
           );
           console.log(data.message);
           break;
         default:
           errorSweetAlert(
-            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`,
+            `${data.message || "網路出了點問題，請重新連線後刷新頁面"}`
           );
           console.log(data.message);
       }
@@ -105,7 +120,7 @@ service.interceptors.response.use(
       return;
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 export default service;

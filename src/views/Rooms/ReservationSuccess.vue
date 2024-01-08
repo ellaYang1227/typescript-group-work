@@ -23,7 +23,7 @@ watch<any, any>(
 <template>
   <Layout is-has-footer-decoration>
     <section class="bg-neutral-dark">
-      <div class="container py-6 py-lg-11">
+      <div class="container-lg py-6 py-lg-11">
         <div class="row gy-8 gx-xl-9">
           <div class="col-lg-7">
             <ul class="list-group list-group-flush d-grid gap-6 gap-lg-10">
@@ -84,4 +84,3 @@ watch<any, any>(
 </template>
 
 <style lang="scss"></style>
-@/interfaces/order

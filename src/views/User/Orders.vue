@@ -3,7 +3,7 @@ import Layout from "@/components/Layouts/Index.vue";
 // import ProvideItemsCard from "@/components/Room/ProvideItemsCard.vue";
 import OrderDetailCard from "@/components/Order/OrderDetailCard.vue";
 import { swalWithCheckButtons } from "@/utilities/sweetAlert";
-import { OrderDetail } from "@/interfaces/orderDetail";
+import { OrderDetail } from "@/interfaces/order";
 import { getOrders, deleteOneOrder } from "@/models/orders";
 import { ref, watch } from "vue";
 
@@ -18,22 +18,24 @@ watch(orderDetails, () => {
 
 // 取消單筆訂單
 function cancelOrder() {
-  swalWithCheckButtons.fire({
-    icon: "info",
-    title: "取消預定",
-    text: "確定要取消此房型的預訂嗎?",
-    showCancelButton: true,
-    showConfirmButton: true,
-    cancelButtonText: "關閉視窗",
-    confirmButtonText: "確定取消",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      console.log(lastOrderDetail.value!._id)
-      const id = lastOrderDetail.value!._id;
-      deleteOneOrder(id);
-    }
-  })
-};
+  swalWithCheckButtons
+    .fire({
+      icon: "info",
+      title: "取消預定",
+      text: "確定要取消此房型的預訂嗎?",
+      showCancelButton: true,
+      showConfirmButton: true,
+      cancelButtonText: "關閉視窗",
+      confirmButtonText: "確定取消",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        console.log(lastOrderDetail.value!._id);
+        const id = lastOrderDetail.value!._id;
+        deleteOneOrder(id);
+      }
+    });
+}
 
 // 撈取訂單資料
 async function handleGetOrders() {
@@ -63,11 +65,20 @@ handleGetOrders();
           </router-link>
         </nav>
         <main class="row gap-6 d-flex flex-column flex-lg-row">
-          <div class="card col-12 col-lg-6 col-xxl-7 p-0 h-100" v-if="lastOrderDetail">
+          <div
+            class="card col-12 col-lg-6 col-xxl-7 p-0 h-100"
+            v-if="lastOrderDetail"
+          >
             <OrderDetailCard :orderDetails="[lastOrderDetail]">
               <div class="d-flex justify-content-between gap-3 pt-9">
-                <button class="baseButton isStyleWhite w-100" @click="cancelOrder">取消預定</button>
-                <RouterLink :to="`/rooms/${lastOrderDetail.roomId._id}`" 
+                <button
+                  class="baseButton isStyleWhite w-100"
+                  @click="cancelOrder"
+                >
+                  取消預定
+                </button>
+                <RouterLink
+                  :to="`/rooms/${lastOrderDetail.roomId._id}`"
                   class="baseButton isStylePrimary w-100"
                 >
                   查看詳情
