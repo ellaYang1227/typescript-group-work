@@ -3,16 +3,17 @@ import Layout from "@/components/Layouts/Index.vue";
 import BasicInformation from "@/components/Room/BasicInformation.vue";
 import ProvideItemsCard from "@/components/Room/ProvideItemsCard.vue";
 import InformationForm from "@/components/User/InformationForm.vue";
-import { apiGetUser } from "@/models/auth";
 import { getRoomDetail } from "@/models/rooms";
+import { addOrder } from "@/models/orders";
 import { currencyTransform } from "@/utilities/formatTransform";
 import { daysDifference } from "@/utilities/handleDate";
 import { Room } from "@/interfaces/room";
 import { Order } from "@/interfaces/order";
+import { useAuthStore } from "@/stores/auth";
 import { ref, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import { addOrder } from "@/models/orders";
+import { storeToRefs } from "pinia";
 
 const roomDetail = ref<null | Room>(null);
 const orderForm = ref<null | Order>(null);
@@ -51,11 +52,11 @@ interface CheckDate {
   checkOutDate: Order["checkOutDate"];
 }
 const getDefaultCheckDate = (): CheckDate => {
-  const checkOutDate = transformDate(
-    new Date(today.getTime() + 24 * 60 * 60 * 1000)
-  );
+  const oneDay = 24 * 60 * 60 * 1000;
+  const checkInDate = transformDate(new Date(today.getTime() + oneDay));
+  const checkOutDate = transformDate(new Date(today.getTime() + oneDay * 2));
   return {
-    checkInDate: transformDate(today),
+    checkInDate,
     checkOutDate,
   };
 };
@@ -104,11 +105,11 @@ const orderRoomFormSchema = {
   checkInDate(value: string): true | string {
     const { checkOutDate } = orderForm.value as Order;
     const formatToday = transformDate(today);
-    if (value >= formatToday && checkOutDate > value) {
+    if (value > formatToday && checkOutDate > value) {
       return true;
     }
 
-    return `開始日期不能比今天(${formatToday})早，且不能比結束日期 ${checkOutDate} 晚`;
+    return `開始日期需比今天(${formatToday})晚，且不能比結束日期(${checkOutDate})晚`;
   },
   checkOutDate(value: string): true | string {
     const { checkInDate } = orderForm.value as Order;
@@ -117,16 +118,18 @@ const orderRoomFormSchema = {
       return true;
     }
 
-    return `結束日期須晚於今天(${formatToday})與開始日期 ${checkInDate}`;
+    return `結束日期須晚於今天(${formatToday})與開始日期(${checkInDate})`;
   },
 };
 
 // 取得會員資料
-async function getGetUser(): Promise<void> {
-  const res: any = await apiGetUser();
+const authStore = useAuthStore();
+const { userInformation } = storeToRefs(authStore);
+async function getUserInfo(): Promise<void> {
+  const { value } = userInformation;
   const { userInfo }: any = orderForm.value as Order;
-  if (userInfo && res) {
-    Object.keys(userInfo).forEach((key) => (userInfo[key] = res[key]));
+  if (userInfo && value) {
+    Object.keys(userInfo).forEach((key) => (userInfo[key] = value[key]));
   }
 }
 
@@ -293,7 +296,7 @@ const userInfoFormInvalid = computed((): boolean => {
                     <button
                       type="button"
                       class="baseButton isStyleText d-none d-lg-block p-0 border-0"
-                      @click="getGetUser"
+                      @click="getUserInfo"
                     >
                       套用會員資料
                     </button>
