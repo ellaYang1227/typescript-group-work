@@ -233,6 +233,7 @@ const logOut = () => {
     .dropdown-menu {
       width: 260px;
       padding: 12px 0;
+      border-radius: 1.25rem;
       .dropdown-item {
         padding: 1rem 1.5rem;
         font-weight: 700;

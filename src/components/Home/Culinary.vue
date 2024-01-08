@@ -144,6 +144,7 @@ onUnmounted(() => {
       left: calc((100vw - 960px) / 2 - (calc(var(--bs-gutter-x) * 0.5)));
     }
     @include media-breakpoint-down(lg) {
+      width: 100%;
       left: auto;
       padding-right: 0;
     }
