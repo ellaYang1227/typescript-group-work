@@ -4,7 +4,10 @@ import OrderDetailCard from "@/components/Order/OrderDetailCard.vue";
 import { swalWithCheckButtons } from "@/utilities/sweetAlert";
 import { OrderDetail } from "@/interfaces/order";
 import { getOrders, deleteOneOrder } from "@/models/orders";
+import { useAuthStore } from "@/stores";
+import { storeToRefs } from "pinia";
 import { ref, computed } from "vue";
+const { userInformation } = storeToRefs(useAuthStore());
 
 const showAll = ref(false);
 const orderDetails = ref<OrderDetail[]>([]);
@@ -87,7 +90,7 @@ handleGetOrders();
             class="banner__head d-flex flex-column flex-lg-row align-items-lg-center gap-3 gap-lg-4"
           >
             <img src="@/assets/headSticker.png" alt="headSticker" />
-            <p class="text-white">Hello，Jessica</p>
+            <p class="text-white">Hello，{{ userInformation!.name }}</p>
           </div>
         </div>
       </div>
