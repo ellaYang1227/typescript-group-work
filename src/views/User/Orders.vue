@@ -120,7 +120,10 @@ handleGetOrders();
             <OrderDetailCard
               :orderDetails="featureOrderDetail ? [featureOrderDetail] : []"
             >
-              <div class="d-flex justify-content-between gap-3 pt-6">
+              <div
+                v-if="featureOrderDetail"
+                class="d-flex justify-content-between gap-3 pt-6"
+              >
                 <button
                   class="baseButton isStyleSecondary w-100"
                   @click="cancelOrder"
@@ -138,10 +141,7 @@ handleGetOrders();
               </div>
             </OrderDetailCard>
           </div>
-          <div
-            class="card col-12 col-lg p-0 h-100"
-            v-if="filterOrders.length > 0"
-          >
+          <div class="card col-12 col-lg p-0 h-100">
             <OrderDetailCard
               :isHistory="true"
               :orderDetails="filterOrders"
