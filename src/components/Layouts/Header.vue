@@ -94,8 +94,11 @@ const logOut = () => {
                   </ul>
                 </div>
 
-                <BaseButton class="header_menuLink isStyleGhost" to="/user">
-                  <span class="ps-2 align-text-top d-md-none">我的帳戶</span>
+                <BaseButton
+                  class="header_menuLink isStyleGhost d-md-none"
+                  to="/user"
+                >
+                  <span class="ps-2 align-text-top">我的帳戶</span>
                 </BaseButton>
               </template>
             </li>

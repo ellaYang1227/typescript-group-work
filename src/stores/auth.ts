@@ -1,10 +1,9 @@
 import { defineStore } from "pinia";
 import { apiLogin, apiGetUser } from "@/models/api";
 import { UserLogin, UserInformation } from "@/interfaces/auth";
-import { saveCookie } from "@/utilities/cookie";
+import { saveCookie, removeCookie } from "@/utilities/cookie";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import Cookies from "js-cookie";
 import { swalWithButtons } from "@/utilities/sweetAlert";
 
 export const useAuthStore = defineStore("useAuthStore", () => {
@@ -37,19 +36,21 @@ export const useAuthStore = defineStore("useAuthStore", () => {
     }
   };
 
-  const logOut = async (): Promise<void> => {
+  const logOut = async (isAlert: boolean = true): Promise<void> => {
     try {
       userInformation.value = null;
-      Cookies.remove("token");
-      swalWithButtons
-        .fire({
-          icon: "success",
-          title: "登出",
-          text: "登出成功",
-        })
-        .then(() => {
-          router.push("/");
-        });
+      removeCookie("token");
+      if (isAlert) {
+        swalWithButtons
+          .fire({
+            icon: "success",
+            title: "登出",
+            text: "登出成功",
+          })
+          .then(() => {
+            router.push("/");
+          });
+      }
     } catch (error) {
       console.log("error", error);
     }

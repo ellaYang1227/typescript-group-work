@@ -1,5 +1,5 @@
 import router from "@/router/index";
-import { useLoadingStore } from "@/stores";
+import { useLoadingStore, useAuthStore } from "@/stores";
 import { getCookie } from "@/utilities/cookie";
 import { swalWithButtons } from "@/utilities/sweetAlert";
 import axios from "axios";
@@ -51,6 +51,7 @@ service.interceptors.response.use(
   },
   (error) => {
     const loadingStore = useLoadingStore();
+    const authStore = useAuthStore();
     loadingStore.hideLoading();
     if (error.response) {
       const { data } = error.response;
@@ -76,6 +77,7 @@ service.interceptors.response.use(
         case 405:
         case 403:
           errorSweetAlert(`${data.message || "權限不足，請重新登入"}`, () => {
+            authStore.logOut(false);
             router.push({
               path: "/login",
               query: {
