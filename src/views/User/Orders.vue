@@ -96,7 +96,7 @@ handleGetOrders();
           </div>
         </div>
       </div>
-      <div class="container container-lg pb-6 pb-lg-11">
+      <div class="container-lg pb-6 pb-lg-11">
         <nav class="py-6 py-lg-10">
           <router-link
             to="/user"
