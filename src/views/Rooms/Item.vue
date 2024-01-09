@@ -57,6 +57,9 @@ fetchRoomDetail(routeParamsId);
         </div>
       </section>
       <swiper-images
+        :is-mask="false"
+        :is-navigation="false"
+        :is-autoplay="true"
         class="d-block d-lg-none"
         :images-url="[...[roomDetail.imageUrl], ...roomDetail.imageUrlList]"
       />
