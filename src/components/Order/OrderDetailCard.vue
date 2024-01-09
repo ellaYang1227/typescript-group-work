@@ -53,10 +53,11 @@ function getTotal(orderDetail: OrderDetail): string {
         <!-- 單筆訂單內容 -->
         <template v-else>
           <li
-            class="list-group-item p-0"
             v-for="(orderDetail, index) in filterOrderDetails"
-            v-show="index < 3 || isShowAll"
             :key="orderDetail._id"
+            v-show="index < 3 || isShowAll"
+            class="list-group-item p-0"
+            :class="{ 'none-border-style': index == 2 && !isShowAll }"
           >
             <ul class="list-group list-group-flush d-grid gap-4 gap-lg-6">
               <li
@@ -184,5 +185,8 @@ function getTotal(orderDetail: OrderDetail): string {
     width: 120px;
     height: 80px;
   }
+}
+.none-border-style {
+  border-bottom-width: 0 !important;
 }
 </style>
