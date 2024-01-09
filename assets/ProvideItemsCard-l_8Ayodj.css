@@ -1,0 +1,1 @@
+.room,.room-success{--bs-columns: 2}@media (min-width: 576px){.room,.room-success{--bs-columns: 3}}@media (min-width: 768px){.room,.room-success{--bs-columns: 5}}@media (min-width: 992px){.room{--bs-columns: 3}}@media (min-width: 1200px){.room{--bs-columns: 5}}@media (min-width: 992px){.room-success{--bs-columns: 2}}@media (min-width: 1400px){.room-success{--bs-columns: 3}}

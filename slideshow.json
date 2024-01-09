@@ -1,0 +1,34 @@
+{
+  "result": [
+    {
+      "image": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/桌機版/banner.png",
+      "image2": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/行動版/banner.png",
+      "title": "高雄<br />豪華住宿之選",
+      "text": "我們致力於為您提供無與倫比的奢華體驗與優質服務"
+    },
+    {
+      "image": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/桌機版/room2-1.png",
+      "image2": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/行動版/room2-1.png",
+      "title": "高雄<br />豪華住宿之選",
+      "text": "我們致力於為您提供無與倫比的奢華體驗與優質服務"
+    },
+    {
+      "image": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/桌機版/room3-1.png",
+      "image2": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/行動版/room3-1.png",
+      "title": "高雄<br />豪華住宿之選",
+      "text": "我們致力於為您提供無與倫比的奢華體驗與優質服務"
+    },
+    {
+      "image": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/桌機版/room4-1.png",
+      "image2": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/行動版/room4-1.png",
+      "title": "高雄<br />豪華住宿之選",
+      "text": "我們致力於為您提供無與倫比的奢華體驗與優質服務"
+    },
+    {
+      "image": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/桌機版/room5-1.png",
+      "image2": "https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/行動版/room5-1.png",
+      "title": "高雄<br />豪華住宿之選",
+      "text": "我們致力於為您提供無與倫比的奢華體驗與優質服務"
+    }
+  ]
+}

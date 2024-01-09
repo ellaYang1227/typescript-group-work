@@ -1,0 +1,1 @@
+import{_ as e}from"./Index.vue_vue_type_script_setup_true_lang-VQWO-NB-.js";import{d as o,h as t,w as a,o as s,a as n}from"./index-4ELyWGMl.js";import"./BaseButton.vue_vue_type_style_index_0_lang-gZLVGKkt.js";const r=n("section",null,"會員訂單",-1),f=o({__name:"Index",setup(_){return(c,i)=>(s(),t(e,{"is-has-footer-decoration":""},{default:a(()=>[r]),_:1}))}});export{f as default};

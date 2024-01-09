@@ -1,0 +1,1 @@
+.guideline .list .block{width:180px;height:120px;border-radius:8px;display:flex;justify-content:center;align-items:center;flex-direction:column}.guideline .list .block:not(:last-child){margin-right:20px}.guideline .list:not(:last-child){margin-bottom:20px}
