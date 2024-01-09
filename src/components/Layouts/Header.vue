@@ -186,7 +186,9 @@ const logOut = () => {
   }
   &_menuList {
     @include media-breakpoint-down(md) {
-      height: calc(100% - 50vw);
+      top: calc(50% - 64px);
+      position: relative;
+      transform: translateY(-50%);
     }
   }
   &_menuItem {
@@ -234,6 +236,8 @@ const logOut = () => {
       width: 260px;
       padding: 12px 0;
       border-radius: 1.25rem;
+      border: 0;
+      overflow: hidden;
       .dropdown-item {
         padding: 1rem 1.5rem;
         font-weight: 700;
