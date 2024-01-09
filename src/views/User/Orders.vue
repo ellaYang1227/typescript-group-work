@@ -90,12 +90,14 @@ handleGetOrders();
             class="banner__head d-flex flex-column flex-lg-row align-items-lg-center gap-3 gap-lg-4"
           >
             <img src="@/assets/headSticker.png" alt="headSticker" />
-            <p v-if="userInformation" class="text-white">Hello，{{ userInformation.name }}</p>
+            <h1 v-if="userInformation" class="text-white fw-bold m-0">
+              Hello，{{ userInformation.name }}
+            </h1>
           </div>
         </div>
       </div>
-      <div class="container container-lg pb-11">
-        <nav class="py-10">
+      <div class="container-lg pb-6 pb-lg-11">
+        <nav class="py-6 py-lg-10">
           <router-link
             to="/user"
             class="baseButton isStyleGhost px-4 py-3"
@@ -114,12 +116,14 @@ handleGetOrders();
         <main
           class="row gap-4 gap-lg-6 d-flex flex-column flex-lg-row w-100 m-auto"
         >
-          <div
-            class="card col-12 col-lg-6 col-xxl-6 p-0 h-100"
-            v-if="featureOrderDetail"
-          >
-            <OrderDetailCard :orderDetails="[featureOrderDetail]">
-              <div class="d-flex justify-content-between gap-3 pt-6">
+          <div class="card col-12 col-lg-6 col-xxl-6 p-0 h-100">
+            <OrderDetailCard
+              :orderDetails="featureOrderDetail ? [featureOrderDetail] : []"
+            >
+              <div
+                v-if="featureOrderDetail"
+                class="d-flex justify-content-between gap-3 pt-6"
+              >
                 <button
                   class="baseButton isStyleSecondary w-100"
                   @click="cancelOrder"
@@ -127,7 +131,9 @@ handleGetOrders();
                   取消預定
                 </button>
                 <RouterLink
-                  :to="`/rooms/${featureOrderDetail.roomId._id}`"
+                  :to="`/rooms/${
+                    featureOrderDetail ? featureOrderDetail.roomId._id : null
+                  }`"
                   class="baseButton isStylePrimary w-100"
                 >
                   查看詳情
@@ -135,10 +141,7 @@ handleGetOrders();
               </div>
             </OrderDetailCard>
           </div>
-          <div
-            class="card col-12 col-lg p-0 h-100"
-            v-if="filterOrders.length > 0"
-          >
+          <div class="card col-12 col-lg p-0 h-100">
             <OrderDetailCard
               :isHistory="true"
               :orderDetails="filterOrders"
@@ -149,7 +152,7 @@ handleGetOrders();
                 @click="showAll = !showAll"
                 v-if="filterOrders.length > 3 && !showAll"
               >
-                查看更多<font-awesome-icon class="ps-3" icon="chevron-down" />
+                查看更多<font-awesome-icon class="ps-1" icon="chevron-down" />
               </button>
             </OrderDetailCard>
           </div>
