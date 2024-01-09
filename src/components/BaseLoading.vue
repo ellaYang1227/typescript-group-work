@@ -18,7 +18,7 @@ const { isShowLoading } = storeToRefs(loading);
   right: 0;
   bottom: 0;
   top: 0;
-  z-index: 999;
+  z-index: 9999;
   background: rgba($neutral-40, 0.8);
   width: 100vw;
   min-height: 100vh;
@@ -26,5 +26,6 @@ const { isShowLoading } = storeToRefs(loading);
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 </style>

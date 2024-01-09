@@ -7,20 +7,20 @@ const { newsList } = storeToRefs(usehomeStore());
 
 <template>
   <section v-if="newsList.length" class="homeNews">
-    <div class="container py-10 py-lg-11 homeNews_inner">
-      <div class="row">
+    <div class="container-lg py-10 py-lg-11 homeNews_inner">
+      <div class="row position-relative z-1">
         <div class="col-lg-2">
           <SectionTitle type="short" title="最新消息" />
         </div>
         <div class="col-lg-10">
-          <ul class="list-unstyled homeNews_list">
+          <ul class="list-unstyled homeNews_list mb-0">
             <li
               v-for="newsItem in newsList"
               :key="newsItem._id"
               class="homeNews_item"
             >
               <div class="row">
-                <div class="col-lg-5 ps-lg-0">
+                <div class="col-lg-5">
                   <img
                     :src="newsItem.image"
                     :alt="newsItem.title"
@@ -28,7 +28,7 @@ const { newsList } = storeToRefs(usehomeStore());
                   />
                 </div>
                 <div class="col-lg-7 align-self-center">
-                  <h3 class="mb-lg-4 mb-2 mt-lg-0 mt-4">
+                  <h3 class="mb-lg-4 mb-2 mt-lg-0 mt-4 text-neutral">
                     {{ newsItem.title }}
                   </h3>
                   <p class="mb-0 fs-lg-8 fs-9">
@@ -70,6 +70,7 @@ const { newsList } = storeToRefs(usehomeStore());
 
   &_img {
     border-radius: 8px;
+    height: 294px;
   }
   &_item {
     &:not(:last-child) {

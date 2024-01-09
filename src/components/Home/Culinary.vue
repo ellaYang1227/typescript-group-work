@@ -30,8 +30,12 @@ onUnmounted(() => {
           spaceBetween="24"
           :loop="true"
           :breakpoints="{
+            '1399': {
+              slidesPerView: 3.7,
+              spaceBetween: 24,
+            },
             '992': {
-              slidesPerView: 3.8,
+              slidesPerView: 2.9,
               spaceBetween: 24,
             },
           }"
@@ -56,7 +60,7 @@ onUnmounted(() => {
                     <h5 class="mb-0 culinarySwiper_title">
                       {{ culinaryItem.title }}
                     </h5>
-                    <div class="fs-lg-8 fs-9">
+                    <div class="fs-lg-8 fs-9 fw-bold text-neutral-40">
                       <span>{{
                         culinaryItem.diningTime.split(
                           /^([A-Z]{3}-[A-Z]{3})\s(.*)$/
@@ -94,13 +98,13 @@ onUnmounted(() => {
     background-position: center;
     width: 187px;
     height: 1068px;
-    left: calc((100vw - 1320px) / 2 - 53px - 187px - (calc(1.5rem * 0.5)));
+    left: calc((100vw - 1320px) / 2 - 53px - 187px - (1.5rem * 0.5));
     bottom: -83px;
     @include media-breakpoint-down(xxl) {
-      left: calc((100vw - 1140px) / 2 - (calc(var(--bs-gutter-x) * 0.5)));
+      left: calc((100vw - 1140px) / 2 - 53px - 187px - (1.5rem * 0.5));
     }
     @include media-breakpoint-down(xl) {
-      left: calc((100vw - 960px) / 2 - (calc(var(--bs-gutter-x) * 0.5)));
+      left: calc((100vw - 960px) / 2 - 53px - 187px - (1.5rem * 0.5));
     }
     @include media-breakpoint-down(lg) {
       display: none;
@@ -126,18 +130,21 @@ onUnmounted(() => {
   }
   &_container {
     @include make-container();
-    max-width: 1920px;
+    width: calc(100vw - ((100vw - 1320px) / 2 - var(--bs-gutter-x) * 0.5));
     position: relative;
     left: calc((100vw - 1320px) / 2 - (calc(var(--bs-gutter-x) * 0.5)));
     margin-right: 0;
     margin-left: 0;
     @include media-breakpoint-down(xxl) {
+      width: calc(100vw - ((100vw - 1140px) / 2 - var(--bs-gutter-x) * 0.5));
       left: calc((100vw - 1140px) / 2 - (calc(var(--bs-gutter-x) * 0.5)));
     }
     @include media-breakpoint-down(xl) {
+      width: calc(100vw - ((100vw - 960px) / 2 - var(--bs-gutter-x) * 0.5));
       left: calc((100vw - 960px) / 2 - (calc(var(--bs-gutter-x) * 0.5)));
     }
     @include media-breakpoint-down(lg) {
+      width: 100%;
       left: auto;
       padding-right: 0;
     }

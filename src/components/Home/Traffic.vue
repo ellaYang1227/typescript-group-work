@@ -22,19 +22,19 @@ const list = ref([
 
 <template>
   <section class="homeTraffic bg-neutral-dark">
-    <div class="container pt-10 pb-6 pt-lg-11 pb-lg-10">
+    <div class="container-lg pt-10 pb-6 pt-lg-11 pb-lg-10">
       <SectionTitle title="交通方式" type="normal" />
       <div class="homeTraffic_inner">
-        <p class="text-white mb-3">台灣高雄市新興區六角路123號</p>
+        <p class="text-neutral-40 mb-3 fw-bold">台灣高雄市新興區六角路123號</p>
         <img
           src="https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/桌機版/map.png"
           alt="台灣高雄市新興區六角路123號地圖"
-          class="w-100 h-auto rounded-3 d-lg-block d-none"
+          class="w-100 d-lg-block d-none homeTraffic_img"
         />
         <img
           src="https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/行動版/map.png"
           alt="台灣高雄市新興區六角路123號地圖"
-          class="w-100 h-auto rounded-3 d-lg-none"
+          class="w-100 h-auto d-lg-none homeTraffic_img"
         />
         <div class="row homeTraffic_list mt-lg-6 mt-0 g-4">
           <div
@@ -120,6 +120,12 @@ const list = ref([
           color: #be9c7c !important;
         }
       }
+    }
+  }
+  &_inner {
+    .homeTraffic_img {
+      border-radius: 8px;
+      height: 360px;
     }
   }
 }

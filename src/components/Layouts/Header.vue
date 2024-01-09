@@ -17,6 +17,9 @@ const props = defineProps({
   },
 });
 const isMenuShow = ref(false);
+const logOut = () => {
+  store.logOut();
+};
 </script>
 
 <template>
@@ -61,20 +64,40 @@ const isMenuShow = ref(false);
                 to="/login"
                 >會員登入</BaseButton
               >
-              <BaseButton
-                v-else
-                class="header_menuLink isStyleGhost"
-                to="/user"
-              >
-                <font-awesome-icon
-                  icon="fa-regular fa-circle-user"
-                  class="h5 mb-0 d-md-inline d-none"
-                />
-                <span class="ps-2 align-text-top d-md-inline d-none">{{
-                  userInformation.name
-                }}</span>
-                <span class="ps-2 align-text-top d-md-none">我的帳戶</span>
-              </BaseButton>
+              <template v-else>
+                <div class="header_dropdown d-md-block d-none">
+                  <BaseButton
+                    class="header_menuLink isStyleGhost"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <font-awesome-icon
+                      icon="fa-regular fa-circle-user"
+                      class="h5 mb-0"
+                    />
+                    <span class="ps-2 align-text-top">{{
+                      userInformation.name
+                    }}</span>
+                  </BaseButton>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <router-link class="dropdown-item" to="/user"
+                        >我的帳戶</router-link
+                      >
+                    </li>
+                    <li>
+                      <button class="dropdown-item" @click="logOut">
+                        登出
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+
+                <BaseButton class="header_menuLink isStyleGhost" to="/user">
+                  <span class="ps-2 align-text-top d-md-none">我的帳戶</span>
+                </BaseButton>
+              </template>
             </li>
             <li class="header_menuItem align-self-md-start align-self-center">
               <BaseButton class="header_menuLink isStylePrimary" to="/rooms"
@@ -163,7 +186,9 @@ const isMenuShow = ref(false);
   }
   &_menuList {
     @include media-breakpoint-down(md) {
-      height: calc(100% - 50vw);
+      top: calc(50% - 64px);
+      position: relative;
+      transform: translateY(-50%);
     }
   }
   &_menuItem {
@@ -204,6 +229,23 @@ const isMenuShow = ref(false);
     }
     .svg {
       font-size: 2.38rem;
+    }
+  }
+  &_dropdown {
+    .dropdown-menu {
+      width: 260px;
+      padding: 12px 0;
+      border-radius: 1.25rem;
+      border: 0;
+      overflow: hidden;
+      .dropdown-item {
+        padding: 1rem 1.5rem;
+        font-weight: 700;
+        &:hover {
+          background: $primary-tint;
+          color: $primary;
+        }
+      }
     }
   }
 }
