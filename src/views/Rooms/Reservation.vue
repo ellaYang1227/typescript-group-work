@@ -6,7 +6,7 @@ import InformationForm from "@/components/User/InformationForm.vue";
 import { getRoomDetail } from "@/models/rooms";
 import { addOrder } from "@/models/orders";
 import { currencyTransform } from "@/utilities/formatTransform";
-import { daysDifference } from "@/utilities/handleDate";
+import { daysDifference, dateTransform } from "@/utilities/handleDate";
 import { Room } from "@/interfaces/room";
 import { Order } from "@/interfaces/order";
 import { useAuthStore } from "@/stores/auth";
@@ -200,7 +200,7 @@ const userInfoFormInvalid = computed((): boolean => {
                         <div class="d-grid gap-2">
                           <div class="d-flex align-items-center">
                             <div class="customize-vr"></div>
-                            <strong>預定日期</strong>
+                            <strong>訂房日期</strong>
                           </div>
                           <section v-show="orderEditState.checkDate">
                             <div class="input-group">
@@ -231,9 +231,22 @@ const userInfoFormInvalid = computed((): boolean => {
                               class="invalid-feedback d-block"
                             ></ErrorMessage>
                           </section>
-                          <section v-show="!orderEditState.checkDate">
-                            {{ orderForm.checkInDate }} ~
-                            {{ orderForm.checkOutDate }}
+                          <section
+                            :class="
+                              orderEditState.checkDate
+                                ? 'd-none'
+                                : 'd-grid gap-2'
+                            "
+                          >
+                            <span
+                              >入住：
+                              {{ dateTransform(orderForm.checkInDate) }}
+                            </span>
+                            <span
+                              >退房：{{
+                                dateTransform(orderForm.checkOutDate)
+                              }}</span
+                            >
                           </section>
                         </div>
                       </div>
