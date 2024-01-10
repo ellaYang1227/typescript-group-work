@@ -4,7 +4,7 @@ import { beforeEach } from './routerGuard';
 
 const router = createRouter({
   history: createWebHistory(
-    process.env.NODE_ENV === "production" ? "/typescript-group-work-test/" : "/"
+    process.env.NODE_ENV === "production" ? "/typescript-group-work/" : "/"
   ),
   routes: routes,
 });
