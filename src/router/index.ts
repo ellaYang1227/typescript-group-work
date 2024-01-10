@@ -3,7 +3,9 @@ import routes from './routes';
 import { beforeEach } from './routerGuard';
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(
+    process.env.NODE_ENV === "production" ? "/typescript-group-work-test/" : "/"
+  ),
   routes: routes,
 });
 

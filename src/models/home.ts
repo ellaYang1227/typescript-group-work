@@ -9,7 +9,7 @@ export const apiGetNews = (): Promise<NewsItem[]> => {
 
 export const apiGetSlideShow = (): Promise<SlideShowItem[]> => {
   return axios
-    .get("/slideshow.json")
+    .get("./slideshow.json")
     .then((res: any) => Promise.resolve(res.data.result));
 };
 
