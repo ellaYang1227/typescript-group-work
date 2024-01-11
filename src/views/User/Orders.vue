@@ -23,10 +23,13 @@ const filterOrders = computed(() => {
 // 歷史訂單列表
 function getHistoryOrders() {
   const now = Date.now();
+  const checkInTime = 15 * 60 * 60 * 1000; // 入住時間為15:00
+
   // 篩選當前時間以前的訂單，並依照入住時間新到舊排序
   sortedHistoryOrders.value = filterOrders.value
     .filter((order) => {
-      const orderTimestamp = new Date(order.checkInDate).getTime();
+      const orderTimestamp =
+        new Date(order.checkInDate).getTime() + checkInTime;
       return orderTimestamp < now;
     })
     .sort(
@@ -40,9 +43,12 @@ function getFeatureOrder() {
   featureOrderDetail.value = null;
   // 1) 篩選當前時間以後的訂單，並依照入住時間舊到新排序
   const now = Date.now();
+  const checkInTime = 15 * 60 * 60 * 1000; // 入住時間為15:00
+
   sortedFeatureOrders.value = filterOrders.value
     .filter((order) => {
-      const orderTimestamp = new Date(order.checkInDate).getTime();
+      const orderTimestamp =
+        new Date(order.checkInDate).getTime() + checkInTime;
       return orderTimestamp >= now;
     })
     .sort(
@@ -171,22 +177,22 @@ handleGetOrders();
                 v-if="sortedFeatureOrders.length > 1"
                 class="d-flex justify-content-center gap-6 pt-6"
               >
-                <a
-                  href="javascript:void(0)"
+                <button
+                  class="baseButton isStyleText"
                   :class="{ 'disabled-order': currentOrderIndex == 0 }"
                   @click="handleShowOrder('prev')"
                 >
                   <font-awesome-icon :icon="['fas', 'chevron-left']" />
                   <span class="ps-2">上一筆訂單</span>
-                </a>
-                <a
-                  href="javascript:void(0)"
+                </button>
+                <button
+                  class="baseButton isStyleText"
                   :class="{ 'disabled-order': currentOrderIndex > 0 }"
                   @click="handleShowOrder('next')"
                 >
                   <span class="pe-2">下一筆訂單</span>
                   <font-awesome-icon :icon="['fas', 'chevron-right']" />
-                </a>
+                </button>
               </div>
             </OrderDetailCard>
           </div>
@@ -263,6 +269,7 @@ handleGetOrders();
   }
   .disabled-order {
     color: $neutral-60;
+    cursor: default;
   }
 }
 .check-actions {
