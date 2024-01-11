@@ -12,35 +12,62 @@ const { userInformation } = storeToRefs(useAuthStore());
 const showAll = ref(false);
 const orderDetails = ref<OrderDetail[]>([]);
 const featureOrderDetail = ref<null | OrderDetail>(null);
+const sortedFeatureOrders = ref<OrderDetail[]>([]);
+const sortedHistoryOrders = ref<OrderDetail[]>([]);
 
-// 歷史訂單只顯示有預約的訂單
-const filterOrders = computed(() =>
-  orderDetails.value.filter((item) => item.status === 0)
-);
+// 篩選未取消的訂單
+const filterOrders = computed(() => {
+  return orderDetails.value.filter((item) => item.status === 0);
+});
 
-// 即將來的行程顯示入住時間最靠近今天的日期
+// 歷史訂單列表
+function getHistoryOrders() {
+  const now = Date.now();
+  // 篩選當前時間以前的訂單，並依照入住時間新到舊排序
+  sortedHistoryOrders.value = filterOrders.value
+    .filter((order) => {
+      const orderTimestamp = new Date(order.checkInDate).getTime();
+      return orderTimestamp < now;
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.checkInDate).getTime() - new Date(a.checkInDate).getTime()
+    );
+}
+
+// 即將來的行程列表
 function getFeatureOrder() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // 將今天的時間設為 00:00:00
-  featureOrderDetail.value = null; // 清空即將來的行程
-  // 1) 過濾掉昨天以前的訂單
-  const futureOrders = filterOrders.value.filter((order) => {
-    const orderDate = new Date(order.checkInDate);
-    return orderDate >= today;
-  });
+  featureOrderDetail.value = null;
+  // 1) 篩選當前時間以後的訂單，並依照入住時間舊到新排序
+  const now = Date.now();
+  sortedFeatureOrders.value = filterOrders.value
+    .filter((order) => {
+      const orderTimestamp = new Date(order.checkInDate).getTime();
+      return orderTimestamp >= now;
+    })
+    .sort(
+      (a, b) =>
+        new Date(a.checkInDate).getTime() - new Date(b.checkInDate).getTime()
+    );
   // 2) 如果沒有即將來的行程，則不顯示
-  if (futureOrders.length === 0) return;
-  // 3) 依照入住時間排序
-  const sortedOrders = [...futureOrders].sort(
-    (a, b) =>
-      (new Date(a.checkInDate) as any) - (new Date(b.checkInDate) as any)
-  );
-  // 4) 取得最靠近今天的訂單
-  featureOrderDetail.value = sortedOrders.reduce((prev, current) => {
-    const prevDate = new Date(prev.checkInDate);
-    const currentDate = new Date(current.checkInDate);
-    return prevDate >= today && prevDate <= currentDate ? prev : current;
-  });
+  if (sortedFeatureOrders.value.length === 0) return;
+  featureOrderDetail.value = sortedFeatureOrders.value[0]; // 顯示當前即將來的行程
+}
+
+// 切換即將來的行程
+let currentOrderIndex = 0;
+function handleShowOrder(state: string) {
+  if (state === "prev") {
+    if (currentOrderIndex > 0) {
+      currentOrderIndex--;
+      featureOrderDetail.value = sortedFeatureOrders.value[currentOrderIndex];
+    }
+  } else {
+    if (currentOrderIndex < sortedFeatureOrders.value.length - 1) {
+      currentOrderIndex++;
+      featureOrderDetail.value = sortedFeatureOrders.value[currentOrderIndex];
+    }
+  }
 }
 
 // 取消單筆訂單
@@ -63,9 +90,10 @@ function cancelOrder() {
     });
 }
 
-// 撈取所有訂單資料，並取得即將來的行程
+// 撈取所有訂單資料，並顯示歷史訂單與即將來的行程列表
 async function handleGetOrders() {
   orderDetails.value = await getOrders();
+  getHistoryOrders();
   getFeatureOrder();
 }
 handleGetOrders();
@@ -139,18 +167,39 @@ handleGetOrders();
                   查看詳情
                 </RouterLink>
               </div>
+              <div
+                v-if="sortedFeatureOrders.length > 1"
+                class="d-flex justify-content-center gap-6 pt-6"
+              >
+                <a
+                  href="javascript:void(0)"
+                  :class="{ 'disabled-order': currentOrderIndex == 0 }"
+                  @click="handleShowOrder('prev')"
+                >
+                  <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                  <span class="ps-2">上一筆訂單</span>
+                </a>
+                <a
+                  href="javascript:void(0)"
+                  :class="{ 'disabled-order': currentOrderIndex > 0 }"
+                  @click="handleShowOrder('next')"
+                >
+                  <span class="pe-2">下一筆訂單</span>
+                  <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                </a>
+              </div>
             </OrderDetailCard>
           </div>
           <div class="card col-12 col-lg p-0 h-100">
             <OrderDetailCard
               :isHistory="true"
-              :orderDetails="filterOrders"
+              :orderDetails="sortedHistoryOrders"
               :isShowAll="showAll"
             >
               <button
                 class="baseButton isStyleSecondary w-100"
                 @click="showAll = !showAll"
-                v-if="filterOrders.length > 3 && !showAll"
+                v-if="sortedHistoryOrders.length > 3 && !showAll"
               >
                 查看更多<font-awesome-icon class="ps-1" icon="chevron-down" />
               </button>
@@ -211,6 +260,9 @@ handleGetOrders();
       right: 2.5rem;
       bottom: 0.25rem;
     }
+  }
+  .disabled-order {
+    color: $neutral-60;
   }
 }
 .check-actions {
