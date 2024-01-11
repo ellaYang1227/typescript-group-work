@@ -2,7 +2,7 @@
 
 [六角]2024 TypeScript 30 天證書培訓營 - 酒店訂房網站團體作業
 
-###### 網站：[飯店訂房網](https://ellayang1227.github.io/typescript-group-work/)
+###### 網站：[飯店訂房網](https://ellayang1227.github.io/typescript-group-work/#/)
 
 ## 團隊成員及分工
 
