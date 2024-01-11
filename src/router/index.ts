@@ -1,11 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import routes from './routes';
 import { beforeEach } from './routerGuard';
 
 const router = createRouter({
-  history: createWebHistory(
-    process.env.NODE_ENV === "production" ? "/typescript-group-work/" : "/"
-  ),
+  history: createWebHashHistory(),
   routes: routes,
 });
 
