@@ -54,6 +54,7 @@ function getFeatureOrder() {
       (a, b) =>
         new Date(a.checkInDate).getTime() - new Date(b.checkInDate).getTime()
     );
+
   // 2) 如果沒有即將來的行程，則不顯示
   if (sortedFeatureOrders.value.length === 0) return;
   featureOrderDetail.value = sortedFeatureOrders.value[0]; // 顯示當前即將來的行程
@@ -185,7 +186,9 @@ handleGetOrders();
                   <span class="ps-2">上一筆訂單</span>
                 </button>
                 <button
-                  :disabled="currentOrderIndex > 0"
+                  :disabled="
+                    currentOrderIndex === sortedFeatureOrders.length - 1
+                  "
                   class="baseButton isStyleText"
                   @click="handleShowOrder('next')"
                 >
