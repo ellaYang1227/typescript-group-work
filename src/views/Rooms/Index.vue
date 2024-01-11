@@ -11,7 +11,9 @@ import { ref, computed } from "vue";
 const rooms = ref<Room[]>([]);
 
 const roomsBannerImages = computed<string[]>(() => {
-  return rooms.value.map((room) => room.imageUrl);
+  const bannerUrl =
+    "https://github.com/hexschool/2022-web-layout-training/blob/main/typescript-hotel/%E6%A1%8C%E6%A9%9F%E7%89%88/banner.png?raw=true";
+  return [bannerUrl, ...rooms.value.map((room) => room.imageUrl)];
 });
 
 async function fetchRoom() {
@@ -72,11 +74,11 @@ fetchRoom();
               :is-mask="false"
               :is-navigation="true"
               :is-autoplay="false"
-              :images-url="room.imageUrlList"
+              :images-url="[room.imageUrl, ...room.imageUrlList]"
             />
           </div>
           <div class="room-intro-card bg-white p-3 p-lg-6">
-            <h2 class="mb-2">{{ room.name }}</h2>
+            <h2 class="mb-2 text-black">{{ room.name }}</h2>
             <div>{{ room.description }}</div>
             <basic-information
               class="py-4 py-lg-6 basic-information"
@@ -90,6 +92,7 @@ fetchRoom();
             >
               <h5 class="m-0">{{ currencyTransform(room.price) }}</h5>
               <font-awesome-icon
+                class="fs-5"
                 icon="fa-solid fa-arrow-right"
                 @click="$router.push(`/rooms/${room._id}`)"
               />
