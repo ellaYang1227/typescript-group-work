@@ -23,7 +23,7 @@ const filterOrders = computed(() => {
 // 歷史訂單列表
 function getHistoryOrders() {
   const now = Date.now();
-  const checkInTime = 15 * 60 * 60 * 1000; // 入住時間為15:00
+  const checkInTime = (15 - 8) * 60 * 60 * 1000; // 入住時間為 15:00，因 new Date(checkInDate) 實際時間從 08: 00 開始
 
   // 篩選當前時間以前的訂單，並依照入住時間新到舊排序
   sortedHistoryOrders.value = filterOrders.value
@@ -43,8 +43,7 @@ function getFeatureOrder() {
   featureOrderDetail.value = null;
   // 1) 篩選當前時間以後的訂單，並依照入住時間舊到新排序
   const now = Date.now();
-  const checkInTime = 15 * 60 * 60 * 1000; // 入住時間為15:00
-
+  const checkInTime = (15 - 8) * 60 * 60 * 1000; // 入住時間為 15:00，因 new Date(checkInDate) 實際時間從 08: 00 開始
   sortedFeatureOrders.value = filterOrders.value
     .filter((order) => {
       const orderTimestamp =
@@ -178,16 +177,16 @@ handleGetOrders();
                 class="d-flex justify-content-center gap-6 pt-6"
               >
                 <button
+                  :disabled="currentOrderIndex == 0"
                   class="baseButton isStyleText"
-                  :class="{ 'disabled-order': currentOrderIndex == 0 }"
                   @click="handleShowOrder('prev')"
                 >
                   <font-awesome-icon :icon="['fas', 'chevron-left']" />
                   <span class="ps-2">上一筆訂單</span>
                 </button>
                 <button
+                  :disabled="currentOrderIndex > 0"
                   class="baseButton isStyleText"
-                  :class="{ 'disabled-order': currentOrderIndex > 0 }"
                   @click="handleShowOrder('next')"
                 >
                   <span class="pe-2">下一筆訂單</span>
