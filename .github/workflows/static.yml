@@ -5,6 +5,9 @@ on:
   # 僅在推送到預設分支時運行。
   push:
     branches: ["main"]
+  # Pull Request(PR)審查事件中觸發。
+  pull_request_review:
+    types: [submitted]
 
   # 這個選項可以讓你手動在 Action tab 頁面觸發工作流程
   workflow_dispatch:
@@ -21,6 +24,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Pull Request(PR)的審查事件中觸發，並且只有當審查的狀態為 'APPROVED' 時才執行
+  approved:
+    if: github.event.review.state == 'APPROVED'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This PR was approved"
   # 單次部署的工作說明
   deploy:
     environment:
@@ -33,7 +42,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: "npm"
       - name: Install dependencies
         run: npm install
