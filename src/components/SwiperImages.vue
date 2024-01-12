@@ -94,5 +94,11 @@ defineProps<{
     background-repeat: no-repeat !important;
     background-size: cover !important;
   }
+  @include media-breakpoint-down(lg) {
+    :deep(.swiper-button-next),
+    :deep(.swiper-button-prev) {
+      display: none;
+    }
+  }
 }
 </style>
