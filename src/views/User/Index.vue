@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Layout from "@/components/Layouts/Index.vue";
-// import InformationForm from "@/components/User/InformationForm.vue";
 import { UserInfo } from "@/interfaces/auth";
 import UserInfoForm from "@/components/User/UserInfoForm.vue";
 import { useAuthStore } from "@/stores";
@@ -28,11 +27,14 @@ watch(
         address: userInformation.value.address,
         birthday: formattedDate,
       };
-      console.log(userInfoData.value);
     }
   },
   { immediate: true }
 );
+
+function handleUpdateUserInfo(values: any) {
+  console.log(values);
+}
 </script>
 
 <template>
@@ -77,21 +79,11 @@ watch(
             我的訂單
           </router-link>
         </nav>
-        <main
-          class="row gap-4 gap-lg-6 d-flex flex-column flex-lg-row w-100 m-auto"
-        >
-          <div class="card col-12 col-lg-5 p-0 h-100">修改密碼</div>
-          <div class="card col-12 col-lg p-0 h-100">
-            <div class="card-body p-3 p-lg-6">
-              <h5 class="mb-4 mb-lg-6">基本資料</h5>
-              <UserInfoForm v-if="userInfoData" :userInfoData="userInfoData" />
-              <!-- <InformationForm
-                v-if="userInfoData"
-                :userInformation="userInfoData"
-              /> -->
-            </div>
-          </div>
-        </main>
+        <UserInfoForm
+          v-if="userInfoData"
+          :userInfoData="userInfoData"
+          @updateUserInoo="handleUpdateUserInfo"
+        />
       </div>
     </section>
   </Layout>

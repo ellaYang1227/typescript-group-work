@@ -219,6 +219,15 @@ $colors: (
   &.isStyleWhite {
     border: 0;
   }
+  &.isStyleGrey {
+    color: $neutral-60;
+    background: $neutral-40;
+
+    &:hover {
+      color: $white;
+      background: $neutral-60;
+    }
+  }
   // &.isWhite {
   //   color: $white;
   //   text-decoration: none;
