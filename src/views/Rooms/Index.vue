@@ -6,8 +6,9 @@ import { currencyTransform } from "@/utilities/formatTransform";
 import { getRooms } from "@/models/rooms";
 import { Room } from "@/interfaces/room";
 import router from "@/router";
-import { ref, computed } from "vue";
-
+import { ref, computed, onMounted, onUpdated, onUnmounted } from "vue";
+import _throttle from "@/utilities/throttle";
+import getScrollTop from "@/utilities/getScrollTop";
 const rooms = ref<Room[]>([]);
 
 const roomsBannerImages = computed<string[]>(() => {
@@ -25,12 +26,70 @@ async function fetchRoom() {
   }
 }
 fetchRoom();
+
+// === scrollHeader ===
+const windowWidth = ref(0);
+const sectionRef = ref<HTMLElement | null>(null);
+const slideShowHeight = ref(0);
+const headerType = ref("styleBgTransparent");
+const setWindowWidth = () => {
+  windowWidth.value = document.body.clientWidth;
+};
+const setClientHeight = () => {
+  if (!sectionRef.value) return;
+  slideShowHeight.value = sectionRef.value.clientHeight;
+};
+const onScroll = () => {
+  const scrollTop = getScrollTop();
+  if (windowWidth.value > 991) {
+    if (slideShowHeight.value < scrollTop + 120) {
+      headerType.value = "styleBgTransparentScroll";
+    } else {
+      headerType.value = "styleBgTransparent";
+    }
+  } else {
+    if (slideShowHeight.value < scrollTop + 72) {
+      headerType.value = "styleBgTransparentScroll";
+    } else {
+      headerType.value = "styleBgTransparent";
+    }
+  }
+};
+
+onMounted(() => {
+  setWindowWidth();
+  window.addEventListener(
+    "resize",
+    _throttle(() => {
+      setWindowWidth();
+      setClientHeight();
+    }, 200)
+  );
+  window.addEventListener(
+    "scroll",
+    _throttle(() => {
+      onScroll();
+    }, 200)
+  );
+});
+onUpdated(() => {
+  setClientHeight();
+});
+onUnmounted(() => {
+  window.removeEventListener("resize", () => {
+    setWindowWidth();
+    setClientHeight();
+  });
+  window.removeEventListener("scroll", onScroll);
+});
+// === end ===
 </script>
 
 <template>
-  <Layout type="styleBgTransparent">
+  <Layout :type="headerType">
     <section class="room-index-page" v-if="rooms.length">
       <section
+        ref="sectionRef"
         class="d-flex align-items-center justify-content-center position-relative main-banner"
       >
         <swiper-images

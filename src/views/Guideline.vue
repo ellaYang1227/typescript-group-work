@@ -11,7 +11,7 @@ import BaseButton from "@/components/BaseButton.vue";
         <p>$primary-dark</p>
       </div>
       <div>
-        <div class="block bg-primary">#997E64</div>
+        <div class="block bg-primary">#BF9D7D</div>
         <p>$primary</p>
       </div>
       <div>

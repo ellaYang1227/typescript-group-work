@@ -20,6 +20,9 @@ module.exports = {
       },
     },
   ],
+  globals: {
+    NodeJS: true,
+  },
   parserOptions: {
     ecmaVersion: "latest",
     parser: "@typescript-eslint/parser",
