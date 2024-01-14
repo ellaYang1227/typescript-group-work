@@ -57,9 +57,9 @@ fetchRoom();
         </swiper-images>
       </section>
       <section
-        class="room-intro-list d-flex flex-column gap-6 gap-lg-7 align-items-center py-6 py-lg-11"
+        class="room-intro-list container-lg d-flex flex-column gap-4 gap-lg-7 align-items-center py-6 py-lg-11"
       >
-        <div class="title mb-lg-5">
+        <div class="title mb-3 mb-lg-5">
           <h6 class="mb-2 mb-lg-3">房型選擇</h6>
           <h1 class="text-primary m-0">各種房型，任您挑選</h1>
         </div>
@@ -127,14 +127,12 @@ $main-linear-gradient: linear-gradient(90deg, #be9c7c 0%, #ffffff 100%);
     .room-intro {
       height: 457px;
       .swiper-images-div {
-        max-width: 773px;
         width: 50vw;
         .swiper-images {
           border-radius: 20px 0 0 20px;
         }
       }
       .room-intro-card {
-        max-width: 523px;
         border-radius: 0 20px 20px 0;
         .basic-information {
           @include linear-gradient-bordered;
@@ -197,6 +195,12 @@ $main-linear-gradient: linear-gradient(90deg, #be9c7c 0%, #ffffff 100%);
     }
   }
   .swiper-images-div {
+    @media (min-width: 1200px) {
+      max-width: 773px;
+    }
+    @media (min-width: 992px) and (max-width: 1200px) {
+      max-width: 533px;
+    }
     @media (min-width: 576px) and (max-width: 991px) {
       height: 300px;
     }
