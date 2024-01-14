@@ -8,8 +8,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .ts,.js,.vue . --fix ",
-    "prettier": "prettier --write .",
-    "deploy": "gh-pages -d dist"
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
