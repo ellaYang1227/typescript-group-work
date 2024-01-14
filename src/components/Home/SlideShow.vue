@@ -8,23 +8,68 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import SectionTitle from "@/components/Home/SectionTitle.vue";
 import BaseButton from "@/components/BaseButton.vue";
-import { onMounted, ref, onUnmounted } from "vue";
+import _throttle from "@/utilities/throttle";
+import getScrollTop from "@/utilities/getScrollTop";
+import { onMounted, ref, onUnmounted, onUpdated } from "vue";
 const modules = [Pagination, Autoplay];
 const windowWidth = ref(0);
+const sectionRef = ref<HTMLElement | null>(null);
+const slideShowHeight = ref(0);
+const emit = defineEmits(["headerType"]);
 const setWindowWidth = () => {
   windowWidth.value = document.body.clientWidth;
 };
+const setClientHeight = () => {
+  if (!sectionRef.value) return;
+  slideShowHeight.value = sectionRef.value.clientHeight;
+};
+const onScroll = () => {
+  const scrollTop = getScrollTop();
+  if (windowWidth.value > 991) {
+    if (slideShowHeight.value < scrollTop + 120) {
+      emit("headerType", "styleBgTransparentScroll");
+    } else {
+      emit("headerType", "styleBgTransparent");
+    }
+  } else {
+    if (slideShowHeight.value < scrollTop + 72) {
+      emit("headerType", "styleBgTransparentScroll");
+    } else {
+      emit("headerType", "styleBgTransparent");
+    }
+  }
+};
+
 onMounted(() => {
   setWindowWidth();
-  window.addEventListener("resize", setWindowWidth);
+  window.addEventListener(
+    "resize",
+    _throttle(() => {
+      setWindowWidth();
+      setClientHeight();
+    }, 200)
+  );
+  window.addEventListener(
+    "scroll",
+    _throttle(() => {
+      onScroll();
+    }, 200)
+  );
+});
+onUpdated(() => {
+  setClientHeight();
 });
 onUnmounted(() => {
-  window.removeEventListener("resize", setWindowWidth);
+  window.removeEventListener("resize", () => {
+    setWindowWidth();
+    setClientHeight();
+  });
+  window.removeEventListener("scroll", onScroll);
 });
 </script>
 
 <template>
-  <section>
+  <section ref="sectionRef">
     <swiper
       v-if="slideShowList.length"
       :pagination="{ clickable: true }"

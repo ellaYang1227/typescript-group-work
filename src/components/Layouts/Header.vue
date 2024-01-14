@@ -10,9 +10,12 @@ const props = defineProps({
     type: String,
     default: "styleBgNormal",
     validator(value: string) {
-      return ["styleBgTransparent", "styleDisabled", "styleBgNormal"].includes(
-        value
-      );
+      return [
+        "styleBgTransparent",
+        "styleDisabled",
+        "styleBgNormal",
+        "styleBgTransparentScroll",
+      ].includes(value);
     },
   },
 });
@@ -33,30 +36,30 @@ const logOut = () => {
       <div class="header_rightSide">
         <BaseButton
           v-if="!isMenuShow"
-          class="isStyleTextIcon header_menuBars d-md-none"
+          class="isStyleTextIcon header_menuBars d-lg-none"
           @click="isMenuShow = !isMenuShow"
         >
           <font-awesome-icon icon="fa-solid fa-bars" class="svg mb-0" />
         </BaseButton>
         <nav class="header_menu" :class="{ isShow: isMenuShow }">
           <BaseButton
-            class="isStyleTextIcon d-md-none d-flex ms-auto header_menuClose"
+            class="isStyleTextIcon d-lg-none d-flex ms-auto header_menuClose"
             @click="isMenuShow = !isMenuShow"
           >
             <font-awesome-icon icon="fa-solid fa-xmark" class="svg mb-0" />
           </BaseButton>
           <ul
-            class="header_menuList list-unstyled d-flex flex-column flex-md-row mb-0 justify-content-md-start justify-content-center"
+            class="header_menuList list-unstyled d-flex flex-column flex-lg-row mb-0 justify-content-lg-start justify-content-center"
           >
             <li
-              class="header_menuItem align-self-md-start align-self-center mb-md-0 mb-4"
+              class="header_menuItem align-self-lg-start align-self-center mb-lg-0 mb-4"
             >
               <BaseButton class="header_menuLink isStyleGhost" to="/rooms"
                 >客房旅宿</BaseButton
               >
             </li>
             <li
-              class="header_menuItem align-self-md-start align-self-center mb-md-0 mb-4"
+              class="header_menuItem align-self-lg-start align-self-center mb-lg-0 mb-4"
             >
               <BaseButton
                 v-if="!userInformation?._id"
@@ -65,7 +68,7 @@ const logOut = () => {
                 >會員登入</BaseButton
               >
               <template v-else>
-                <div class="header_dropdown d-md-block d-none">
+                <div class="header_dropdown d-lg-block d-none">
                   <BaseButton
                     class="header_menuLink isStyleGhost"
                     type="button"
@@ -95,14 +98,14 @@ const logOut = () => {
                 </div>
 
                 <BaseButton
-                  class="header_menuLink isStyleGhost d-md-none"
+                  class="header_menuLink isStyleGhost d-lg-none"
                   to="/user"
                 >
                   <span class="ps-2 align-text-top">我的帳戶</span>
                 </BaseButton>
               </template>
             </li>
-            <li class="header_menuItem align-self-md-start align-self-center">
+            <li class="header_menuItem align-self-lg-start align-self-center">
               <BaseButton class="header_menuLink isStylePrimary" to="/rooms"
                 >立即訂房</BaseButton
               >
@@ -120,7 +123,7 @@ const logOut = () => {
   background: $neutral-dark;
   transition: 0.3s;
   position: relative;
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     height: 72px;
   }
   &.styleBgTransparent {
@@ -128,6 +131,12 @@ const logOut = () => {
     height: auto;
     .header_inner {
       background: transparent;
+    }
+  }
+  &.styleBgTransparentScroll {
+    height: auto;
+    .header_inner {
+      background: $neutral-dark;
     }
   }
   &.styleBgNormal {
@@ -139,7 +148,7 @@ const logOut = () => {
   &.styleDisabled {
     .header_rightSide {
       display: none;
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         display: block;
       }
     }
@@ -159,19 +168,19 @@ const logOut = () => {
     @include media-breakpoint-down(xxl) {
       padding: 0 0.75rem;
     }
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       height: 72px;
     }
   }
   &_leftSide {
     img {
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         width: 109px;
       }
     }
   }
   &_menu {
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       display: none;
       padding: 1.25rem;
     }
@@ -188,25 +197,25 @@ const logOut = () => {
     }
   }
   &_menuList {
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       top: calc(50% - 64px);
       position: relative;
       transform: translateY(-50%);
     }
   }
   &_menuItem {
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       width: 100%;
     }
     &:not(:last-child) {
       margin-right: 1rem;
-      @include media-breakpoint-down(md) {
+      @include media-breakpoint-down(lg) {
         margin-right: 0rem;
       }
     }
   }
   &_menuLink {
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-down(lg) {
       width: 100%;
     }
   }

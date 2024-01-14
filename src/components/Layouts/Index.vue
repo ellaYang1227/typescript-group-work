@@ -6,9 +6,12 @@ const props = defineProps({
     type: String,
     default: "styleBgNormal",
     validator(value: string) {
-      return ["styleBgTransparent", "styleDisabled", "styleBgNormal"].includes(
-        value
-      );
+      return [
+        "styleBgTransparent",
+        "styleDisabled",
+        "styleBgNormal",
+        "styleBgTransparentScroll",
+      ].includes(value);
     },
   },
   isHasFooterDecoration: {
