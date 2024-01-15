@@ -55,6 +55,12 @@ export const apiVerifyEmail = (email: string) => {
 
 export const apiUpdateUserInfo = (data: UserInfoWithNewPassword) => {
   return request
-    .put(`api/v1/orders/`, { ...data })
+    .put(`api/v1/user`, { ...data })
+    .then((res: any) => Promise.resolve(res.result));
+};
+
+export const apiGetUserInfo = () => {
+  return request
+    .get(`api/v1/user`)
     .then((res: any) => Promise.resolve(res.result));
 };

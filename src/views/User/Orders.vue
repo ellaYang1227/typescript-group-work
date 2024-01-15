@@ -7,8 +7,9 @@ import { getOrders, deleteOneOrder } from "@/models/orders";
 import { useAuthStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import { ref, computed } from "vue";
-const { userInformation } = storeToRefs(useAuthStore());
 
+const store = useAuthStore();
+const { userInformation } = storeToRefs(store);
 const showAll = ref(false);
 const orderDetails = ref<OrderDetail[]>([]);
 const featureOrderDetail = ref<null | OrderDetail>(null);

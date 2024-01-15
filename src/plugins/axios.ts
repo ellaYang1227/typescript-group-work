@@ -59,16 +59,18 @@ service.interceptors.response.use(
         case 400:
           const { name } = router.currentRoute.value;
           errorSweetAlert(
-            `${name !== "login" && name !== "signup"
-              ? "找不到該筆資料"
-              : data.message
+            `${
+              name !== "login" && name !== "signup"
+                ? data.message
+                : "找不到該筆資料"
             }`,
             () => {
-              if (name !== "login" && name !== "signup")
+              if (name !== "login" && name !== "signup" && name !== "user") {
                 // 除了登入、註冊失敗需停留在原頁 其他返回首頁
                 router.push({
                   path: "/",
                 });
+              }
             }
           );
           break;

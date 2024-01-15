@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import Layout from "@/components/Layouts/Index.vue";
-import { UserInfo } from "@/interfaces/auth";
-import UserInfoForm from "@/components/User/UserInfoForm.vue";
+import UserPasswordForm from "@/components/User/UserPasswordForm.vue";
+import { UserInfoData } from "@/interfaces/auth";
 import { useAuthStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
-const { userInformation } = storeToRefs(useAuthStore());
+import { apiUpdateUserInfo } from "@/models/auth";
+import { swalWithButtons } from "@/utilities/sweetAlert";
 
-const userInfoData = ref<UserInfo>();
+const store = useAuthStore();
+const { userInformation } = storeToRefs(store);
+const userInfoData = ref<UserInfoData>();
 
 watch(
   userInformation,
@@ -21,6 +24,7 @@ watch(
         day: "2-digit",
       });
       userInfoData.value = {
+        userId: userInformation.value._id,
         name: userInformation.value.name,
         email: userInformation.value.email,
         phone: userInformation.value.phone,
@@ -33,7 +37,20 @@ watch(
 );
 
 function handleUpdateUserInfo(values: any) {
-  console.log(values);
+  apiUpdateUserInfo(values).then(() => {
+    swalWithButtons
+      .fire({
+        icon: "success",
+        title: "修改個人資料成功",
+        text: "請重新登入以更新資料",
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonText: "確定",
+      })
+      .then(() => {
+        store.logOut();
+      });
+  });
 }
 </script>
 
@@ -79,10 +96,10 @@ function handleUpdateUserInfo(values: any) {
             我的訂單
           </router-link>
         </nav>
-        <UserInfoForm
+        <UserPasswordForm
           v-if="userInfoData"
           :userInfoData="userInfoData"
-          @updateUserInoo="handleUpdateUserInfo"
+          @updateUserInfo="handleUpdateUserInfo"
         />
       </div>
     </section>

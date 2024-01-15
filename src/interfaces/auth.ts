@@ -31,7 +31,8 @@ export interface UserLogin {
   password: string;
 }
 
-export interface UserInfo {
+export interface UserInfoData {
+  userId: string;
   name: string;
   email: string;
   phone: string;
