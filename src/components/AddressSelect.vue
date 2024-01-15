@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Ref, ref, computed } from "vue";
+import { Ref, ref, computed, watch } from "vue";
 import ZipCodeMap from "@/utilities/zipcodes.ts";
 
 interface CityInfo {
@@ -7,10 +7,9 @@ interface CityInfo {
   city: string;
 }
 
-const { modelValue } = defineProps<{
+const props = defineProps<{
   modelValue: number;
 }>();
-
 const emit = defineEmits<{
   "update:modelValue": [value: number];
   "update:address": [value: string];
@@ -41,6 +40,7 @@ const setInitCityZipcode = (): void => {
 
 // 建立初始值
 const setInitValue = (): void => {
+  const { modelValue } = props;
   if (modelValue) {
     const match = ZipCodeMap.find((zipCode) => zipCode.zipcode === modelValue);
     county.value = match?.county || "高雄市";
@@ -49,6 +49,18 @@ const setInitValue = (): void => {
   }
 };
 setInitValue();
+
+// 監聽父元件更新的 modelValue 值
+watch<any, any>(
+  () => props.modelValue,
+  (newVal: number) => {
+    // 更新 modelValue
+    if (newVal) {
+      setInitValue();
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

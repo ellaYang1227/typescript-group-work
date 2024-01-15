@@ -92,13 +92,23 @@ const [zipcode, zipcodeAttrs] = defineField("zipcode");
 const [addressDetail, addressDetailAttrs] = defineField("addressDetail");
 
 // 監聽父元件更新的 userInformation 值
-watch<any, any>(() => props.userInformation, (newVal: UserInformation) => {
-  // 更新 UserInfoForm
-  if(newVal) { setValues(newVal) }
-},{ immediate: true, deep: true });
+watch<any, any>(
+  () => props.userInformation,
+  (newVal: UserInformation) => {
+    // 更新 UserInfoForm
+    if (newVal) {
+      const { zipcode, detail } = newVal.address;
+      setValues({
+        zipcode,
+        addressDetail: detail,
+        ...newVal,
+      });
+    }
+  },
+  { immediate: true, deep: true }
+);
 
 defineExpose({ meta });
-
 </script>
 
 <template>
