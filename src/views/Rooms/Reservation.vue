@@ -239,8 +239,7 @@ const userInfoFormInvalid = computed((): boolean => {
                             "
                           >
                             <span
-                              >入住：
-                              {{ dateTransform(orderForm.checkInDate) }}
+                              >入住：{{ dateTransform(orderForm.checkInDate) }}
                             </span>
                             <span
                               >退房：{{
