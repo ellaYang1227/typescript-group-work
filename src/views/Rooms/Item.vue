@@ -3,13 +3,13 @@ import Layout from "@/components/Layouts/Index.vue";
 import ProvideItemsCard from "@/components/Room/ProvideItemsCard.vue";
 import BasicInformation from "@/components/Room/BasicInformation.vue";
 import BookingInstructionsList from "@/components/Room/BookingInstructionsList.vue";
-import { currencyTransform } from "@/utilities/formatTransform";
 import { getRoomDetail } from "@/models/rooms";
 import { Room } from "@/interfaces/room";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
 import SwiperImages from "@/components/SwiperImages.vue";
+import BookingRoom from "@/components/Room/BookingRoom.vue";
 
 const route = useRoute();
 const routeParamsId = (route.params.id as string) || "";
@@ -68,7 +68,7 @@ fetchRoomDetail(routeParamsId);
       >
         <div class="d-flex flex-column gap-4 gap-lg-10 left">
           <div class="d-flex flex-column gap-3">
-            <h1 class="m-0 text text-primary">
+            <h1 class="m-0 text text-black">
               {{ roomDetail.name }}
             </h1>
             <div class="description">{{ roomDetail.description }}</div>
@@ -97,28 +97,13 @@ fetchRoomDetail(routeParamsId);
           <booking-instructions-list class="detail-card d-none d-lg-flex" />
         </div>
         <div class="right">
-          <div
-            class="card p-4 p-lg-6 d-flex flex-column gap-4 gap-lg-6 rounded-3 border-0 position-sticky"
-          >
-            <h5
-              class="text-neutral m-0 fw-bold pb-3 border-bottom border-neutral-40"
-            >
-              預定房型
-            </h5>
-            <div class="d-flex flex-column gap-2">
-              <h2 class="m-0">{{ roomDetail.name }}</h2>
-              <div>{{ roomDetail.description }}</div>
-            </div>
-            <h5 class="m-0 fw-bold text-primary">
-              {{ currencyTransform(roomDetail.price) }}
-            </h5>
-            <button
-              class="rounded-2 py-3 w-100 baseButton isStylePrimary"
-              @click="$router.push(`/rooms/${routeParamsId}/reservation`)"
-            >
-              立即預定
-            </button>
-          </div>
+          <booking-room
+            class="d-none"
+            :route-params-id="routeParamsId"
+            :price="roomDetail.price"
+            :name="roomDetail.name"
+            :description="roomDetail.description"
+          />
         </div>
         <booking-instructions-list class="detail-card d-lg-none" />
       </section>
@@ -157,8 +142,9 @@ fetchRoomDetail(routeParamsId);
         .grid {
           grid-template-columns: repeat(5, 1fr);
         }
-        :deep(.text-neutral) {
+        :deep(.align-items-center strong) {
           font-size: 24px;
+          color: black;
         }
       }
     }
@@ -186,7 +172,8 @@ fetchRoomDetail(routeParamsId);
         font-size: 14px;
       }
       .detail-card {
-        :deep(.text-neutral) {
+        :deep(.align-items-center strong),
+        :deep(.align-items-center h5) {
           //標題
           font-size: 16px !important;
         }

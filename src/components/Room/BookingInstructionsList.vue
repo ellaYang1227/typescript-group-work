@@ -16,7 +16,7 @@ const bookingInstructions: string[] = [
 
 <template>
   <div class="d-flex flex-column">
-    <div class="d-flex mb-3 mb-lg-4">
+    <div class="d-flex mb-3 mb-lg-4 align-items-center">
       <div class="customize-vr"></div>
       <h5 class="text-neutral fw-bold m-0">訂房須知</h5>
     </div>
