@@ -2,15 +2,20 @@
 
 :root {
   --dp-font-family: inherit;
+  --dp-multi-calendars-spacing: 0;
 }
 
 // 基本色票
 .dp__theme_light {
   --dp-primary-color: black;
   --dp-range-between-dates-background-color: #f9f9f9;
-  --dp-menu-border-color: transparent;
   --dp-menu-padding: 0;
   --dp-text-color: black;
+}
+
+// 日曆框線
+.dp__menu {
+  border: none;
 }
 
 // 選取日期
