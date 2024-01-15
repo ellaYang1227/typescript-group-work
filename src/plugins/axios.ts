@@ -59,10 +59,9 @@ service.interceptors.response.use(
         case 400:
           const { name } = router.currentRoute.value;
           errorSweetAlert(
-            `${
-              name !== "login" && name !== "signup"
-                ? data.message
-                : "找不到該筆資料"
+            `${name !== "login" && name !== "signup" && name !== "user"
+              ? "找不到該筆資料"
+              : data.message
             }`,
             () => {
               if (name !== "login" && name !== "signup" && name !== "user") {
