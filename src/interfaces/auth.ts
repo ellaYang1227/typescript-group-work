@@ -30,3 +30,15 @@ export interface UserLogin {
   email: string;
   password: string;
 }
+
+export interface UserInfoData {
+  userId: string;
+  name: string;
+  email: string;
+  phone: string;
+  birthday: string;
+  address: {
+    zipcode: number;
+    detail: string;
+  };
+}
