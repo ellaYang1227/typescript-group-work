@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 /**
  * 計算住宿幾晚
  * @param checkInDate 入住日期
@@ -40,3 +42,13 @@ export function dateTransform(date: Date | string): string {
  * @returns e.g.=> Sun Jun 18 2023 08:00:00 GMT+0800 (台北標準時間)
  */
 const newDateTransform = (date: Date | string): Date => new Date(date);
+
+/**
+ * 日期format
+ * @param date 要轉換的日期
+ * @param format format格式, e.g.=> YYYY/MM/DD
+ * @return e.g.=> 2024/01/01
+ */
+export function dateFormat(date: Date, format: string = "YYYY/MM/DD"): string {
+  return dayjs(date).format(format);
+}
