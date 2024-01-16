@@ -102,6 +102,7 @@ fetchRoomDetail(routeParamsId);
             :route-params-id="routeParamsId"
             :price="roomDetail.price"
             :name="roomDetail.name"
+            :max-people="roomDetail.maxPeople"
             :description="roomDetail.description"
           />
         </div>

@@ -9,12 +9,6 @@ const emit = defineEmits(["update:dateRange", "update:show"]);
 
 const dateRangeValue = ref<[] | [Date, Date]>([]);
 
-onMounted(() => {
-  const startDate = new Date();
-  const endDate = dayjs(startDate).add(1, "day").toDate();
-  dateRangeValue.value = [startDate, endDate];
-});
-
 watch(dateRangeValue, (newVal) => {
   emit("update:dateRange", newVal);
 });
@@ -27,6 +21,18 @@ const isSameDate = computed<boolean>(() => {
     true
   ) as number;
   return days === 0;
+});
+
+const tomorrow = computed<Date>(() => {
+  const today = dayjs();
+  const tomorrow = today.add(1, "day");
+  return tomorrow.toDate();
+});
+
+onMounted(() => {
+  const startDate = tomorrow.value;
+  const endDate = dayjs(startDate).add(1, "day").toDate();
+  dateRangeValue.value = [startDate, endDate];
 });
 </script>
 
@@ -60,8 +66,11 @@ const isSameDate = computed<boolean>(() => {
         :enable-time-picker="false"
         :month-change-on-scroll="false"
         no-today
-        :min-date="new Date()"
+        :min-date="tomorrow"
         calendar-cell-class-name="dp-custom-cell"
+        prevent-min-max-navigation
+        hide-offset-dates
+        year-first
       >
         <template #calendar-header="{ day }">
           {{ day.substring(1) }}

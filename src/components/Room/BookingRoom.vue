@@ -8,6 +8,7 @@ const { price } = defineProps<{
   name: string;
   description: string;
   price: number;
+  maxPeople: number;
   routeParamsId: string;
 }>();
 
@@ -81,8 +82,8 @@ const total = computed<string>(() => {
         <h6 class="m-0">{{ peopleNum }}</h6>
         <button
           class="icon-circle d-flex justify-content-center align-items-center"
-          @click="peopleNum < 6 && peopleNum++"
-          :disabled="peopleNum === 6"
+          @click="peopleNum < maxPeople && peopleNum++"
+          :disabled="peopleNum === maxPeople"
         >
           <font-awesome-icon icon="fa-solid fa-plus" />
         </button>
