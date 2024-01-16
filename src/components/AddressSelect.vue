@@ -12,7 +12,6 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{
   "update:modelValue": [value: number];
-  "update:address": [value: string];
 }>();
 
 const county: Ref<string> = ref("高雄市");
@@ -25,17 +24,10 @@ const cities = computed<CityInfo[]>(() => {
   );
 });
 
-// 縣市變更，更新完整縣市地址
-const setFullAddress = (): void => {
-  const address = `${county.value}${cities.value[0].city}`;
-  emit("update:address", address);
-};
-
 // 縣市變更，預選第一個區域
 const setInitCityZipcode = (): void => {
   cityZipcode.value = cities.value[0].zipcode;
   emit("update:modelValue", cityZipcode.value);
-  setFullAddress();
 };
 
 // 建立初始值
@@ -45,7 +37,6 @@ const setInitValue = (): void => {
     const match = ZipCodeMap.find((zipCode) => zipCode.zipcode === modelValue);
     county.value = match?.county || "高雄市";
     cityZipcode.value = match?.zipcode || 800;
-    setFullAddress();
   }
 };
 setInitValue();

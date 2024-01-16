@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import DatePickerSelect from "@/components/DatePickerSelect.vue";
 import AddressSelect from "@/components/AddressSelect.vue";
+import ZipCodeMap from "@/utilities/zipcodes.ts";
 import { z } from "zod";
+import { useAuthStore } from "@/stores";
 import { Form, useForm } from "vee-validate";
 import { UserInfoData } from "@/interfaces/auth";
 import { toTypedSchema } from "@vee-validate/zod";
-import { ref, watch, computed } from "vue";
-const emit = defineEmits(["updateUserInfo"]);
-interface UpdateUserInfo {
+import { apiUpdateUserInfo } from "@/models/auth";
+import { swalWithButtons } from "@/utilities/sweetAlert";
+import { ref, watch, computed, toRefs } from "vue";
+interface UpdatePwdData {
+  userId: string;
+  oldPassword: string;
+  newPassword: string;
+}
+interface UpdateUserData {
   userId: string;
   name: string;
   phone: string;
@@ -16,8 +24,6 @@ interface UpdateUserInfo {
     zipcode: number;
     detail: string;
   };
-  oldPassword: string;
-  newPassword: string;
 }
 const props = defineProps({
   userInfoData: {
@@ -25,7 +31,8 @@ const props = defineProps({
     required: true,
   },
 });
-const { userInfoData } = props;
+const { userInfoData } = toRefs(props);
+const store = useAuthStore();
 const userInfoTypedSchema = z.object({
   name: z
     .string()
@@ -34,23 +41,23 @@ const userInfoTypedSchema = z.object({
       new RegExp(/^[a-zA-Z\u4e00-\u9fa5\s]+$/),
       "請輸入您的中英文姓名，可包含空白，但不能包含特殊字元"
     )
-    .default(userInfoData?.name || ""),
+    .default(userInfoData.value.name || ""),
   phone: z
     .string()
     .min(1, "請輸入手機號碼")
     .regex(new RegExp(/^\d+$/), "請輸入數字")
     .startsWith("09", { message: "請輸入正確的手機號碼格式" })
     .length(10, { message: "請輸入正確的手機號碼格式" })
-    .default(userInfoData?.phone || ""),
-  zipcode: z.number().default(userInfoData?.address.zipcode || 800),
+    .default(userInfoData.value.phone || ""),
+  zipcode: z.number().default(userInfoData.value.address.zipcode || 800),
   addressDetail: z
     .string()
     .min(1, "請輸入詳細地址")
-    .default(userInfoData?.address.detail || ""),
+    .default(userInfoData.value.address.detail || ""),
   birthday: z
     .string()
     .min(1, "請選擇生日")
-    .default(userInfoData?.birthday || "1990/8/15"),
+    .default(userInfoData.value.birthday || "1990/8/15"),
 });
 const passwordTypedSchema = z
   .object({
@@ -82,8 +89,8 @@ const {
   resetForm: resetUserForm,
   values: userValues,
   errors: userError,
-  defineField: userDefineField,
   setValues: setUserValues,
+  defineField: userDefineField,
 } = useForm({
   validationSchema: toTypedSchema(userInfoTypedSchema),
 });
@@ -96,8 +103,8 @@ const {
 } = useForm({
   validationSchema: toTypedSchema(passwordTypedSchema),
 });
-const isEditing = ref(false);
-const fullAddress = ref("");
+const isEditingUser = ref(false);
+const isEditingPwd = ref(false);
 const [name, nameAttrs] = userDefineField("name");
 const [phone, phoneAttrs] = userDefineField("phone");
 const [birthday, birthdayAttrs] = userDefineField("birthday");
@@ -111,14 +118,14 @@ const [confirm, confirmAttrs] = pwdDefineField("confirm");
 function resetForm() {
   resetUserForm();
   resetPwdForm();
-  isEditing.value = !isEditing.value;
+  isEditingPwd.value = false;
+  isEditingUser.value = false;
 }
 
 watch(
-  () => props.userInfoData,
+  () => userInfoData.value,
   (newValue) => {
     if (newValue) {
-      resetPwdForm();
       setUserValues(newValue);
       setPwdValues({
         oldPassword: "",
@@ -129,31 +136,62 @@ watch(
   },
   { immediate: true }
 );
-// 判斷資料欄位都有填寫且沒有錯誤
-const allFieldsFilled = computed(() => {
+// 判斷密碼欄位
+const pwdFieldsFilled = computed(() => {
+  return (
+    Object.values(pwdValues).every((value) => value !== "") &&
+    Object.keys(pwdError.value).length == 0
+  );
+});
+// 判斷使用者欄位
+const userFieldsFilled = computed(() => {
   return (
     Object.values(userValues).every((value) => value !== "") &&
-    Object.values(pwdValues).every((value) => value !== "") &&
-    Object.keys(userError.value).length == 0 &&
-    Object.keys(pwdError.value).length == 0
+    Object.keys(userError.value).length == 0
   );
 });
 // 日期格式轉換
 const formattedBirthday = computed(() => {
-  const date = new Date(userInfoData.birthday);
+  const date = new Date(userInfoData.value.birthday);
   return date.toLocaleDateString("zh-TW", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 });
-// 更新完整地址
-function handleFullAddress(newAddress: string) {
-  fullAddress.value = `${newAddress}${addressDetail.value}`;
+// 取得完整地址
+const fullAddress = computed(() => {
+  const item = ZipCodeMap.find(
+    (item) => item.zipcode === userInfoData.value.address.zipcode
+  );
+  return `${item?.county}${item?.city}${userInfoData.value.address.detail}`;
+});
+// 修改密碼
+function handlePwdSubmit(): void {
+  let updatePwdData: UpdatePwdData = {
+    userId: userInfoData.value.userId,
+    oldPassword: String(oldPassword.value),
+    newPassword: String(newPassword.value),
+  };
+  apiUpdateUserInfo(updatePwdData).then(() => {
+    swalWithButtons
+      .fire({
+        icon: "success",
+        title: "修改帳號資料成功",
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonText: "確定",
+      })
+      .then(() => {
+        store.fetchUser();
+        resetForm();
+      });
+  });
 }
-function handleSubmit(): void {
-  let updateData: UpdateUserInfo = {
-    userId: userInfoData.userId,
+// 修改使用者資料
+function handleUserSubmit(): void {
+  let updateUserData: UpdateUserData = {
+    userId: userInfoData.value.userId,
     name: String(name.value),
     phone: String(phone.value),
     birthday: String(birthday.value),
@@ -161,188 +199,133 @@ function handleSubmit(): void {
       zipcode: Number(zipcode.value),
       detail: String(addressDetail.value),
     },
-    oldPassword: String(oldPassword.value),
-    newPassword: String(newPassword.value),
   };
-  emit("updateUserInfo", updateData);
-  resetForm();
+  apiUpdateUserInfo(updateUserData).then(() => {
+    swalWithButtons
+      .fire({
+        icon: "success",
+        title: "修改基本資料成功",
+        showCancelButton: true,
+        showConfirmButton: false,
+        cancelButtonText: "確定",
+      })
+      .then(() => {
+        store.fetchUser();
+        resetForm();
+      });
+  });
 }
 </script>
 <template>
-  <Form
-    class="row gap-4 gap-lg-6 d-flex flex-column flex-lg-row w-100 m-auto"
-    @submit="handleSubmit"
-  >
-    <div class="card col-12 col-lg p-0 h-100">
-      <div class="card-body p-3 p-lg-6">
-        <h5 class="mb-4 mb-lg-6">修改帳號資料</h5>
-        <div class="d-flex flex-column gap-2">
-          <span>電子信箱</span>
-          <p class="text-neutral fw-bold">{{ userInfoData.email }}</p>
-        </div>
-        <div v-if="!isEditing" class="d-flex flex-column gap-2">
-          <span>密碼</span>
-          <div class="d-flex justify-content-between">
-            <span class="text-neutral" style="font-size: 12px">
-              ● ● ● ● ● ● ● ● ● ●</span
+  <Form class="row gap-4 gap-lg-6 d-flex flex-column flex-lg-row w-100 m-auto">
+    <div class="col-12 col-lg p-0 h-100">
+      <div class="card rounded-3 border-0">
+        <div class="card-body p-4 p-lg-6">
+          <h5 class="mb-4 mb-lg-6 text-neutral">修改帳號資料</h5>
+          <div class="d-flex flex-column gap-2 mb-3 mb-md-4">
+            <span>電子信箱</span>
+            <span class="text-neutral fw-bold">
+              {{ userInfoData.email }}
+            </span>
+          </div>
+          <div
+            v-if="!isEditingPwd"
+            class="d-flex align-items-center justify-content-between"
+          >
+            <div class="d-flex flex-column gap-2">
+              <span>密碼</span>
+              <span class="text-neutral" style="font-size: 12px">
+                ● ● ● ● ● ● ● ● ● ●
+              </span>
+            </div>
+            <div
+              class="baseButton isStyleText"
+              @click="isEditingPwd = !isEditingPwd"
             >
-            <div class="baseButton isStyleText" @click="isEditing = !isEditing">
               重設
             </div>
           </div>
-        </div>
-        <div v-else class="d-flex flex-column gap-3">
-          <div class="d-flex flex-column gap-2">
-            <label for="oldPassword">舊密碼</label>
-            <div>
-              <input
-                id="oldPassword"
-                class="form-control p-3"
-                :class="{ 'is-invalid': pwdError.oldPassword }"
-                type="password"
-                autocomplete="on"
-                placeholder="請輸入舊密碼"
-                v-model="oldPassword"
-                v-bind="oldPasswordAttrs"
-              />
-              <div class="invalid-feedback d-block">
-                {{ pwdError.oldPassword }}
+          <div v-else class="d-flex flex-column">
+            <div class="d-flex flex-column gap-3 gap-md-4">
+              <div class="d-flex flex-column gap-2">
+                <label
+                  for="oldPassword"
+                  :class="{ 'edit-label': isEditingPwd }"
+                >
+                  舊密碼
+                </label>
+                <div>
+                  <input
+                    id="oldPassword"
+                    class="form-control p-3"
+                    :class="{ 'is-invalid': pwdError.oldPassword }"
+                    type="password"
+                    autocomplete="on"
+                    placeholder="請輸入舊密碼"
+                    v-model="oldPassword"
+                    v-bind="oldPasswordAttrs"
+                  />
+                  <div
+                    v-if="pwdError.oldPassword"
+                    class="invalid-feedback d-block"
+                  >
+                    {{ pwdError.oldPassword }}
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-column gap-2">
+                <label
+                  for="newPassword"
+                  :class="{ 'edit-label': isEditingPwd }"
+                >
+                  新密碼
+                </label>
+                <div>
+                  <input
+                    id="newPassword"
+                    class="form-control p-3"
+                    :class="{ 'is-invalid': pwdError.newPassword }"
+                    type="password"
+                    autocomplete="on"
+                    placeholder="請輸入舊密碼"
+                    v-model="newPassword"
+                    v-bind="newPasswordAttrs"
+                  />
+                  <div
+                    v-if="pwdError.newPassword"
+                    class="invalid-feedback d-block"
+                  >
+                    {{ pwdError.newPassword }}
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-column gap-2">
+                <label for="confirm" :class="{ 'edit-label': isEditingPwd }">
+                  確認新密碼
+                </label>
+                <div>
+                  <input
+                    id="confirm"
+                    class="form-control p-3"
+                    :class="{ 'is-invalid': pwdError.confirm }"
+                    type="password"
+                    autocomplete="on"
+                    placeholder="請輸入舊密碼"
+                    v-model="confirm"
+                    v-bind="confirmAttrs"
+                  />
+                  <div v-if="pwdError.confirm" class="invalid-feedback d-block">
+                    {{ pwdError.confirm }}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="d-flex flex-column gap-2">
-            <label for="newPassword">新密碼</label>
-            <div>
-              <input
-                id="newPassword"
-                class="form-control p-3"
-                :class="{ 'is-invalid': pwdError.newPassword }"
-                type="password"
-                autocomplete="on"
-                placeholder="請輸入舊密碼"
-                v-model="newPassword"
-                v-bind="newPasswordAttrs"
-              />
-              <div class="invalid-feedback d-block">
-                {{ pwdError.newPassword }}
-              </div>
-            </div>
-          </div>
-          <div class="d-flex flex-column gap-3">
-            <label for="confirm">確認新密碼</label>
-            <div>
-              <input
-                id="confirm"
-                class="form-control p-3"
-                :class="{ 'is-invalid': pwdError.confirm }"
-                type="password"
-                autocomplete="on"
-                placeholder="請輸入舊密碼"
-                v-model="confirm"
-                v-bind="confirmAttrs"
-              />
-              <div class="invalid-feedback d-block">{{ pwdError.confirm }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card col-12 col-lg p-0 h-100">
-      <div class="card-body p-3 p-lg-6">
-        <h5 class="mb-4 mb-lg-6">基本資料</h5>
-        <div class="d-flex flex-column gap-3">
-          <div class="d-flex flex-column gap-2">
-            <label for="name">姓名</label>
-            <p v-if="!isEditing" class="text-neutral fw-bold">{{ name }}</p>
-            <div v-else>
-              <input
-                id="name"
-                class="form-control p-3"
-                :class="{ 'is-invalid': userError.name }"
-                type="text"
-                placeholder="請輸入姓名"
-                v-model.trim="name"
-                v-bind="nameAttrs"
-              />
-              <div class="invalid-feedback d-block">{{ userError.name }}</div>
-            </div>
-          </div>
-          <div class="d-flex flex-column gap-2">
-            <label for="phone">手機號碼</label>
-            <p v-if="!isEditing" class="text-neutral fw-bold">{{ phone }}</p>
-            <div v-else>
-              <input
-                id="phone"
-                class="form-control p-3"
-                :class="{ 'is-invalid': userError.phone }"
-                type="text"
-                placeholder="請輸入手機號碼"
-                v-model.trim="phone"
-                v-bind="phoneAttrs"
-              />
-              <div class="invalid-feedback d-block">{{ userError.phone }}</div>
-            </div>
-          </div>
-          <div class="d-flex flex-column gap-2">
-            <label for="birthday">生日</label>
-            <p v-if="!isEditing" class="text-neutral fw-bold">
-              {{ formattedBirthday }}
-            </p>
-            <date-picker-select
-              v-else
-              :model-value="birthday as string"
-              v-bind="birthdayAttrs"
-              @update:model-value="(newBirthday) => (birthday = newBirthday)"
-            />
-          </div>
-          <div class="d-flex flex-column gap-3">
-            <label for="addressDetail">地址</label>
-            <p v-show="!isEditing" class="text-neutral fw-bold">
-              {{ fullAddress }}
-            </p>
-            <div v-show="isEditing">
-              <div v-show="isEditing" class="d-flex flex-column gap-3">
-                <address-select
-                  :model-value="zipcode as number"
-                  @update:model-value="(newZipcode) => (zipcode = newZipcode)"
-                  @update:address="handleFullAddress($event)"
-                  v-bind="zipcodeAttrs"
-                />
-                <input
-                  id="addressDetail"
-                  class="form-control p-3"
-                  :class="{ 'is-invalid': userError.addressDetail }"
-                  type="text"
-                  placeholder="請輸入詳細地址"
-                  v-model="addressDetail"
-                  v-bind="addressDetailAttrs"
-                />
-              </div>
-              <div class="invalid-feedback d-block">
-                {{ userError.addressDetail }}
-              </div>
-            </div>
-          </div>
-          <div class="d-flex">
-            <button
-              v-if="!isEditing"
-              class="baseButton isStyleGrey"
-              @click="isEditing = !isEditing"
-            >
-              編輯
-            </button>
-            <div v-else class="d-flex gap-3">
+            <div class="d-flex pt-3 pt-lg-6">
               <button
                 type="button"
-                class="baseButton isStyleGrey"
-                @click="resetForm"
-              >
-                取消
-              </button>
-              <button
-                type="submit"
-                class="baseButton isStyleGrey"
-                :disabled="!allFieldsFilled"
+                class="baseButton isStylePrimary"
+                :disabled="!pwdFieldsFilled"
+                @click="handlePwdSubmit"
               >
                 儲存設定
               </button>
@@ -351,5 +334,131 @@ function handleSubmit(): void {
         </div>
       </div>
     </div>
+    <div class="col-12 col-lg p-0 h-100">
+      <div class="card rounded-3 border-0">
+        <div class="card-body p-4 p-lg-6">
+          <h5 class="mb-4 mb-lg-6 text-neutral">基本資料</h5>
+          <div class="d-flex flex-column gap-3 gap-md-4">
+            <div class="d-flex flex-column gap-2">
+              <label for="name" :class="{ 'edit-label': isEditingUser }">
+                姓名
+              </label>
+              <div v-if="!isEditingUser" class="text-neutral fw-bold">
+                {{ userInfoData.name }}
+              </div>
+              <div v-else>
+                <input
+                  id="name"
+                  class="form-control p-3"
+                  :class="{ 'is-invalid': userError.name }"
+                  type="text"
+                  placeholder="請輸入姓名"
+                  v-model.trim="name"
+                  v-bind="nameAttrs"
+                />
+                <div v-if="userError.name" class="invalid-feedback d-block">
+                  {{ userError.name }}
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column gap-2">
+              <label for="phone" :class="{ 'edit-label': isEditingUser }">
+                手機號碼
+              </label>
+              <div v-if="!isEditingUser" class="text-neutral fw-bold">
+                {{ userInfoData.phone }}
+              </div>
+              <div v-else>
+                <input
+                  id="phone"
+                  class="form-control p-3"
+                  :class="{ 'is-invalid': userError.phone }"
+                  type="text"
+                  placeholder="請輸入手機號碼"
+                  v-model.trim="phone"
+                  v-bind="phoneAttrs"
+                />
+                <div v-if="userError.phone" class="invalid-feedback d-block">
+                  {{ userError.phone }}
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-column gap-2">
+              <label for="birthday" :class="{ 'edit-label': isEditingUser }">
+                生日
+              </label>
+              <div v-if="!isEditingUser" class="text-neutral fw-bold">
+                {{ formattedBirthday }}
+              </div>
+              <date-picker-select
+                v-else
+                :model-value="birthday as string"
+                v-bind="birthdayAttrs"
+                @update:model-value="(newBirthday) => (birthday = newBirthday)"
+              />
+            </div>
+            <div class="d-flex flex-column gap-3">
+              <label
+                for="addressDetail"
+                :class="{ 'edit-label': isEditingUser }"
+              >
+                地址
+              </label>
+              <div v-show="!isEditingUser" class="text-neutral fw-bold">
+                {{ fullAddress }}
+              </div>
+              <div v-show="isEditingUser">
+                <div v-show="isEditingUser" class="d-flex flex-column gap-3">
+                  <address-select
+                    :model-value="zipcode as number"
+                    @update:model-value="(newZipcode) => (zipcode = newZipcode)"
+                    v-bind="zipcodeAttrs"
+                  />
+                  <input
+                    id="addressDetail"
+                    class="form-control p-3"
+                    :class="{ 'is-invalid': userError.addressDetail }"
+                    type="text"
+                    placeholder="請輸入詳細地址"
+                    v-model="addressDetail"
+                    v-bind="addressDetailAttrs"
+                  />
+                </div>
+                <div
+                  v-if="userError.addressDetail"
+                  class="invalid-feedback d-block"
+                >
+                  {{ userError.addressDetail }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex pt-3 pt-lg-6">
+            <button
+              v-if="!isEditingUser"
+              class="baseButton isStyleSecondary"
+              @click="isEditingUser = !isEditingUser"
+            >
+              編輯
+            </button>
+            <button
+              v-else
+              type="button"
+              class="baseButton isStylePrimary"
+              :disabled="!userFieldsFilled"
+              @click="handleUserSubmit"
+            >
+              儲存設定
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </Form>
 </template>
+<style lang="scss">
+.edit-label {
+  font-weight: bold;
+  color: $neutral;
+}
+</style>
