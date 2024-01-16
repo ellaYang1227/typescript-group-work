@@ -79,7 +79,7 @@ const logOut = () => {
                       icon="fa-regular fa-circle-user"
                       class="h5 mb-0"
                     />
-                    <span class="ps-2 align-text-top">{{
+                    <span class="ps-2 align-top">{{
                       userInformation.name
                     }}</span>
                   </BaseButton>

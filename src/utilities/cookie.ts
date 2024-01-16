@@ -12,7 +12,7 @@ export const getCookie = (key: string) => {
   return null;
 };
 
-export const saveCookie = (key: any, state: any) => {
+export const saveCookie = (key: string, state: string) => {
   return Cookies.set(key, JSON.stringify(state), {
     expires: 7,
     sameSite: "strict",
@@ -20,6 +20,6 @@ export const saveCookie = (key: any, state: any) => {
   });
 };
 
-export const removeCookie = (key: any) => {
-  return Cookies.remove(key);
+export const removeCookie = (key: string) => {
+  return Cookies.remove(key, { path: "/", domain: window.location.hostname });
 };
