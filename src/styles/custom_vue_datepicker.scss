@@ -1,0 +1,59 @@
+@import "@vuepic/vue-datepicker/dist/main.css";
+
+:root {
+  --dp-font-family: inherit;
+  --dp-multi-calendars-spacing: 0;
+}
+
+// 基本色票
+.dp__theme_light {
+  --dp-primary-color: black;
+  --dp-range-between-dates-background-color: #f9f9f9;
+  --dp-menu-padding: 0;
+  --dp-text-color: black;
+}
+
+// 日曆框線
+.dp__menu {
+  border: none;
+}
+
+// 選取日期
+.dp__range_end,
+.dp__range_start,
+.dp__active_date {
+  border-radius: 100%;
+}
+
+// 日期區間
+.dp__range_between {
+  border: none;
+}
+
+// 年、月header
+.dp__month_year_row {
+  margin-bottom: 8px;
+  .dp__month_year_wrap {
+    flex-direction: row-reverse;
+    .dp__btn {
+      font-weight: 700;
+      font-size: 20px;
+    }
+  }
+}
+
+// header-border
+.dp__calendar_header_separator {
+  height: 0;
+}
+
+// 星期文字
+.dp__calendar_header_item {
+  font-weight: 500;
+  color: #4b4b4b;
+}
+
+// 日期文字
+.dp__calendar_item {
+  font-weight: 700;
+}
