@@ -151,7 +151,7 @@ handleGetOrders();
         <main
           class="row gap-4 gap-lg-6 d-flex flex-column flex-lg-row w-100 m-auto"
         >
-          <div class="card col-12 col-lg-6 col-xxl-6 p-0 h-100">
+          <div class="col-12 col-lg-6 col-xxl-6 p-0 h-100">
             <OrderDetailCard
               :orderDetails="featureOrderDetail ? [featureOrderDetail] : []"
             >
@@ -199,7 +199,7 @@ handleGetOrders();
               </div>
             </OrderDetailCard>
           </div>
-          <div class="card col-12 col-lg p-0 h-100">
+          <div class="col-12 col-lg p-0 h-100">
             <OrderDetailCard
               :isHistory="true"
               :orderDetails="sortedHistoryOrders"

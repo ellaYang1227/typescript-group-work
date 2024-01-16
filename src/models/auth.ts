@@ -5,11 +5,6 @@ interface UserInformationWithPassword extends UserInformation {
   password: string;
 }
 
-interface UserInfoWithNewPassword extends UserInformation {
-  oldPassword: string;
-  newPassword: string;
-}
-
 export const apiGetUser = (): Promise<UserInformation> => {
   return request
     .get(`/api/v1/user`, { headers: { noShowLoading: true } })
@@ -53,14 +48,8 @@ export const apiVerifyEmail = (email: string) => {
     .then((res: any) => Promise.resolve(res));
 };
 
-export const apiUpdateUserInfo = (data: UserInfoWithNewPassword) => {
+export const apiUpdateUserInfo = (data: object) => {
   return request
     .put(`api/v1/user`, { ...data })
-    .then((res: any) => Promise.resolve(res.result));
-};
-
-export const apiGetUserInfo = () => {
-  return request
-    .get(`api/v1/user`)
     .then((res: any) => Promise.resolve(res.result));
 };

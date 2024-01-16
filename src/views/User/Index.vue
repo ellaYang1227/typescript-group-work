@@ -5,53 +5,34 @@ import { UserInfoData } from "@/interfaces/auth";
 import { useAuthStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import { ref, watch } from "vue";
-import { apiUpdateUserInfo } from "@/models/auth";
-import { swalWithButtons } from "@/utilities/sweetAlert";
 
 const store = useAuthStore();
 const { userInformation } = storeToRefs(store);
 const userInfoData = ref<UserInfoData>();
 
 watch(
-  userInformation,
-  () => {
-    if (userInformation.value) {
+  () => userInformation.value,
+  (newValue) => {
+    if (newValue) {
       // 轉換日期格式 yyyy/mm/dd
-      const date = new Date(userInformation.value.birthday);
+      const date = new Date(newValue.birthday);
       const formattedDate = date.toLocaleDateString("zh-TW", {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
       });
       userInfoData.value = {
-        userId: userInformation.value._id,
-        name: userInformation.value.name,
-        email: userInformation.value.email,
-        phone: userInformation.value.phone,
-        address: userInformation.value.address,
+        userId: newValue._id,
+        name: newValue.name,
+        email: newValue.email,
+        phone: newValue.phone,
+        address: newValue.address,
         birthday: formattedDate,
       };
     }
   },
-  { immediate: true }
+  { immediate: true, deep: true }
 );
-
-function handleUpdateUserInfo(values: any) {
-  apiUpdateUserInfo(values).then(() => {
-    swalWithButtons
-      .fire({
-        icon: "success",
-        title: "修改個人資料成功",
-        text: "請重新登入以更新資料",
-        showCancelButton: true,
-        showConfirmButton: false,
-        cancelButtonText: "確定",
-      })
-      .then(() => {
-        store.logOut();
-      });
-  });
-}
 </script>
 
 <template>
@@ -96,11 +77,7 @@ function handleUpdateUserInfo(values: any) {
             我的訂單
           </router-link>
         </nav>
-        <UserPasswordForm
-          v-if="userInfoData"
-          :userInfoData="userInfoData"
-          @updateUserInfo="handleUpdateUserInfo"
-        />
+        <UserPasswordForm v-if="userInfoData" :userInfoData="userInfoData" />
       </div>
     </section>
   </Layout>
