@@ -11,24 +11,35 @@ import { Room } from "@/interfaces/room";
 import { Order } from "@/interfaces/order";
 import { useAuthStore } from "@/stores/auth";
 import { ref, watch, computed } from "vue";
-import { useRoute } from "vue-router";
-import { Form, Field, ErrorMessage } from "vee-validate";
+import { useRoute, useRouter } from "vue-router";
+import { Form } from "vee-validate";
 import { storeToRefs } from "pinia";
+import { useBookingStore } from "@/stores/booking.ts";
 
 const roomDetail = ref<null | Room>(null);
 const orderForm = ref<null | Order>(null);
 const sending = ref<boolean>(false);
 const route = useRoute();
+const router = useRouter();
+
+const bookingStore = useBookingStore();
+const { booking, clearBookingData } = bookingStore;
 
 watch<any, any>(
   () => route.params.id,
   async (newVal: string | undefined): Promise<void> => {
     if (newVal) {
+      if (booking.id !== newVal) {
+        //判斷有無訂房資料，無則退回
+        await router.push(`/rooms/${newVal}`);
+        return;
+      }
+
       roomDetail.value = await getRoomDetail(newVal);
 
       orderForm.value = {
         roomId: newVal,
-        peopleNum: 2,
+        peopleNum: booking.peopleNum,
         userInfo: {
           address: {
             zipcode: 800,
@@ -46,15 +57,13 @@ watch<any, any>(
 );
 
 // 處理預設 CheckDate
-const today = new Date();
 interface CheckDate {
   checkInDate: Order["checkInDate"];
   checkOutDate: Order["checkOutDate"];
 }
 const getDefaultCheckDate = (): CheckDate => {
-  const oneDay = 24 * 60 * 60 * 1000;
-  const checkInDate = transformDate(new Date(today.getTime() + oneDay));
-  const checkOutDate = transformDate(new Date(today.getTime() + oneDay * 2));
+  const checkInDate = transformDate(new Date(booking.startDate));
+  const checkOutDate = transformDate(new Date(booking.endDate));
   return {
     checkInDate,
     checkOutDate,
@@ -85,43 +94,6 @@ const subtotal = computed((): number => {
   return days * currentPrice;
 });
 
-// 當前訂房資訊狀態
-interface OrderEditState {
-  checkDate: boolean;
-  peopleNum: boolean;
-}
-const orderEditState = ref<OrderEditState>({
-  checkDate: false,
-  peopleNum: false,
-});
-
-const switchOrderEditState = (switchItem: "checkDate" | "peopleNum"): void => {
-  const { value } = orderEditState;
-  orderEditState.value[switchItem] = !value[switchItem];
-};
-
-// 訂單房間表單驗證
-const orderRoomFormSchema = {
-  checkInDate(value: string): true | string {
-    const { checkOutDate } = orderForm.value as Order;
-    const formatToday = transformDate(today);
-    if (value > formatToday && checkOutDate > value) {
-      return true;
-    }
-
-    return `開始日期需比今天(${formatToday})晚，且不能比結束日期(${checkOutDate})晚`;
-  },
-  checkOutDate(value: string): true | string {
-    const { checkInDate } = orderForm.value as Order;
-    const formatToday = transformDate(today);
-    if (value >= formatToday && value > checkInDate) {
-      return true;
-    }
-
-    return `結束日期須晚於今天(${formatToday})與開始日期(${checkInDate})`;
-  },
-};
-
 // 取得會員資料
 const authStore = useAuthStore();
 const { userInformation } = storeToRefs(authStore);
@@ -141,6 +113,7 @@ async function handleSubmit(values: Order["userInfo"]) {
   }
   await addOrder(orderForm.value as Order);
   setTimeout(() => (sending.value = false), 1000);
+  clearBookingData();
 }
 
 // UserInfo 表單是否無效
@@ -160,7 +133,7 @@ const userInfoFormInvalid = computed((): boolean => {
 <template>
   <Layout>
     <section class="text-neutral" v-if="orderForm && roomDetail">
-      <Form v-slot="{ errors, meta }" :validation-schema="orderRoomFormSchema">
+      <Form v-slot="{ meta }">
         <div class="container-lg py-6 py-lg-11">
           <div class="d-flex align-items-center mb-6">
             <div
@@ -202,42 +175,7 @@ const userInfoFormInvalid = computed((): boolean => {
                             <div class="customize-vr"></div>
                             <strong>訂房日期</strong>
                           </div>
-                          <section v-show="orderEditState.checkDate">
-                            <div class="input-group">
-                              <Field
-                                name="checkInDate"
-                                type="date"
-                                as="input"
-                                class="form-control"
-                                :class="{ 'is-invalid': errors.checkInDate }"
-                                v-model="orderForm.checkInDate"
-                              ></Field>
-                              <span class="input-group-text p-3">~</span>
-                              <Field
-                                name="checkOutDate"
-                                type="date"
-                                as="input"
-                                class="form-control"
-                                :class="{ 'is-invalid': errors.checkOutDate }"
-                                v-model="orderForm.checkOutDate"
-                              ></Field>
-                            </div>
-                            <ErrorMessage
-                              name="checkInDate"
-                              class="invalid-feedback d-block"
-                            ></ErrorMessage>
-                            <ErrorMessage
-                              name="checkOutDate"
-                              class="invalid-feedback d-block"
-                            ></ErrorMessage>
-                          </section>
-                          <section
-                            :class="
-                              orderEditState.checkDate
-                                ? 'd-none'
-                                : 'd-grid gap-2'
-                            "
-                          >
+                          <section class="d-grid gap-2">
                             <span
                               >入住：{{ dateTransform(orderForm.checkInDate) }}
                             </span>
@@ -253,8 +191,7 @@ const userInfoFormInvalid = computed((): boolean => {
                         <button
                           type="button"
                           class="baseButton isStyleText text-neutral"
-                          @click="switchOrderEditState('checkDate')"
-                          :disabled="!meta.valid"
+                          @click="router.push(`/rooms/${orderForm.roomId}`)"
                         >
                           編輯
                         </button>
@@ -267,30 +204,14 @@ const userInfoFormInvalid = computed((): boolean => {
                             <div class="customize-vr"></div>
                             <strong>房客人數</strong>
                           </div>
-                          <Field
-                            class="form-select p-3"
-                            name="peopleNum"
-                            as="select"
-                            rules="required"
-                            v-if="orderEditState.peopleNum"
-                            v-model="orderForm.peopleNum"
-                          >
-                            <option
-                              :value="people"
-                              :key="people"
-                              v-for="people in roomDetail.maxPeople"
-                            >
-                              {{ people }}人
-                            </option>
-                          </Field>
-                          <section v-else>{{ orderForm.peopleNum }} 人</section>
+                          <section>{{ orderForm.peopleNum }} 人</section>
                         </div>
                       </div>
                       <div class="col-auto">
                         <button
                           type="button"
                           class="baseButton isStyleText p-0 border-0 text-neutral"
-                          @click="switchOrderEditState('peopleNum')"
+                          @click="router.push(`/rooms/${orderForm.roomId}`)"
                         >
                           編輯
                         </button>
