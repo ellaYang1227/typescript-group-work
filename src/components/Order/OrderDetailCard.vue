@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, computed } from "vue";
+import { computed } from "vue";
 import ProvideItemsCard from "@/components/Room/ProvideItemsCard.vue";
 import { OrderDetail } from "@/interfaces/order";
 import { daysDifference, dateTransform } from "@/utilities/handleDate";
