@@ -8,6 +8,7 @@ const props = defineProps(["dateRange", "show"]);
 const emit = defineEmits(["update:dateRange", "update:show"]);
 
 const dateRangeValue = ref<[] | [Date, Date]>([]);
+const isSelectDateRangeFinish = ref<boolean>(true);
 
 watch(
   () => props.dateRange,
@@ -71,6 +72,8 @@ const tomorrow = computed<Date>(() => {
         prevent-min-max-navigation
         hide-offset-dates
         year-first
+        @range-start="isSelectDateRangeFinish = false"
+        @range-end="isSelectDateRangeFinish = true"
       >
         <template #calendar-header="{ day }">
           {{ day.substring(1) }}
@@ -85,7 +88,7 @@ const tomorrow = computed<Date>(() => {
         </button>
         <button
           class="rounded-2 py-3 baseButton isStylePrimary"
-          :disabled="isSameDate"
+          :disabled="isSameDate || !isSelectDateRangeFinish"
           @click="emit('update:show', false)"
         >
           確定日期
