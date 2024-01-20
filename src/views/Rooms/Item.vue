@@ -10,6 +10,7 @@ import { useRoute } from "vue-router";
 import router from "@/router";
 import SwiperImages from "@/components/SwiperImages.vue";
 import BookingRoom from "@/components/Room/BookingRoom.vue";
+import BookingRoomMobile from "@/components/Room/BookingRoomMobile.vue";
 
 const route = useRoute();
 const routeParamsId = (route.params.id as string) || "";
@@ -94,7 +95,7 @@ fetchRoomDetail(routeParamsId);
               :isBorder="false"
             />
           </div>
-          <booking-instructions-list class="detail-card d-none d-lg-flex" />
+          <booking-instructions-list class="detail-card" />
         </div>
         <div class="right">
           <booking-room
@@ -105,8 +106,13 @@ fetchRoomDetail(routeParamsId);
             :max-people="roomDetail.maxPeople"
             :description="roomDetail.description"
           />
+          <booking-room-mobile
+            class="d-lg-none"
+            :route-params-id="routeParamsId"
+            :price="roomDetail.price"
+            :max-people="roomDetail.maxPeople"
+          />
         </div>
-        <booking-instructions-list class="detail-card d-lg-none" />
       </section>
     </section>
   </Layout>
