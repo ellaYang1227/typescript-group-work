@@ -29,10 +29,10 @@ const route = useRoute();
 const routeName = (route.name as string) || "";
 </script>
 <template>
-  <div class="d-flex align-items-center">
+  <div class="d-flex align-items-center text-neutral">
     <div class="customize-vr"></div>
     <h5
-      class="mb-0 text-neutral"
+      class="mb-0"
       v-if="routeName === 'rooms' || routeName === 'rooms-reservation'"
     >
       <strong>{{ title }}</strong>
