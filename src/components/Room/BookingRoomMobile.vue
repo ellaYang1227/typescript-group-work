@@ -6,10 +6,11 @@ import dayjs from "dayjs";
 import { currencyTransform } from "@/utilities/formatTransform";
 import { dateFormat, daysDifference } from "@/utilities/handleDate";
 import { useBookingStore } from "@/stores/booking.ts";
-import router from "@/router";
+
+const emit = defineEmits(["toBooking"]);
 
 const bookingStore = useBookingStore();
-const { booking, setBookingData } = bookingStore;
+const { booking } = bookingStore;
 
 const { price, routeParamsId } = defineProps<{
   price: number;
@@ -93,13 +94,12 @@ const hideBsOffcanvas = (nextStep: string): void => {
 };
 
 const toBooking = async (): Promise<void> => {
-  setBookingData({
-    id: routeParamsId,
+  const bookingData = {
     startDate: dateRange.value[0] as Date,
     endDate: dateRange.value[1] as Date,
     peopleNum: peopleNum.value,
-  });
-  await router.push(`/rooms/${routeParamsId}/reservation`);
+  };
+  emit("toBooking", bookingData);
 };
 </script>
 

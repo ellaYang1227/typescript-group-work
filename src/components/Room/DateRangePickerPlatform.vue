@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import VueDatePicker from "@vuepic/vue-datepicker";
 import { dateFormat, daysDifference } from "@/utilities/handleDate";
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch, computed } from "vue";
 import dayjs from "dayjs";
 
-defineProps(["dateRange", "show"]);
+const props = defineProps(["dateRange", "show"]);
 const emit = defineEmits(["update:dateRange", "update:show"]);
 
 const dateRangeValue = ref<[] | [Date, Date]>([]);
 
+watch(
+  () => props.dateRange,
+  (newVal) => {
+    dateRangeValue.value = newVal;
+  }
+);
 watch(dateRangeValue, (newVal) => {
   emit("update:dateRange", newVal);
 });
@@ -27,12 +33,6 @@ const tomorrow = computed<Date>(() => {
   const today = dayjs();
   const tomorrow = today.add(1, "day");
   return tomorrow.toDate();
-});
-
-onMounted(() => {
-  const startDate = tomorrow.value;
-  const endDate = dayjs(startDate).add(1, "day").toDate();
-  dateRangeValue.value = [startDate, endDate];
 });
 </script>
 
