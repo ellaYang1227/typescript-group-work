@@ -5,14 +5,19 @@ import { Offcanvas } from "bootstrap";
 import dayjs from "dayjs";
 import { currencyTransform } from "@/utilities/formatTransform";
 import { dateFormat, daysDifference } from "@/utilities/handleDate";
+import { useBookingStore } from "@/stores/booking.ts";
+import router from "@/router";
 
-const { price } = defineProps<{
+const bookingStore = useBookingStore();
+const { booking, setBookingData } = bookingStore;
+
+const { price, routeParamsId } = defineProps<{
   price: number;
   maxPeople: number;
   routeParamsId: string;
 }>();
 
-const peopleNum = ref<number>(2);
+const peopleNum = ref<number>(0);
 const dateRange = ref<[] | [Date, Date]>([]);
 
 // 步驟
@@ -32,8 +37,7 @@ const roomResult = computed<string>(() => {
 
   let daysText: string = days !== 1 ? ` / ${days} 晚` : ` / 晚`;
 
-  let peopleText: string =
-    step.value === "finish" ? ` / ${peopleNum.value} 人` : "";
+  let peopleText: string = peopleNum.value ? ` / ${peopleNum.value} 人` : "";
 
   return currencyTransform(price * days) + daysText + peopleText;
 });
@@ -59,14 +63,21 @@ let bsOffcanvas: Offcanvas;
 
 onMounted(() => {
   bsOffcanvas = new Offcanvas(bookingOffcanvas.value as HTMLElement);
+  if (booking.id === routeParamsId) {
+    peopleNum.value = booking.peopleNum;
+    dateRange.value = [booking.startDate, booking.endDate];
+  }
 });
 
 const showBsOffcanvas = (nextStep: string): void => {
   step.value = nextStep;
-  if (nextStep === "selectDateRange") {
+  if (nextStep === "selectDateRange" && !dateRange.value.length) {
+    //預設明天-後天
     const startDate = tomorrow.value;
     const endDate = dayjs(startDate).add(1, "day").toDate();
     dateRange.value = [startDate, endDate];
+  } else if (nextStep === "setPeopleNum" && !peopleNum.value) {
+    peopleNum.value = 2; //預設人數2
   }
   bsOffcanvas.show();
 };
@@ -75,10 +86,20 @@ const hideBsOffcanvas = (nextStep: string): void => {
   if (nextStep === "default") {
     // 回到預設值
     dateRange.value = [];
-    peopleNum.value = 2;
+    peopleNum.value = 0;
   }
   step.value = nextStep;
   bsOffcanvas.hide();
+};
+
+const toBooking = async (): Promise<void> => {
+  setBookingData({
+    id: routeParamsId,
+    startDate: dateRange.value[0] as Date,
+    endDate: dateRange.value[1] as Date,
+    peopleNum: peopleNum.value,
+  });
+  await router.push(`/rooms/${routeParamsId}/reservation`);
 };
 </script>
 
@@ -171,7 +192,7 @@ const hideBsOffcanvas = (nextStep: string): void => {
         <button
           class="rounded-2 w-100 baseButton isStylePrimary"
           :disabled="isSameDate"
-          @click="step = 'setPeopleNum'"
+          @click="showBsOffcanvas('setPeopleNum')"
         >
           確定日期
         </button>
@@ -201,14 +222,14 @@ const hideBsOffcanvas = (nextStep: string): void => {
         </div>
         <button
           v-if="step === 'finish'"
-          class="rounded-2 baseButton isStylePrimary"
-          @click="$router.push(`/rooms/${routeParamsId}/reservation`)"
+          class="rounded-2 baseButton flex-grow-1 isStylePrimary"
+          @click="toBooking"
         >
           立即預定
         </button>
         <button
           v-else
-          class="rounded-2 baseButton isStylePrimary"
+          class="rounded-2 baseButton flex-grow-1 isStylePrimary"
           @click="showBsOffcanvas('selectDateRange')"
         >
           查看可訂日期
