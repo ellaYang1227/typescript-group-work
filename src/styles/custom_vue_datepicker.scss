@@ -60,3 +60,8 @@
 .dp__calendar_item {
   font-weight: 700;
 }
+
+// date-hover-end
+.dp__date_hover_end:not(.dp__range_between) {
+  border-radius: 100%;
+}

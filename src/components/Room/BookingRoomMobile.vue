@@ -6,10 +6,11 @@ import dayjs from "dayjs";
 import { currencyTransform } from "@/utilities/formatTransform";
 import { dateFormat, daysDifference } from "@/utilities/handleDate";
 import { useBookingStore } from "@/stores/booking.ts";
-import router from "@/router";
+
+const emit = defineEmits(["toBooking"]);
 
 const bookingStore = useBookingStore();
-const { booking, setBookingData } = bookingStore;
+const { booking } = bookingStore;
 
 const { price, routeParamsId } = defineProps<{
   price: number;
@@ -19,6 +20,7 @@ const { price, routeParamsId } = defineProps<{
 
 const peopleNum = ref<number>(0);
 const dateRange = ref<[] | [Date, Date]>([]);
+const isSelectDateRangeFinish = ref<boolean>(true);
 
 // 步驟
 const steps = ["default", "selectDateRange", "setPeopleNum", "finish"];
@@ -93,13 +95,12 @@ const hideBsOffcanvas = (nextStep: string): void => {
 };
 
 const toBooking = async (): Promise<void> => {
-  setBookingData({
-    id: routeParamsId,
+  const bookingData = {
     startDate: dateRange.value[0] as Date,
     endDate: dateRange.value[1] as Date,
     peopleNum: peopleNum.value,
-  });
-  await router.push(`/rooms/${routeParamsId}/reservation`);
+  };
+  emit("toBooking", bookingData);
 };
 </script>
 
@@ -111,10 +112,11 @@ const toBooking = async (): Promise<void> => {
       data-bs-backdrop="static"
     >
       <div
-        class="offcanvas-header align-items-start flex-column gap-3 py-3 px-4 border-bottom border-neutral-40 z-3"
+        class="offcanvas-header align-items-start flex-column gap-3 pt-3 pb-2 px-4 border-bottom border-neutral-40 z-3"
       >
         <font-awesome-icon
           class="fs-4"
+          :class="[{ 'text-black': step === 'setPeopleNum' }]"
           icon="fa-solid fa-xmark"
           @click="hideBsOffcanvas('default')"
         />
@@ -150,13 +152,15 @@ const toBooking = async (): Promise<void> => {
           prevent-min-max-navigation
           hide-offset-dates
           year-first
+          @range-start="isSelectDateRangeFinish = false"
+          @range-end="isSelectDateRangeFinish = true"
         >
           <template #calendar-header="{ day }">
             {{ day.substring(1) }}
           </template>
         </VueDatePicker>
         <div class="set-people-area" v-show="step === 'setPeopleNum'">
-          <div class="mb-1 text-black title">選擇人數</div>
+          <div class="mb-1 text-black fw-bold title">選擇人數</div>
           <div>此房型最多供 {{ maxPeople }} 人居住，不接受寵物入住。</div>
           <div class="mt-3 d-flex align-items-center gap-3">
             <button
@@ -191,7 +195,7 @@ const toBooking = async (): Promise<void> => {
         </button>
         <button
           class="rounded-2 w-100 baseButton isStylePrimary"
-          :disabled="isSameDate"
+          :disabled="isSameDate || !isSelectDateRangeFinish"
           @click="showBsOffcanvas('setPeopleNum')"
         >
           確定日期
@@ -284,7 +288,17 @@ const toBooking = async (): Promise<void> => {
       border-radius: 100%;
       border: 1px solid $neutral-40;
       background-color: white;
+      &:disabled {
+        color: $neutral-60;
+      }
     }
+  }
+}
+:deep(.offcanvas-backdrop) {
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  &.show {
+    opacity: 1;
   }
 }
 </style>
