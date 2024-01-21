@@ -10,11 +10,16 @@ import { useRoute } from "vue-router";
 import router from "@/router";
 import SwiperImages from "@/components/SwiperImages.vue";
 import BookingRoom from "@/components/Room/BookingRoom.vue";
+import BookingRoomMobile from "@/components/Room/BookingRoomMobile.vue";
+import { useBookingStore } from "@/stores/booking.ts";
 
 const route = useRoute();
 const routeParamsId = (route.params.id as string) || "";
 
 const roomDetail = ref<Room | null>(null);
+
+const bookingStore = useBookingStore();
+const { setBookingData } = bookingStore;
 
 async function fetchRoomDetail(id: string) {
   try {
@@ -25,6 +30,16 @@ async function fetchRoomDetail(id: string) {
   }
 }
 fetchRoomDetail(routeParamsId);
+
+interface BookingData {
+  startDate: Date;
+  endDate: Date;
+  peopleNum: number;
+}
+const toBooking = async (data: BookingData): Promise<void> => {
+  setBookingData({ ...data, ...{ id: routeParamsId } });
+  await router.push(`/rooms/${routeParamsId}/reservation`);
+};
 </script>
 
 <template>
@@ -94,7 +109,7 @@ fetchRoomDetail(routeParamsId);
               :isBorder="false"
             />
           </div>
-          <booking-instructions-list class="detail-card d-none d-lg-flex" />
+          <booking-instructions-list class="detail-card" />
         </div>
         <div class="right">
           <booking-room
@@ -102,10 +117,18 @@ fetchRoomDetail(routeParamsId);
             :route-params-id="routeParamsId"
             :price="roomDetail.price"
             :name="roomDetail.name"
+            :max-people="roomDetail.maxPeople"
             :description="roomDetail.description"
+            @toBooking="toBooking"
+          />
+          <booking-room-mobile
+            class="d-lg-none"
+            :route-params-id="routeParamsId"
+            :price="roomDetail.price"
+            :max-people="roomDetail.maxPeople"
+            @toBooking="toBooking"
           />
         </div>
-        <booking-instructions-list class="detail-card d-lg-none" />
       </section>
     </section>
   </Layout>

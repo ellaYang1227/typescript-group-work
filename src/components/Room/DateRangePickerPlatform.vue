@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import VueDatePicker from "@vuepic/vue-datepicker";
 import { dateFormat, daysDifference } from "@/utilities/handleDate";
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch, computed } from "vue";
 import dayjs from "dayjs";
 
-defineProps(["dateRange", "show"]);
+const props = defineProps(["dateRange", "show"]);
 const emit = defineEmits(["update:dateRange", "update:show"]);
 
 const dateRangeValue = ref<[] | [Date, Date]>([]);
+const isSelectDateRangeFinish = ref<boolean>(true);
 
-onMounted(() => {
-  const startDate = new Date();
-  const endDate = dayjs(startDate).add(1, "day").toDate();
-  dateRangeValue.value = [startDate, endDate];
-});
-
+watch(
+  () => props.dateRange,
+  (newVal) => {
+    dateRangeValue.value = newVal;
+  }
+);
 watch(dateRangeValue, (newVal) => {
   emit("update:dateRange", newVal);
 });
@@ -27,6 +28,12 @@ const isSameDate = computed<boolean>(() => {
     true
   ) as number;
   return days === 0;
+});
+
+const tomorrow = computed<Date>(() => {
+  const today = dayjs();
+  const tomorrow = today.add(1, "day");
+  return tomorrow.toDate();
 });
 </script>
 
@@ -60,8 +67,13 @@ const isSameDate = computed<boolean>(() => {
         :enable-time-picker="false"
         :month-change-on-scroll="false"
         no-today
-        :min-date="new Date()"
+        :min-date="tomorrow"
         calendar-cell-class-name="dp-custom-cell"
+        prevent-min-max-navigation
+        hide-offset-dates
+        year-first
+        @range-start="isSelectDateRangeFinish = false"
+        @range-end="isSelectDateRangeFinish = true"
       >
         <template #calendar-header="{ day }">
           {{ day.substring(1) }}
@@ -76,7 +88,7 @@ const isSameDate = computed<boolean>(() => {
         </button>
         <button
           class="rounded-2 py-3 baseButton isStylePrimary"
-          :disabled="isSameDate"
+          :disabled="isSameDate || !isSelectDateRangeFinish"
           @click="emit('update:show', false)"
         >
           確定日期

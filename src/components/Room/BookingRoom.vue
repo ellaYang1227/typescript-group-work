@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { currencyTransform } from "@/utilities/formatTransform";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import DateRangePickerPlatform from "@/components/Room/DateRangePickerPlatform.vue";
 import { dateFormat, daysDifference } from "@/utilities/handleDate";
+import { useBookingStore } from "@/stores/booking.ts";
+import dayjs from "dayjs";
 
-const { price } = defineProps<{
+const emit = defineEmits(["toBooking"]);
+
+const bookingStore = useBookingStore();
+const { booking } = bookingStore;
+
+const { price, routeParamsId } = defineProps<{
   name: string;
   description: string;
   price: number;
+  maxPeople: number;
   routeParamsId: string;
 }>();
 
@@ -23,6 +31,27 @@ const total = computed<string>(() => {
     true
   ) as number;
   return currencyTransform(days * price);
+});
+
+const toBooking = async (): Promise<void> => {
+  const bookingData = {
+    startDate: dateRange.value[0] as Date,
+    endDate: dateRange.value[1] as Date,
+    peopleNum: peopleNum.value,
+  };
+  emit("toBooking", bookingData);
+};
+
+onMounted(() => {
+  if (booking.id === routeParamsId) {
+    peopleNum.value = booking.peopleNum;
+    dateRange.value = [booking.startDate, booking.endDate];
+  } else {
+    const today = dayjs();
+    const tomorrow = today.add(1, "day");
+    const dayAfterTomorrow = today.add(2, "day");
+    dateRange.value = [tomorrow.toDate(), dayAfterTomorrow.toDate()];
+  }
 });
 </script>
 
@@ -81,8 +110,8 @@ const total = computed<string>(() => {
         <h6 class="m-0">{{ peopleNum }}</h6>
         <button
           class="icon-circle d-flex justify-content-center align-items-center"
-          @click="peopleNum < 6 && peopleNum++"
-          :disabled="peopleNum === 6"
+          @click="peopleNum < maxPeople && peopleNum++"
+          :disabled="peopleNum === maxPeople"
         >
           <font-awesome-icon icon="fa-solid fa-plus" />
         </button>
@@ -93,7 +122,7 @@ const total = computed<string>(() => {
     </h5>
     <button
       class="rounded-2 py-3 w-100 baseButton isStylePrimary"
-      @click="$router.push(`/rooms/${routeParamsId}/reservation`)"
+      @click="toBooking"
     >
       立即預定
     </button>

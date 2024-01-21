@@ -123,10 +123,16 @@ function resetForm() {
 }
 
 watch(
-  () => userInfoData.value,
+  userInfoData,
   (newValue) => {
     if (newValue) {
-      setUserValues(newValue);
+      setUserValues({
+        name: newValue.name,
+        phone: newValue.phone,
+        birthday: newValue.birthday,
+        zipcode: newValue.address.zipcode,
+        addressDetail: newValue.address.detail,
+      });
       setPwdValues({
         oldPassword: "",
         newPassword: "",
@@ -134,7 +140,7 @@ watch(
       });
     }
   },
-  { immediate: true }
+  { immediate: true, deep: true }
 );
 // 判斷密碼欄位
 const pwdFieldsFilled = computed(() => {
@@ -221,8 +227,10 @@ function handleUserSubmit(): void {
     <div class="col-12 col-lg p-0 h-100">
       <div class="card rounded-3 border-0">
         <div class="card-body p-4 p-lg-6">
-          <h5 class="mb-4 mb-lg-6 text-neutral">修改帳號資料</h5>
-          <div class="d-flex flex-column gap-2 mb-3 mb-md-4">
+          <h5 class="mb-4 mb-lg-6 text-neutral">
+            {{ isEditingPwd ? "修改帳號資料" : "修改密碼" }}
+          </h5>
+          <div class="d-flex flex-column gap-2 mb-3 mb-lg-4">
             <span>電子信箱</span>
             <span class="text-neutral fw-bold">
               {{ userInfoData.email }}
@@ -246,7 +254,7 @@ function handleUserSubmit(): void {
             </div>
           </div>
           <div v-else class="d-flex flex-column">
-            <div class="d-flex flex-column gap-3 gap-md-4">
+            <div class="d-flex flex-column gap-3 gap-lg-4">
               <div class="d-flex flex-column gap-2">
                 <label
                   for="oldPassword"
@@ -320,7 +328,7 @@ function handleUserSubmit(): void {
                 </div>
               </div>
             </div>
-            <div class="d-flex pt-3 pt-lg-6">
+            <div class="d-flex pt-4 pt-lg-6">
               <button
                 type="button"
                 class="baseButton isStylePrimary"
@@ -338,7 +346,7 @@ function handleUserSubmit(): void {
       <div class="card rounded-3 border-0">
         <div class="card-body p-4 p-lg-6">
           <h5 class="mb-4 mb-lg-6 text-neutral">基本資料</h5>
-          <div class="d-flex flex-column gap-3 gap-md-4">
+          <div class="d-flex flex-column gap-3 gap-lg-4">
             <div class="d-flex flex-column gap-2">
               <label for="name" :class="{ 'edit-label': isEditingUser }">
                 姓名
@@ -411,8 +419,8 @@ function handleUserSubmit(): void {
                 <div v-show="isEditingUser" class="d-flex flex-column gap-3">
                   <address-select
                     :model-value="zipcode as number"
-                    @update:model-value="(newZipcode) => (zipcode = newZipcode)"
                     v-bind="zipcodeAttrs"
+                    @update:model-value="(newZipcode) => (zipcode = newZipcode)"
                   />
                   <input
                     id="addressDetail"
@@ -433,7 +441,7 @@ function handleUserSubmit(): void {
               </div>
             </div>
           </div>
-          <div class="d-flex pt-3 pt-lg-6">
+          <div class="d-flex pt-4 pt-lg-6">
             <button
               v-if="!isEditingUser"
               class="baseButton isStyleSecondary"

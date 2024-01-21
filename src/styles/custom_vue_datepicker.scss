@@ -15,7 +15,7 @@
 
 // 日曆框線
 .dp__menu {
-  border: none;
+  border: none !important;
 }
 
 // 選取日期
@@ -34,10 +34,13 @@
 .dp__month_year_row {
   margin-bottom: 8px;
   .dp__month_year_wrap {
-    flex-direction: row-reverse;
-    .dp__btn {
+    .dp__month_year_select {
       font-weight: 700;
       font-size: 20px;
+      &:first-child::after {
+        content: "年";
+        padding-left: 3px;
+      }
     }
   }
 }
@@ -56,4 +59,9 @@
 // 日期文字
 .dp__calendar_item {
   font-weight: 700;
+}
+
+// date-hover-end
+.dp__date_hover_end:not(.dp__range_between) {
+  border-radius: 100%;
 }
