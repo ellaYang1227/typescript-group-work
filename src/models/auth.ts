@@ -1,5 +1,5 @@
 import request from "@/plugins/axios";
-import { UserInformation } from "@/interfaces/auth";
+import { UserInformation, UserForgetPwd } from "@/interfaces/auth";
 
 interface UserInformationWithPassword extends UserInformation {
   password: string;
@@ -42,6 +42,32 @@ export const apiVerifyEmail = (email: string) => {
 
       {
         email: email,
+      },
+      { headers: { noShowLoading: true } }
+    )
+    .then((res: any) => Promise.resolve(res));
+};
+
+export const apiGenerateEmailCode = (email: string) => {
+  return request
+    .post(
+      `/api/v1/verify/generateEmailCode`,
+
+      {
+        email: email,
+      },
+      { headers: { noShowLoading: true } }
+    )
+    .then((res: any) => Promise.resolve(res));
+};
+
+export const apiForgotPwd = (data: UserForgetPwd) => {
+  return request
+    .post(
+      `/api/v1/user/forgot`,
+
+      {
+        ...data,
       },
       { headers: { noShowLoading: true } }
     )
