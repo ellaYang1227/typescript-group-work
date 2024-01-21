@@ -80,12 +80,14 @@ const userVerifyEmailTypedSchema = toTypedSchema(
   })
 );
 
-async function handleVerifyEmailSubmit(value: any): Promise<void> {
+async function handleVerifyEmailSubmit(
+  values: Record<string, any>
+): Promise<void> {
   forgetPwdSending.value = true;
-  await apiVerifyEmail(value.verifyEmail)
+  await apiVerifyEmail(values.verifyEmail)
     .then(async (res) => {
-      if (res.result.isEmailExists) {
-        await handleCode(value.verifyEmail);
+      if (res.isEmailExists) {
+        await handleCode(values.verifyEmail);
       } else {
         swalWithButtons.fire({
           icon: "error",
@@ -444,3 +446,18 @@ function resetForm(): void {
     </div>
   </div>
 </template>
+<style scoped lang="scss">
+.form-area {
+  max-width: 416px;
+  z-index: 1;
+  margin: 0 auto;
+}
+@include media-breakpoint-down(lg) {
+  .form-area {
+    max-width: 335px;
+    &.is-login {
+      padding-top: 92px;
+    }
+  }
+}
+</style>

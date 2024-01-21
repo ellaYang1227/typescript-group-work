@@ -8,7 +8,7 @@ interface UserInformationWithPassword extends UserInformation {
 export const apiGetUser = (): Promise<UserInformation> => {
   return request
     .get(`/api/v1/user`, { headers: { noShowLoading: true } })
-    .then((res: any) => Promise.resolve(res.result));
+    .then((res) => Promise.resolve(res.result));
 };
 
 export const apiLogin = (data: object) => {
@@ -45,7 +45,7 @@ export const apiVerifyEmail = (email: string) => {
       },
       { headers: { noShowLoading: true } }
     )
-    .then((res: any) => Promise.resolve(res));
+    .then((res) => Promise.resolve(res.result));
 };
 
 export const apiGenerateEmailCode = (email: string) => {
@@ -58,7 +58,7 @@ export const apiGenerateEmailCode = (email: string) => {
       },
       { headers: { noShowLoading: true } }
     )
-    .then((res: any) => Promise.resolve(res));
+    .then((res) => Promise.resolve(res));
 };
 
 export const apiForgotPwd = (data: UserForgetPwd) => {
@@ -71,7 +71,7 @@ export const apiForgotPwd = (data: UserForgetPwd) => {
       },
       { headers: { noShowLoading: true } }
     )
-    .then((res: any) => Promise.resolve(res));
+    .then((res) => Promise.resolve(res));
 };
 
 export const apiUpdateUserInfo = (data: object) => {

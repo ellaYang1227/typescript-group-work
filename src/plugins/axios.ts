@@ -3,6 +3,29 @@ import { useLoadingStore, useAuthStore } from "@/stores";
 import { getCookie } from "@/utilities/cookie";
 import { swalWithButtons } from "@/utilities/sweetAlert";
 import axios from "axios";
+declare module "axios" {
+  export interface AxiosInstance {
+    request<T = any>(config: AxiosRequestConfig): Promise<T>;
+    get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
+    delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
+    head<T = any>(url: string, config?: AxiosRequestConfig): Promise<T>;
+    post<T = any>(
+      url: string,
+      data?: any,
+      config?: AxiosRequestConfig
+    ): Promise<T>;
+    put<T = any>(
+      url: string,
+      data?: any,
+      config?: AxiosRequestConfig
+    ): Promise<T>;
+    patch<T = any>(
+      url: string,
+      data?: any,
+      config?: AxiosRequestConfig
+    ): Promise<T>;
+  }
+}
 const errorSweetAlert = (text: string, callback?: () => void) => {
   swalWithButtons
     .fire({
@@ -56,12 +79,13 @@ service.interceptors.response.use(
     if (error.response) {
       const { data } = error.response;
       switch (error.response.status) {
-        case 400:
+        case 400: {
           const { name } = router.currentRoute.value;
           errorSweetAlert(
-            `${name !== "login" && name !== "signup" && name !== "user"
-              ? "找不到該筆資料"
-              : data.message
+            `${
+              name !== "login" && name !== "signup" && name !== "user"
+                ? "找不到該筆資料"
+                : data.message
             }`,
             () => {
               if (name !== "login" && name !== "signup" && name !== "user") {
@@ -73,6 +97,7 @@ service.interceptors.response.use(
             }
           );
           break;
+        }
         //可以在這裡針對不同 status code 做處理
         case 401:
         case 405:
