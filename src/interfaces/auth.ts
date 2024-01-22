@@ -42,3 +42,10 @@ export interface UserInfoData {
     detail: string;
   };
 }
+
+export interface UserForgetPwd {
+  email?: string;
+  verifyEmail?: string;
+  code: string;
+  newPassword: string;
+}

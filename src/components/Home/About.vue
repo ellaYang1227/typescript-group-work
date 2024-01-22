@@ -68,20 +68,16 @@ import SectionTitle from "@/components/Home/SectionTitle.vue";
         content: "";
         left: 0;
         right: 0;
-        width: 100vw;
+        width: 100%;
         background-image: url("https://raw.githubusercontent.com/hexschool/2022-web-layout-training/main/typescript-hotel/行動版/about.png");
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
         height: 67.114%;
         top: 5rem;
-        margin-left: calc(-100vw / 2 + 720px / 2);
-        margin-right: calc(-100vw / 2 + 720px / 2);
       }
       @include media-breakpoint-down(md) {
         height: 71.114%;
-        margin-left: calc(-100vw / 2 + 540px / 2);
-        margin-right: calc(-100vw / 2 + 540px / 2);
       }
       @include media-breakpoint-down(sm) {
         width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <section class="d-flex flex-column gap-6">
+  <section class="form-area d-flex flex-column gap-6">
     <div class="d-flex flex-column gap-3">
       <div class="d-flex flex-column gap-2">
         <div v-show="currentStep === 1" class="fw-bold text-primary">

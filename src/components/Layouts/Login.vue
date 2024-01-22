@@ -12,7 +12,7 @@ const route = useRoute();
       <div class="col-lg-6 d-flex justify-content-center p-3 form-content">
         <img class="deco-img" alt="deco" />
         <RouterView
-          class="form-area w-100"
+          class="w-100"
           :class="[{ 'is-login': route.name === 'login' }]"
         />
       </div>
@@ -63,7 +63,7 @@ const route = useRoute();
       }
     }
   }
-  @media (max-width: 375px) {
+  @media (max-width: 376px) {
     .is-login {
       padding-top: 30px !important;
     }
