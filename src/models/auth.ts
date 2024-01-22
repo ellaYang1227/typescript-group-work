@@ -45,7 +45,7 @@ export const apiVerifyEmail = (email: string) => {
       },
       { headers: { noShowLoading: true } }
     )
-    .then((res) => Promise.resolve(res.result));
+    .then((res) => Promise.resolve(res));
 };
 
 export const apiGenerateEmailCode = (email: string) => {

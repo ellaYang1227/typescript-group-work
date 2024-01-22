@@ -50,6 +50,7 @@ initSetEmail();
 // ====== forgetPwd ======
 const currentStep = ref<number>(1);
 const forgetPwdSending = ref<boolean>(false);
+const isReSending = ref<boolean>(false);
 const modalRef = ref<HTMLDivElement | null>(null);
 const myModalRef = ref<bootstrap.Modal | null>(null);
 const verifyEmailForm = ref<HTMLFormElement>();
@@ -86,7 +87,7 @@ async function handleVerifyEmailSubmit(
   forgetPwdSending.value = true;
   await apiVerifyEmail(values.verifyEmail)
     .then(async (res) => {
-      if (res.isEmailExists) {
+      if (res.result.isEmailExists) {
         await handleCode(values.verifyEmail);
       } else {
         swalWithButtons.fire({
@@ -106,23 +107,47 @@ async function handleVerifyEmailSubmit(
       forgetPwdSending.value = false;
     });
 }
-async function handleCode(value: string): Promise<void> {
-  await apiGenerateEmailCode(value)
-    .then(() => {
-      currentStep.value = 2;
-      pwdVerifyEmail.value = value;
-      swalWithButtons.fire({
-        icon: "success",
-        title: "驗證成功",
-        text: "已寄送驗證碼至您的 Email",
-      });
-    })
-    .catch(() => {
-      forgetPwdSending.value = true;
-    })
-    .finally(() => {
-      forgetPwdSending.value = false;
+async function handleCode(
+  value: string | undefined,
+  isReSend = false
+): Promise<void> {
+  if (isReSend) {
+    isReSending.value = true;
+  }
+  if (!value) {
+    swalWithButtons.fire({
+      icon: "error",
+      title: "錯誤訊息",
+      text: "Email 無法驗證，請重新填寫",
+      customClass: {
+        confirmButton: "baseButton isStyleSecondary",
+      },
     });
+    currentStep.value = 1;
+  } else {
+    await apiGenerateEmailCode(value)
+      .then(() => {
+        currentStep.value = 2;
+        pwdVerifyEmail.value = value;
+        swalWithButtons.fire({
+          icon: "success",
+          title: "驗證成功",
+          text: "已寄送驗證碼至您的 Email",
+        });
+      })
+      .catch(() => {
+        forgetPwdSending.value = true;
+        if (isReSend) {
+          isReSending.value = false;
+        }
+      })
+      .finally(() => {
+        forgetPwdSending.value = false;
+        if (isReSend) {
+          isReSending.value = false;
+        }
+      });
+  }
 }
 
 async function handleForgetPwdSubmit(
@@ -183,7 +208,7 @@ function resetForm(): void {
 
 <template>
   <div>
-    <section class="form-area d-flex flex-column gap-6">
+    <section class="form-area d-flex flex-column gap-6 position-relative z-1">
       <div class="d-flex flex-column gap-2">
         <div class="text-primary fw-bold">享樂酒店，誠摯歡迎</div>
         <h1 class="m-0">立即開始旅程</h1>
@@ -334,7 +359,7 @@ function resetForm(): void {
                 <button
                   class="rounded-2 baseButton isStylePrimary"
                   form="verifyEmailForm"
-                  :disabled="!meta.touched || !meta.valid || forgetPwdSending"
+                  :disabled="!meta || !meta.valid || forgetPwdSending"
                 >
                   <span v-if="forgetPwdSending">
                     <span
@@ -379,20 +404,37 @@ function resetForm(): void {
                   </div>
                   <div class="d-flex flex-column gap-2">
                     <label for="code" class="fw-bold">驗證碼</label>
-                    <Field
-                      v-model="code"
-                      name="code"
-                      v-slot="{ field, errors }"
-                    >
-                      <input
-                        class="form-control p-3"
-                        :class="{ 'is-invalid': errors.length }"
-                        type="text"
-                        placeholder="請輸入驗證碼"
-                        v-bind="field"
-                        id="code"
-                      />
-                    </Field>
+                    <div class="d-flex">
+                      <Field
+                        v-model="code"
+                        name="code"
+                        v-slot="{ field, errors }"
+                      >
+                        <input
+                          class="form-control p-3"
+                          :class="{ 'is-invalid': errors.length }"
+                          type="text"
+                          placeholder="請輸入驗證碼"
+                          v-bind="field"
+                          id="code"
+                        />
+                      </Field>
+                      <button
+                        class="baseButton isStyleText ms-2"
+                        @click="handleCode(pwdVerifyEmail, true)"
+                        :disabled="isReSending"
+                        style="width: 82px"
+                      >
+                        <template v-if="!isReSending">重寄驗證碼</template>
+                        <template v-else>
+                          <span
+                            class="spinner-border spinner-border-sm"
+                            role="status"
+                          ></span>
+                        </template>
+                      </button>
+                    </div>
+
                     <ErrorMessage name="code" class="invalid-feedback" />
                   </div>
                   <div class="d-flex flex-column gap-2">
@@ -427,7 +469,7 @@ function resetForm(): void {
                 <button
                   class="rounded-2 baseButton isStylePrimary"
                   form="forgetPwdForm"
-                  :disabled="!meta.touched || !meta.valid || forgetPwdSending"
+                  :disabled="!meta.valid || forgetPwdSending"
                 >
                   <span v-if="forgetPwdSending">
                     <span
@@ -451,6 +493,11 @@ function resetForm(): void {
   max-width: 416px;
   z-index: 1;
   margin: 0 auto;
+}
+.btn-close {
+  &:focus {
+    box-shadow: none;
+  }
 }
 @include media-breakpoint-down(lg) {
   .form-area {
