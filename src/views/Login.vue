@@ -276,7 +276,7 @@ function resetForm(): void {
         <button
           class="rounded-2 py-3 w-100 baseButton isStylePrimary mt-6"
           form="LoginForm"
-          :disabled="!meta.touched || !meta.valid || sending"
+          :disabled="!meta.valid || sending"
         >
           <span v-if="sending">
             <span class="spinner-border spinner-border-sm" role="status"></span>
