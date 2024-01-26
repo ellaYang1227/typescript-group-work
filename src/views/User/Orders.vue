@@ -25,18 +25,18 @@ const filterOrders = computed(() => {
 function getHistoryOrders() {
   const now = Date.now();
   const checkInTime = (15 - 8) * 60 * 60 * 1000; // 入住時間為 15:00，因 new Date(checkInDate) 實際時間從 08: 00 開始
-
-  // 篩選當前時間以前的訂單，並依照入住時間新到舊排序
-  sortedHistoryOrders.value = orderDetails.value
-    .filter((order) => {
-      const orderTimestamp =
-        new Date(order.checkInDate).getTime() + checkInTime;
-      return orderTimestamp < now;
-    })
-    .sort(
-      (a, b) =>
-        new Date(b.checkInDate).getTime() - new Date(a.checkInDate).getTime()
-    );
+  // (未取消的訂單)篩選當前時間以前的訂單，並依照入住時間新到舊排序
+  let sortData = filterOrders.value.filter((order) => {
+    const orderTimestamp = new Date(order.checkInDate).getTime() + checkInTime;
+    return orderTimestamp < now;
+  });
+  // (已取消的訂單)
+  let sortData2 = orderDetails.value.filter((order) => order.status === -1);
+  let sortList = sortData.concat(sortData2);
+  sortedHistoryOrders.value = sortList.sort(
+    (a, b) =>
+      new Date(b.checkInDate).getTime() - new Date(a.checkInDate).getTime()
+  );
 }
 
 // 即將來的行程列表
