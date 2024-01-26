@@ -27,7 +27,7 @@ function getHistoryOrders() {
   const checkInTime = (15 - 8) * 60 * 60 * 1000; // 入住時間為 15:00，因 new Date(checkInDate) 實際時間從 08: 00 開始
 
   // 篩選當前時間以前的訂單，並依照入住時間新到舊排序
-  sortedHistoryOrders.value = filterOrders.value
+  sortedHistoryOrders.value = orderDetails.value
     .filter((order) => {
       const orderTimestamp =
         new Date(order.checkInDate).getTime() + checkInTime;
